@@ -281,7 +281,7 @@ Prepare a 3-minute and a 5-minute cut (confirm the time limit with organizers Sa
 |---|---|---|---|---|
 | Venue wifi dies during pitch | Med | Fatal | Demo mode fixtures; phone hotspot; screen-recorded backup video on laptop | Any API latency over 3 s at rehearsal |
 | Wrong pathway fact spotted by judge | Med | High | Sources on every node; official vs estimate badges; re-verify critical nodes at Gate 4 | Any node without a source |
-| Engine numbers implausible | Med | High | Sanity check vs CNO ~12 month guideline; golden tests | Priya total under 6 or over 24 months |
+| Engine numbers implausible | Med | High | Sanity check vs CNO ~12 month guideline; golden tests | One-at-a-time typical outside 9 to 18 months |
 | Scope creep | High | High | MoSCoW contract; gates; cut rules | Any gate missed by 30 min |
 | Hindi audio sounds fake or wrong | Med | Med | Record a native speaker Saturday evening (ask around the venue); fallback: English intake with a language picker showing Hindi support | No speaker found by 11 PM |
 | API keys leak into public repo | Low | High | `.gitignore` first commit; keys only server-side; grep build | Any `.env` in `git ls-files` |
@@ -315,3 +315,4 @@ Prepare a 3-minute and a 5-minute cut (confirm the time limit with organizers Sa
 4. Sample documents are watermarked SAMPLE / EXEMPLE.
 5. Priya is a composite persona; say so if asked.
 6. If a judge asks something we do not know, say so and say how we'd find out.
+7. Timelines are shown as ranges; the Portage plan is labelled "if each step goes to plan".

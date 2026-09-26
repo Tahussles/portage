@@ -83,6 +83,20 @@ public/
 - [ ] `PROJECT_STATE.md` updated (status, decisions, open issues)
 - [ ] Merged to `main`
 
+## Coordination (two independent tracks)
+Taha and Ebrahim build in parallel, each with their own coding agent. The repo is the only channel between the tracks.
+
+**Ownership** (only the owner edits these; ask through an issue otherwise):
+- Taha: `PROJECT_STATE.md`, `PLAN.md`, `AGENTS.md`, `docs/DESIGN.md`, `docs/ARCHITECTURE.md`, `src/components/`, page files (`src/app/**/page.tsx`, `layout.tsx`), `src/app/globals.css`, `src/lib/i18n/`, `scripts/gen-topo.*`, `*.provisional.json` fixtures, `docs/status/taha.md`.
+- Ebrahim: `src/lib/engine/`, `src/lib/ai/`, `src/lib/voice/`, `src/lib/demo.ts`, `src/lib/client/api.ts`, `src/app/api/`, `src/data/` (except `*.provisional.json`), `public/demo/**`, `docs/PATHWAY_VERIFIED.md`, `docs/status/ebrahim.md`.
+
+**Rules**
+- Each person merges their own PRs, after `attribution-guard` passes. Never merge or block the other person's PR.
+- Contract changes (`src/lib/engine/types.ts`, API request/response shapes) are additive only and go in their own `feat(contract):` PR.
+- Requests across tracks are GitHub issues: label `contract` for Ebrahim, `needs-taha` for Taha. Open the issue and keep working against a provisional fixture; do not wait.
+- Live per-track status: `docs/status/taha.md` and `docs/status/ebrahim.md` (Current phase, Completed, Next, Needs from the other track, Blockers, Last updated). Update yours in every PR.
+- Read the other track's progress from the repo only: its status file, `gh pr list --state all`, `gh issue list`, `git log`.
+
 ## Attribution guards (why commits can only ever show Taha and Ebrahim)
 Four layers, all already in place:
 1. `.githooks/pre-commit`: author and committer email must be listed in `.github/allowed-authors.txt`.

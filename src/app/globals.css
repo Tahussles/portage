@@ -1,26 +1,124 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --color-accent: #D52B1E;          /* flag red: rare */
+  --color-accent-hover: #B32418;
+  --color-accent-soft: rgba(213, 43, 30, 0.14);
+  --color-ink: #0c0a09;             /* stone-950: cinematic sections */
+  --color-granite: #1c1917;         /* stone-900: cards on dark */
+  --color-slate-line: #292524;      /* stone-800: borders on dark */
+  --color-mist: #a8a29e;            /* stone-400: secondary text on dark */
+  --color-paper: #fafaf9;           /* stone-50: light sections */
+  --color-rule: #e7e5e4;            /* stone-200: borders on light */
+  --color-quiet: #78716c;           /* stone-500: secondary text on light */
+  --radius: 0.625rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  --animate-ticker: ticker 40s linear infinite;
+  --animate-ticker-reverse: ticker 50s linear infinite reverse;
+
+  @keyframes ticker {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-soft);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-paper);
+    outline-offset: 2px;
+  }
+}
+
+/* Frosted bar for the navbar once the page scrolls past the hero top. */
+@utility glass {
+  background-color: rgb(12 10 9 / 0.62);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--color-slate-line);
+}
+
+/* Bilingual micro-label: PROCESSUS · PROCESS */
+@utility micro-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Elements that GSAP rises in start hidden only when motion is allowed,
+   so there is no flash before hydration and reduced motion shows them instantly. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-rise] {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ticker,
+  .animate-ticker-reverse {
+    animation: none;
+  }
+}
+
+/* Roadmap canvas (React Flow) */
+.react-flow__node.roadmap-node-active .roadmap-step {
+  border-color: var(--color-paper);
+}
+
+path.roadmap-edge-quiet {
+  stroke: #57534e; /* stone-600: visible on ink without competing with red */
+  stroke-width: 1;
+}
+
+path.roadmap-edge-critical {
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 6;
+  animation: roadmap-dash 1.6s linear infinite;
+}
+
+@keyframes roadmap-dash {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  path.roadmap-edge-critical {
+    animation: none;
+    stroke-dasharray: none;
+  }
+}
+
+.react-flow__attribution {
+  background: transparent;
+  opacity: 0.5;
+}
+
+.react-flow__attribution a {
+  color: var(--color-mist);
 }
