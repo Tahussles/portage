@@ -88,7 +88,7 @@ Taha and Ebrahim build in parallel, each with their own coding agent. The repo i
 
 **Ownership** (only the owner edits these; ask through an issue otherwise):
 - Taha: `PROJECT_STATE.md`, `PLAN.md`, `AGENTS.md`, `docs/DESIGN.md`, `docs/ARCHITECTURE.md`, `src/components/`, page files (`src/app/**/page.tsx`, `layout.tsx`), `src/app/globals.css`, `src/lib/i18n/`, `src/lib/store.ts` (UI state), `scripts/gen-topo.*`, `*.provisional.json` fixtures, `docs/status/taha.md`.
-- Ebrahim: `src/lib/engine/`, `src/lib/ai/`, `src/lib/voice/`, `src/lib/demo.ts`, `src/lib/client/api.ts`, `src/app/api/`, `src/data/` (except `*.provisional.json`), `public/demo/**`, `docs/PATHWAY_VERIFIED.md`, `docs/status/ebrahim.md`.
+- Ebrahim: `src/lib/engine/`, `src/lib/ai/`, `src/lib/voice/`, `src/lib/demo.ts`, `src/lib/client/api.ts`, `src/app/api/`, `src/data/` (except `*.provisional.json`), `public/demo/**`, `docs/PATHWAY_VERIFIED.md`, `docs/pitch/**`, `docs/devpost.md`, `docs/status/ebrahim.md`.
 
 **Rules**
 - Each person merges their own PRs, after `attribution-guard` passes. Never merge or block the other person's PR.
