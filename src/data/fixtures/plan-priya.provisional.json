@@ -2,6 +2,7 @@
   "statuses": {
     "cno_account": "todo",
     "third_party_docs": "todo",
+    "school_documents": "todo",
     "eca": "todo",
     "translations": "todo",
     "cno_application": "todo",
@@ -19,14 +20,15 @@
   "order": [
     "cno_account",
     "third_party_docs",
+    "school_documents",
     "eca",
     "translations",
-    "language_test",
-    "ttp_course",
     "cno_application",
     "authorization_to_work",
+    "language_test",
     "language",
     "evidence_of_practice",
+    "ttp_course",
     "ttp",
     "jurisprudence",
     "registration_exam",
@@ -34,81 +36,99 @@
     "registration"
   ],
   "sequential": {
-    "totalWeeks": 58,
-    "finishDate": "2027-11-06",
+    "totalWeeks": 64,
+    "finishDate": "2027-12-18",
     "startWeek": {
       "cno_account": 0,
       "third_party_docs": 0.5,
-      "eca": 8.5,
-      "translations": 15.5,
-      "language_test": 18.5,
-      "ttp_course": 22.5,
-      "cno_application": 32.5,
-      "authorization_to_work": 34.6,
-      "language": 36.7,
-      "evidence_of_practice": 38.8,
-      "ttp": 40.9,
-      "jurisprudence": 43,
-      "registration_exam": 44,
-      "criminal_record_check": 56,
-      "registration": 58
+      "school_documents": 8.5,
+      "eca": 14.5,
+      "translations": 21.5,
+      "cno_application": 24.5,
+      "authorization_to_work": 26.6,
+      "language_test": 28.7,
+      "language": 32.7,
+      "evidence_of_practice": 34.8,
+      "ttp_course": 36.9,
+      "ttp": 46.9,
+      "jurisprudence": 49,
+      "registration_exam": 50,
+      "criminal_record_check": 62,
+      "registration": 64
     },
     "range": {
-      "bestWeeks": 20.2,
-      "typicalWeeks": 58,
-      "conservativeWeeks": 108.8,
-      "bestFinish": "2027-02-14",
-      "conservativeFinish": "2028-10-27"
+      "bestWeeks": 22.2,
+      "typicalWeeks": 64,
+      "conservativeWeeks": 120.8,
+      "bestFinish": "2027-02-28",
+      "conservativeFinish": "2029-01-19"
     }
   },
   "parallel": {
-    "totalWeeks": 21.1,
-    "finishDate": "2027-02-21",
+    "totalWeeks": 27.1,
+    "finishDate": "2027-04-04",
     "startWeek": {
       "cno_account": 0,
       "third_party_docs": 0,
-      "eca": 0,
+      "school_documents": 0,
+      "eca": 6,
       "translations": 0,
+      "cno_application": 13,
+      "authorization_to_work": 15.1,
       "language_test": 0,
+      "language": 15.1,
+      "evidence_of_practice": 15.1,
       "ttp_course": 0,
-      "cno_application": 7,
-      "authorization_to_work": 9.1,
-      "language": 9.1,
-      "evidence_of_practice": 9.1,
-      "ttp": 10,
-      "jurisprudence": 9.1,
-      "registration_exam": 9.1,
-      "criminal_record_check": 19.1,
-      "registration": 21.1
+      "ttp": 15.1,
+      "jurisprudence": 15.1,
+      "registration_exam": 15.1,
+      "criminal_record_check": 25.1,
+      "registration": 27.1
     },
     "criticalPath": [
+      "school_documents",
       "eca",
       "cno_application",
       "registration_exam",
-      "criminal_record_check",
       "registration"
     ],
     "range": {
-      "bestWeeks": 7,
-      "typicalWeeks": 21.1,
-      "conservativeWeeks": 36.1,
-      "bestFinish": "2026-11-14",
-      "conservativeFinish": "2027-06-06"
+      "bestWeeks": 9,
+      "typicalWeeks": 27.1,
+      "conservativeWeeks": 48.1,
+      "bestFinish": "2026-11-28",
+      "conservativeFinish": "2027-08-29"
     }
   },
+  "side": [
+    {
+      "nodeId": "temporary_class",
+      "status": "todo"
+    },
+    {
+      "nodeId": "bridge_role",
+      "status": "todo"
+    },
+    {
+      "nodeId": "support_orgs",
+      "status": "todo"
+    }
+  ],
   "warnings": [
     {
       "id": "evidence_of_practice_window",
       "severity": "critical",
       "schedules": [
-        "sequential"
+        "sequential",
+        "parallel"
       ],
       "severityBySchedule": {
-        "sequential": "critical"
+        "sequential": "critical",
+        "parallel": "warn"
       },
       "facts": {
         "windowCloses": "2027-07",
-        "finish": "2027-11"
+        "finish": "2027-12"
       },
       "title": {
         "en": "Your evidence of practice may expire before you finish",
@@ -157,6 +177,5 @@
       "sourceUrl": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
     }
   ],
-  "estimateShare": 0.9,
-  "side": []
+  "estimateShare": 0.923
 }
