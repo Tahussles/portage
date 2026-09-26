@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Locale, Profile } from "@/lib/engine/types";
+import type { DocExtraction, DocFinding, Locale, Profile } from "@/lib/engine/types";
 
 // Contract for the AI routes (docs/ARCHITECTURE.md section 5). Shared by route handlers and the UI.
 // Every route answers { ok, data?, error?, fallback? }; fallback: true means fixture data was served.
@@ -16,6 +16,10 @@ export type ProfileData = {
   missingFields: string[];
   followUp?: { native: string; english: string };
 };
+
+/** POST /api/doc-check: multipart `file` (pdf/png/jpg, max 8 MB), optional `profile` (JSON string)
+ *  and optional `legalName` (as on the passport) for the name check. */
+export type DocCheckData = { extraction: DocExtraction; findings: DocFinding[] };
 
 export const profileRequestSchema = z.object({
   transcript: z.string().trim().min(1).max(20_000),
@@ -59,4 +63,17 @@ export async function extractProfile(
     body: JSON.stringify(body),
   });
   return readResult<ProfileData>(res);
+}
+
+/** Uploads one document for the pre-check. Nothing is stored. */
+export async function checkDocument(
+  file: File,
+  opts: { profile?: Profile; legalName?: string; demo?: boolean } = {},
+): Promise<ApiResult<DocCheckData>> {
+  const form = new FormData();
+  form.append("file", file, file.name);
+  if (opts.profile) form.append("profile", JSON.stringify(opts.profile));
+  if (opts.legalName) form.append("legalName", opts.legalName);
+  const res = await fetch(routeUrl("/api/doc-check", opts.demo ?? false), { method: "POST", body: form });
+  return readResult<DocCheckData>(res);
 }

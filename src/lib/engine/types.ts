@@ -103,3 +103,28 @@ export type PlanWarning = {
 // Placeholder: referenced by Pathway above but not yet specified in docs/ARCHITECTURE.md.
 // Step 2/3a owner replaces this with the real warning rule definition.
 export type WarningRuleDef = { id: string } & Record<string, unknown>;
+
+// Document pre-check (Step 6). The model only extracts what is printed; findings come from
+// deterministic rules in docRules.ts.
+export type DocType =
+  | "education_transcript" | "diploma" | "nursing_licence" | "employment_letter"
+  | "registration_verification" | "criminal_record_check" | "language_test_report"
+  | "identity_document" | "other";
+
+export type DocExtraction = {
+  docType: DocType;
+  nameOnDocument: string | null;
+  issueDate: string | null;            // ISO date (YYYY-MM-DD or YYYY-MM) as printed
+  documentLanguage: string | null;     // ISO 639-1, e.g. "en", "hi"
+  issuer: string | null;
+  description: string;                 // one sentence, English
+};
+
+export type DocFinding = {
+  id: string;                          // e.g. "name_mismatch", "translation_needed", "crc_expires_early"
+  severity: "ok" | "info" | "warn" | "critical";   // "ok" renders as a tick
+  title: { en: string; fr: string };
+  body: { en: string; fr: string };
+  relatedNodes: string[];
+  sourceUrl: string;
+};
