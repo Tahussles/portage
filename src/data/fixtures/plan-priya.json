@@ -1,0 +1,120 @@
+{
+  "statuses": {
+    "cno_account": "todo",
+    "third_party_docs": "todo",
+    "eca": "todo",
+    "translations": "todo",
+    "cno_application": "todo",
+    "authorization_to_work": "todo",
+    "language_test": "todo",
+    "language": "todo",
+    "evidence_of_practice": "todo",
+    "ttp_course": "todo",
+    "ttp": "todo",
+    "jurisprudence": "todo",
+    "registration_exam": "todo",
+    "criminal_record_check": "todo",
+    "registration": "todo"
+  },
+  "order": [
+    "cno_account",
+    "third_party_docs",
+    "eca",
+    "translations",
+    "cno_application",
+    "authorization_to_work",
+    "language_test",
+    "language",
+    "evidence_of_practice",
+    "ttp_course",
+    "ttp",
+    "jurisprudence",
+    "registration_exam",
+    "criminal_record_check",
+    "registration"
+  ],
+  "sequential": {
+    "totalWeeks": 58,
+    "finishDate": "2027-11-06",
+    "startWeek": {
+      "cno_account": 0,
+      "third_party_docs": 0.5,
+      "eca": 8.5,
+      "translations": 15.5,
+      "cno_application": 18.5,
+      "authorization_to_work": 20.6,
+      "language_test": 22.7,
+      "language": 26.7,
+      "evidence_of_practice": 28.8,
+      "ttp_course": 30.9,
+      "ttp": 40.9,
+      "jurisprudence": 43,
+      "registration_exam": 44,
+      "criminal_record_check": 56,
+      "registration": 58
+    }
+  },
+  "parallel": {
+    "totalWeeks": 21.1,
+    "finishDate": "2027-02-21",
+    "startWeek": {
+      "cno_account": 0,
+      "third_party_docs": 0,
+      "eca": 0,
+      "translations": 0,
+      "cno_application": 7,
+      "authorization_to_work": 9.1,
+      "language_test": 0,
+      "language": 9.1,
+      "evidence_of_practice": 9.1,
+      "ttp_course": 0,
+      "ttp": 10,
+      "jurisprudence": 9.1,
+      "registration_exam": 9.1,
+      "criminal_record_check": 19.1,
+      "registration": 21.1
+    },
+    "criticalPath": [
+      "eca",
+      "cno_application",
+      "registration_exam",
+      "registration"
+    ]
+  },
+  "warnings": [
+    {
+      "id": "direct_from_source",
+      "severity": "info",
+      "title": {
+        "en": "These documents must come from the source",
+        "fr": "Ces documents doivent provenir de la source"
+      },
+      "body": {
+        "en": "These must be sent to CNO by your employer or regulator, not uploaded by you.",
+        "fr": "Ils doivent être envoyés à l'OIIO par votre employeur ou votre ordre professionnel, et non téléversés par vous."
+      },
+      "relatedNodes": [
+        "third_party_docs",
+        "evidence_of_practice"
+      ],
+      "sourceUrl": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
+    },
+    {
+      "id": "translation_needed",
+      "severity": "info",
+      "title": {
+        "en": "Some documents need a certified translation",
+        "fr": "Certains documents doivent faire l'objet d'une traduction certifiée"
+      },
+      "body": {
+        "en": "Documents not in English or French must be translated by the source, a consulate or embassy, or a certified translator, and sent directly to CNO.",
+        "fr": "Les documents qui ne sont ni en anglais ni en français doivent être traduits par la source, un consulat ou une ambassade, ou un traducteur agréé, puis envoyés directement à l'OIIO."
+      },
+      "relatedNodes": [
+        "translations"
+      ],
+      "sourceUrl": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
+    }
+  ],
+  "estimateShare": 0.9
+}
