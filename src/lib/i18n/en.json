@@ -135,5 +135,10 @@
   "docsLang.other": "Another language",
   "docsLang.mixed": "Several languages",
   "intake.fallbackNote": "We could not reach the transcription service, so this shows the sample instead.",
-  "warnings.tightFacts": "This plan finishes in {finish}, before your window closes in {windowCloses}, but only if each step goes to plan."
+  "warnings.tightFacts": "This plan finishes in {finish}, before your window closes in {windowCloses}, but only if each step goes to plan.",
+  "warnings.protects": "What protects your window · Ce qui protège votre délai",
+  "warnings.startNow": "Start now",
+  "warnings.backup": "Backup if anything slips: the Supervised Practice Experience Partnership (SPEP), open to you until {until}.",
+  "warnings.backupSource": "CNO: SPEP",
+  "status.tight": "Tight deadline"
 }

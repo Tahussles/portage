@@ -135,5 +135,10 @@
   "docsLang.other": "Une autre langue",
   "docsLang.mixed": "Plusieurs langues",
   "intake.fallbackNote": "Nous n’avons pas pu joindre le service de transcription, voici donc l’exemple à la place.",
-  "warnings.tightFacts": "Ce plan se termine en {finish}, avant la fin de votre période en {windowCloses}, mais seulement si chaque étape se déroule comme prévu."
+  "warnings.tightFacts": "Ce plan se termine en {finish}, avant la fin de votre période en {windowCloses}, mais seulement si chaque étape se déroule comme prévu.",
+  "warnings.protects": "What protects your window · Ce qui protège votre délai",
+  "warnings.startNow": "Commencez maintenant",
+  "warnings.backup": "Solution de repli si un délai glisse : le Partenariat d’expérience de pratique supervisée (SPEP), accessible jusqu’en {until}.",
+  "warnings.backupSource": "OIIO : SPEP",
+  "status.tight": "Échéance serrée"
 }

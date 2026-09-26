@@ -2,24 +2,27 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { AlertTriangle, Check, Info } from "lucide-react";
+import { AlertTriangle, Check, ExternalLink, Info } from "lucide-react";
 import { useRef } from "react";
 import { cn } from "@/lib/cn";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
-import { warningCopy, type WarningView } from "./warnings-view";
+import { formatMonthYear, pick } from "./format";
+import { backupFor, isTight, warningCopy, type ProtectingStep, type WarningView } from "./warnings-view";
 
 gsap.registerPlugin(useGSAP);
 
 type WarningStackProps = {
   views: WarningView[];
+  /** First not-done critical-path steps on the schedule on screen, listed under tight warnings. */
+  protecting: ProtectingStep[];
   onSeeFix: (nodeId: string, trigger: HTMLElement) => void;
   className?: string;
 };
 
 const EASE = { duration: 0.5, ease: "power2.out" } as const;
 
-export function WarningStack({ views, onSeeFix, className }: WarningStackProps) {
+export function WarningStack({ views, protecting, onSeeFix, className }: WarningStackProps) {
   const t = useT();
   const locale = useAppStore((s) => s.locale);
   const scope = useRef<HTMLElement>(null);
@@ -93,6 +96,8 @@ export function WarningStack({ views, onSeeFix, className }: WarningStackProps) 
         const { warning, state } = view;
         const resolved = state.kind === "resolved";
         const info = state.kind === "active" && state.severity === "info";
+        const tight = isTight(view);
+        const backup = tight ? backupFor(warning) : null;
         const copy = warningCopy(view, t, locale);
         const Icon = info ? Info : AlertTriangle;
         return (
@@ -106,8 +111,9 @@ export function WarningStack({ views, onSeeFix, className }: WarningStackProps) 
               aria-hidden="true"
               data-rule
               className={cn(
-                "absolute inset-y-0 left-0 w-0.5",
-                info ? "bg-mist" : "bg-accent",
+                "absolute inset-y-0 left-0",
+                // Critical: solid red. Tight: dashed red (still at risk, but only if something slips).
+                tight ? "w-0 border-l-2 border-dashed border-accent" : cn("w-0.5", info ? "bg-mist" : "bg-accent"),
                 resolved && "opacity-0",
               )}
             />
@@ -128,9 +134,44 @@ export function WarningStack({ views, onSeeFix, className }: WarningStackProps) 
                 <h3 className={cn("text-sm leading-snug font-medium", resolved ? "text-mist" : "text-paper")}>
                   {copy.title}
                 </h3>
-                <p className={cn("mt-1 text-xs leading-relaxed text-mist", !resolved && "line-clamp-2")}>{copy.body}</p>
+                <p className={cn("mt-1 text-xs leading-relaxed text-mist", !resolved && !tight && "line-clamp-2")}>{copy.body}</p>
                 {copy.facts && <p className="mt-1.5 text-xs text-paper/90">{copy.facts}</p>}
                 {!resolved && copy.label && <p className="micro-label mt-1.5 text-accent">{copy.label}</p>}
+                {tight && protecting.length > 0 && (
+                  <div className="mt-3">
+                    <p className="micro-label text-mist">{t("warnings.protects")}</p>
+                    <ol className="mt-1.5 space-y-1">
+                      {protecting.map((step) => (
+                        <li key={step.id}>
+                          <button
+                            type="button"
+                            onClick={(e) => onSeeFix(step.id, e.currentTarget)}
+                            className="flex w-full items-baseline justify-between gap-3 text-left text-xs text-paper underline-offset-4 hover:underline"
+                          >
+                            <span className="min-w-0">{pick(step.title, locale)}</span>
+                            <span className={cn("shrink-0", step.startsNow ? "text-accent" : "text-mist")}>
+                              {step.startsNow ? t("warnings.startNow") : t("roadmap.week", { n: step.startWeek })}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
+                {backup && (
+                  <p className="mt-2.5 text-xs leading-relaxed text-mist">
+                    {t("warnings.backup", { until: formatMonthYear(`${backup.until}-01`, locale) })}{" "}
+                    <a
+                      href={backup.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-paper underline-offset-4 hover:underline"
+                    >
+                      {t("warnings.backupSource")}
+                      <ExternalLink aria-hidden="true" className="size-3" />
+                    </a>
+                  </p>
+                )}
                 {!resolved && warning.relatedNodes[0] && (
                   <button
                     type="button"
