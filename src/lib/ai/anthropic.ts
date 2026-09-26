@@ -16,7 +16,7 @@ export function hasAnthropicKey(): boolean {
 }
 
 let client: Anthropic | null = null;
-function getClient(): Anthropic {
+export function getAnthropicClient(): Anthropic {
   client ??= new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 0 });
   return client;
 }
@@ -31,7 +31,7 @@ export async function extractProfileWithClaude(
   input: { transcript: string; languageCode: string; today: string },
   deps: { client?: Pick<Anthropic, "messages"> } = {},
 ): Promise<ProfileData> {
-  const response = await (deps.client ?? getClient()).messages.create({
+  const response = await (deps.client ?? getAnthropicClient()).messages.create({
     model: anthropicModel(),
     max_tokens: 1500,
     // Forced tool use gives a structured answer; thinking stays off to keep latency inside the 12 s budget.

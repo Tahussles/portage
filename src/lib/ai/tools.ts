@@ -156,3 +156,12 @@ export function missingKeyFields(profile: Profile): string[] {
     path.split(".").reduce<unknown>((o, k) => (o && typeof o === "object" ? (o as Record<string, unknown>)[k] : undefined), profile);
   return KEY_FIELDS.filter((f) => get(f) === null || get(f) === undefined);
 }
+
+/** Parses a profile sent by the browser (e.g. with a document upload). Unknown or bad fields become null. */
+export function parseProfileLoose(value: unknown): Profile | null {
+  if (!value || typeof value !== "object") return null;
+  const parsed = extractProfileInputSchema
+    .extend({ englishTranslation: z.string().catch("") })
+    .safeParse({ ...(value as Record<string, unknown>), confidence: {} });
+  return parsed.success ? toProfile(parsed.data) : null;
+}

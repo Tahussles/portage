@@ -1,8 +1,10 @@
+import doccheckEmploymentLetter from "@/data/fixtures/doccheck-employment-letter.json";
+import doccheckPoliceCheck from "@/data/fixtures/doccheck-police-check.json";
 import profileExtractionPriya from "@/data/fixtures/profile-extraction-priya.json";
 import profilePriya from "@/data/fixtures/profile-priya.json";
 import transcriptPriya from "@/data/fixtures/transcript-priya.json";
 import type { ProfileData, TranscribeData } from "@/lib/client/api";
-import type { Profile } from "@/lib/engine/types";
+import type { DocExtraction, Profile } from "@/lib/engine/types";
 
 // Demo mode (docs/ARCHITECTURE.md section 8): active with ?demo=1, NEXT_PUBLIC_FORCE_DEMO=1,
 // a missing API key, or any upstream failure or timeout. Fixtures are imported directly so
@@ -27,4 +29,16 @@ export function profileFixture(): ProfileData {
     englishTranslation: profileExtractionPriya.englishTranslation,
     missingFields: [...profileExtractionPriya.missingFields],
   };
+}
+
+const DOC_FIXTURES = [doccheckEmploymentLetter, doccheckPoliceCheck];
+
+/**
+ * Extraction fixture for a watermarked sample in public/demo/docs, matched by file name.
+ * With `orDefault`, unknown names get the employment letter (demo mode only).
+ */
+export function docFixtureFor(fileName: string, opts: { orDefault?: boolean } = {}): DocExtraction | null {
+  const match = DOC_FIXTURES.find((f) => f.sampleFile === fileName.toLowerCase());
+  const fixture = match ?? (opts.orDefault ? DOC_FIXTURES[0] : null);
+  return fixture ? (structuredClone(fixture.extraction) as DocExtraction) : null;
 }
