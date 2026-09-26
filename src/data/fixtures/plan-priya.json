@@ -116,6 +116,33 @@
   ],
   "warnings": [
     {
+      "id": "evidence_of_practice_window",
+      "severity": "critical",
+      "title": {
+        "en": "Your evidence of practice may expire before you finish",
+        "fr": "Votre preuve de pratique pourrait expirer avant la fin de votre démarche"
+      },
+      "body": {
+        "en": "CNO needs nursing practice within the past 3 years. On this plan, your last practice falls outside that window before you register. Options include the Supervised Practice Experience Partnership (SPEP) or upgrading education at an Ontario college.",
+        "fr": "L'OIIO exige une pratique infirmière au cours des 3 dernières années. Selon ce plan, votre dernière pratique sortira de cette période avant votre inscription. Vous pouvez notamment suivre le Partenariat d'expérience de pratique supervisée (SPEP) ou une formation de mise à niveau dans un collège de l'Ontario."
+      },
+      "relatedNodes": [
+        "evidence_of_practice"
+      ],
+      "sourceUrl": "https://www.cno.org/become-a-nurse/registration-requirements/evidence-of-practice",
+      "schedules": [
+        "sequential",
+        "parallel"
+      ],
+      "severityBySchedule": {
+        "sequential": "critical",
+        "parallel": "warn"
+      },
+      "facts": {
+        "windowCloses": "2027-07"
+      }
+    },
+    {
       "id": "direct_from_source",
       "severity": "info",
       "title": {

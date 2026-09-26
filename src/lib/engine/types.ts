@@ -89,10 +89,15 @@ export type Plan = {
   estimateShare: number;               // fraction of critical-path weeks that are estimates (shown in UI)
 };
 
+export type ScheduleKey = "sequential" | "parallel";
+
 export type PlanWarning = {
-  id: string; severity: "info" | "warn" | "critical";
+  id: string; severity: "info" | "warn" | "critical";   // most severe across schedules
   title: { en: string; fr: string }; body: { en: string; fr: string };
   relatedNodes: string[]; sourceUrl: string;
+  schedules?: ScheduleKey[];                              // schedules under which it fires; absent = both
+  severityBySchedule?: Partial<Record<ScheduleKey, "info" | "warn" | "critical">>;
+  facts?: Record<string, string>;                         // values for UI copy, e.g. { windowCloses: "2027-07" }
 };
 
 // Placeholder: referenced by Pathway above but not yet specified in docs/ARCHITECTURE.md.
