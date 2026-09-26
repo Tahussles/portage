@@ -13,7 +13,7 @@ import {
 import gsap from "gsap";
 import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useT } from "@/lib/i18n";
-import type { RoadmapPathway, RoadmapPlan } from "./contract";
+import type { Pathway, Plan } from "@/lib/engine/types";
 import { CriticalEdge, type RoadmapFlowEdge } from "./CriticalEdge";
 import {
   NODE_WIDTH,
@@ -41,8 +41,8 @@ const keepNodesClickable = () => {};
 const edgeTypes: EdgeTypes = { critical: CriticalEdge, quiet: QuietEdge };
 
 type RoadmapCanvasProps = {
-  plan: RoadmapPlan;
-  pathway: RoadmapPathway;
+  plan: Plan;
+  pathway: Pathway;
   mode: LayoutMode;
   activeId: string | null;
   /** Steps with a warning that fires on the schedule on screen. */

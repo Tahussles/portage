@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import pathwayData from "@/data/pathways/on-rn-ien.json";
-import samplePlan from "@/data/fixtures/plan-priya.provisional.json";
+import { profileFixture } from "@/lib/demo";
+import { buildPlan } from "@/lib/engine/plan";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
-import type { RoadmapPathway, RoadmapPlan } from "./contract";
+import type { Pathway } from "@/lib/engine/types";
 import { LayoutToggle } from "./LayoutToggle";
 import { LicenceCounter } from "./LicenceCounter";
 import { RoadmapCanvas } from "./RoadmapCanvas";
@@ -14,21 +15,26 @@ import { SidePanel } from "./SidePanel";
 import { WarningStack } from "./WarningStack";
 import { flaggedNodes, viewWarnings } from "./warnings-view";
 
-const pathway = pathwayData as unknown as RoadmapPathway;
+const pathway = pathwayData as unknown as Pathway;
 
-// TODO(engine): buildPlan (src/lib/engine/plan.ts) and the base contract are on main, but the
-// per-schedule warning fields (issue #13) are not, so the engine cannot drive the evidence-of-practice
-// beat yet. Once they land:
-//   const plan = buildPlan(profile ?? sampleProfile, pathway, today);
-// then delete contract.ts and plan-priya.provisional.json. Until then everyone sees Priya's
-// sample plan (engine output for data v1.1.0 plus the per-schedule warning), labelled as a sample.
-const PROVISIONAL_PLAN = samplePlan as unknown as RoadmapPlan;
+/** Priya (composite persona): shown until someone completes the intake. */
+const SAMPLE_PROFILE = profileFixture().profile;
+
+// The page is prerendered, so the server and the hydration pass build the plan as of the pathway's
+// last review date (a constant both sides agree on); the browser then rebuilds it for the visitor's
+// local date. Cached so every render in a session agrees.
+const REFERENCE_DATE = pathway.lastReviewed;
+let todayCache: string | null = null;
+const getToday = () => (todayCache ??= new Date().toLocaleDateString("en-CA"));
+const getReferenceDate = () => REFERENCE_DATE;
+const subscribeNever = () => () => {};
 
 export function RoadmapView() {
   const t = useT();
   const profile = useAppStore((s) => s.profile);
-  const plan = PROVISIONAL_PLAN;
-  const isSample = profile === null || plan === PROVISIONAL_PLAN;
+  const today = useSyncExternalStore(subscribeNever, getToday, getReferenceDate);
+  const plan = useMemo(() => buildPlan(profile ?? SAMPLE_PROFILE, pathway, today), [profile, today]);
+  const isSample = profile === null;
 
   const [mode, setMode] = useState<LayoutMode>("sequential");
   const [panel, setPanel] = useState<{ open: boolean; id: string | null }>({ open: false, id: null });
@@ -60,9 +66,9 @@ export function RoadmapView() {
           {isSample && (
             <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-mist">
               <span className="rounded-full border border-slate-line px-3 py-1 text-paper">
-                {profile ? t("roadmap.samplePlan") : t("roadmap.sample")}
+                {t("roadmap.sample")}
               </span>
-              <span>{profile ? t("roadmap.samplePlanNote") : t("roadmap.sampleNote")}</span>
+              <span>{t("roadmap.sampleNote")}</span>
             </p>
           )}
         </div>

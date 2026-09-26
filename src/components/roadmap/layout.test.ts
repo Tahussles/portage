@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import pathwayData from "@/data/pathways/on-rn-ien.json";
-import planData from "@/data/fixtures/plan-priya.provisional.json";
-import type { RoadmapPathway, RoadmapPlan } from "./contract";
+import planData from "@/data/fixtures/plan-priya.json";
+import type { Pathway, Plan } from "@/lib/engine/types";
 import {
   NODE_WIDTH,
   WEEK_PX,
@@ -11,8 +11,8 @@ import {
   type RoadmapLayout,
 } from "./layout";
 
-const pathway = pathwayData as unknown as RoadmapPathway;
-const plan = planData as unknown as RoadmapPlan;
+const pathway = pathwayData as unknown as Pathway;
+const plan = planData as unknown as Plan;
 
 function overlaps(layout: RoadmapLayout): string[] {
   const ids = Object.keys(layout.positions);
@@ -33,7 +33,7 @@ function overlaps(layout: RoadmapLayout): string[] {
 }
 
 /** A dense synthetic plan: many steps start in the same weeks, plus a side lane. */
-function densePlan(): { plan: RoadmapPlan; pathway: RoadmapPathway } {
+function densePlan(): { plan: Plan; pathway: Pathway } {
   const base = pathway.nodes[0];
   const nodes = Array.from({ length: 24 }, (_, i) => ({
     ...base,
@@ -43,7 +43,7 @@ function densePlan(): { plan: RoadmapPlan; pathway: RoadmapPathway } {
   }));
   const side = ["s0", "s1", "s2"].map((id) => ({ ...base, id, dependsOn: [], lane: "side" as const }));
   const startWeek = Object.fromEntries(nodes.map((n, i) => [n.id, Math.floor(i / 3) * 1.5]));
-  const dense: RoadmapPlan = {
+  const dense: Plan = {
     ...plan,
     statuses: Object.fromEntries(nodes.map((n) => [n.id, "todo"])),
     order: nodes.map((n) => n.id),
@@ -91,7 +91,7 @@ describe("roadmap layouts", () => {
   });
 
   it("hides not-applicable steps", () => {
-    const skipped: RoadmapPlan = {
+    const skipped: Plan = {
       ...plan,
       statuses: { ...plan.statuses, translations: "not_applicable" },
     };

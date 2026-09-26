@@ -4,17 +4,16 @@ import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import { AlertTriangle, Check, Circle } from "lucide-react";
 import { memo } from "react";
 import { cn } from "@/lib/cn";
-import type { NodeStatus } from "@/lib/engine/types";
+import type { NodeStatus, PathwayNode } from "@/lib/engine/types";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
 import { ActorIcon } from "./ActorIcon";
-import type { RoadmapNode } from "./contract";
 import { formatDurationRange, pick } from "./format";
 import { KindBadge } from "./KindBadge";
 import { NODE_WIDTH } from "./layout";
 
 export type StepNodeData = {
-  step: RoadmapNode;
+  step: PathwayNode;
   status: NodeStatus;
   critical: boolean;
   /** A warning fires for this step on the schedule on screen. */

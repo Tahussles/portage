@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import planData from "@/data/fixtures/plan-priya.provisional.json";
+import planData from "@/data/fixtures/plan-priya.json";
 import { translate, type MessageKey, type MessageVars } from "@/lib/i18n";
-import type { RoadmapPlan, RoadmapWarning } from "./contract";
+import type { Plan, PlanWarning } from "@/lib/engine/types";
 import {
   firesIn,
   flaggedNodes,
@@ -13,17 +13,17 @@ import {
 
 // Priya on data v1.1.0: window closes Jul 2027; one at a time finishes Dec 2027 (critical);
 // the Portage plan finishes Apr 2027 typical but Aug 2027 conservative (warn, "tight").
-const plan = planData as unknown as RoadmapPlan;
+const plan = planData as unknown as Plan;
 const EOP = "evidence_of_practice_window";
 const eopDef = plan.warnings.find((w) => w.id === EOP)!;
 
 /** The same warning if the Portage plan were comfortably inside the window. */
-const sequentialOnly: RoadmapWarning = {
+const sequentialOnly: PlanWarning = {
   ...eopDef,
   schedules: ["sequential"],
   severityBySchedule: { sequential: "critical" },
 };
-const withWarnings = (...warnings: RoadmapWarning[]): RoadmapPlan => ({ ...plan, warnings });
+const withWarnings = (...warnings: PlanWarning[]): Plan => ({ ...plan, warnings });
 
 const find = (views: ReturnType<typeof viewWarnings>, id: string) => views.find((v) => v.warning.id === id);
 const en = (key: MessageKey, vars?: MessageVars) => translate("en", key, vars);
@@ -65,7 +65,7 @@ describe("warnings per schedule", () => {
   });
 
   it("hides a warning that only the Portage plan raises when viewing one at a time", () => {
-    const onlyParallel: RoadmapWarning = { ...eopDef, id: "only_parallel", schedules: ["parallel"] };
+    const onlyParallel: PlanWarning = { ...eopDef, id: "only_parallel", schedules: ["parallel"] };
     expect(viewWarnings(withWarnings(onlyParallel), "sequential")).toEqual([]);
   });
 

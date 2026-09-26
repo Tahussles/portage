@@ -1,9 +1,8 @@
-import type { Locale } from "@/lib/engine/types";
+import type { Locale, Plan, PlanWarning, ScheduleKey } from "@/lib/engine/types";
 import type { MessageKey, MessageVars } from "@/lib/i18n";
-import type { RoadmapPlan, RoadmapWarning, ScheduleKey } from "./contract";
 import { formatMonthYear, pick } from "./format";
 
-export type Severity = RoadmapWarning["severity"];
+export type Severity = PlanWarning["severity"];
 
 export type WarningState =
   | {
@@ -22,15 +21,15 @@ export type WarningState =
       monthsEarly?: number;
     };
 
-export type WarningView = { warning: RoadmapWarning; state: WarningState };
+export type WarningView = { warning: PlanWarning; state: WarningState };
 
 const SEVERITY_ORDER: Record<Severity, number> = { critical: 0, warn: 1, info: 2 };
 
-export function firesIn(warning: RoadmapWarning, schedule: ScheduleKey): boolean {
+export function firesIn(warning: PlanWarning, schedule: ScheduleKey): boolean {
   return !warning.schedules || warning.schedules.includes(schedule);
 }
 
-export function severityIn(warning: RoadmapWarning, schedule: ScheduleKey): Severity {
+export function severityIn(warning: PlanWarning, schedule: ScheduleKey): Severity {
   return warning.severityBySchedule?.[schedule] ?? warning.severity;
 }
 
@@ -48,7 +47,7 @@ export function monthsBetween(from: string, to: string): number {
  * when the toggle flips. A warning that only one-at-a-time raises stays visible in the Portage
  * plan as "resolved"; any other warning that does not fire on this schedule is hidden.
  */
-export function viewWarnings(plan: RoadmapPlan, schedule: ScheduleKey): WarningView[] {
+export function viewWarnings(plan: Plan, schedule: ScheduleKey): WarningView[] {
   const finish = toMonth(plan[schedule].finishDate);
   return [...plan.warnings]
     .sort((a, b) => SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity])

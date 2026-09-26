@@ -1,5 +1,4 @@
-import type { NodeStatus } from "@/lib/engine/types";
-import type { RoadmapNode, RoadmapPathway, RoadmapPlan } from "./contract";
+import type { NodeStatus, Pathway, PathwayNode, Plan } from "@/lib/engine/types";
 
 export const NODE_WIDTH = 240;
 export const NODE_HEIGHT = 120;
@@ -42,12 +41,12 @@ export type RoadmapEdge = {
 
 const EPSILON = 1e-6;
 
-function nodeIndex(pathway: RoadmapPathway): Map<string, RoadmapNode> {
+function nodeIndex(pathway: Pathway): Map<string, PathwayNode> {
   return new Map(pathway.nodes.map((n) => [n.id, n]));
 }
 
 /** Main-lane nodes worth drawing, in the plan's topological order. */
-export function visibleMainIds(plan: RoadmapPlan, pathway: RoadmapPathway): string[] {
+export function visibleMainIds(plan: Plan, pathway: Pathway): string[] {
   const nodes = nodeIndex(pathway);
   return plan.order.filter((id) => {
     const node = nodes.get(id);
@@ -55,14 +54,14 @@ export function visibleMainIds(plan: RoadmapPlan, pathway: RoadmapPathway): stri
   });
 }
 
-export function visibleSideIds(plan: RoadmapPlan, pathway: RoadmapPathway): string[] {
+export function visibleSideIds(plan: Plan, pathway: Pathway): string[] {
   const nodes = nodeIndex(pathway);
   return plan.side
     .filter((s) => nodes.has(s.nodeId) && s.status !== "not_applicable")
     .map((s) => s.nodeId);
 }
 
-export function statusOf(plan: RoadmapPlan, id: string): NodeStatus {
+export function statusOf(plan: Plan, id: string): NodeStatus {
   return plan.statuses[id] ?? plan.side.find((s) => s.nodeId === id)?.status ?? "todo";
 }
 
@@ -89,8 +88,8 @@ function bounds(positions: Record<string, Placement>, nodeHeight: number) {
 
 /** One meandering route in topological order: serpentine rows of four (one column on phones). */
 export function layoutSequential(
-  plan: RoadmapPlan,
-  pathway: RoadmapPathway,
+  plan: Plan,
+  pathway: Pathway,
   columns = SEQ_COLUMNS,
 ): RoadmapLayout {
   const mainIds = visibleMainIds(plan, pathway);
@@ -114,7 +113,7 @@ export function layoutSequential(
  * A timeline: x is the earliest start week, lanes are assigned greedily so cards never overlap.
  * Critical-path nodes claim lanes first at equal start weeks, so the red route stays near the top.
  */
-export function layoutParallel(plan: RoadmapPlan, pathway: RoadmapPathway): RoadmapLayout {
+export function layoutParallel(plan: Plan, pathway: Pathway): RoadmapLayout {
   const mainIds = visibleMainIds(plan, pathway);
   const sideIds = visibleSideIds(plan, pathway);
   const critical = new Set(plan.parallel.criticalPath);
@@ -150,8 +149,8 @@ export function layoutParallel(plan: RoadmapPlan, pathway: RoadmapPathway): Road
  */
 export function buildEdges(
   layout: RoadmapLayout,
-  plan: RoadmapPlan,
-  pathway: RoadmapPathway,
+  plan: Plan,
+  pathway: Pathway,
 ): RoadmapEdge[] {
   const critical = new Set(plan.parallel.criticalPath);
 
@@ -198,7 +197,7 @@ export function buildEdges(
 }
 
 /** Week ticks for the ruler above the parallel timeline. */
-export function weekTicks(plan: RoadmapPlan, every = 4): number[] {
+export function weekTicks(plan: Plan, every = 4): number[] {
   const last = Math.max(0, plan.parallel.totalWeeks);
   const count = Math.ceil(last / every) + 1;
   return Array.from({ length: count }, (_, i) => i * every);
