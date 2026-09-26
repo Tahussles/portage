@@ -45,6 +45,8 @@ type RoadmapCanvasProps = {
   pathway: RoadmapPathway;
   mode: LayoutMode;
   activeId: string | null;
+  /** Steps with a warning that fires on the schedule on screen. */
+  flagged: Set<string>;
   onOpen: (id: string, trigger: HTMLElement) => void;
 };
 
@@ -83,7 +85,7 @@ function interpolate(from: Positions, to: Positions, t: number): Positions {
   return out;
 }
 
-function Canvas({ plan, pathway, mode, activeId, onOpen }: RoadmapCanvasProps) {
+function Canvas({ plan, pathway, mode, activeId, flagged, onOpen }: RoadmapCanvasProps) {
   const t = useT();
   const { fitBounds, setViewport } = useReactFlow();
   const initialized = useNodesInitialized();
@@ -189,6 +191,7 @@ function Canvas({ plan, pathway, mode, activeId, onOpen }: RoadmapCanvasProps) {
         step: byId.get(id)!,
         status: statusOf(plan, id),
         critical: critical.has(id),
+        flagged: flagged.has(id),
         side: layout.sideIds.includes(id),
         compact: layout.mode === "parallel",
         height: layout.nodeHeight,
@@ -196,7 +199,7 @@ function Canvas({ plan, pathway, mode, activeId, onOpen }: RoadmapCanvasProps) {
         onOpen,
       },
     }));
-  }, [layout, positions, plan, byId, critical, activeId, onOpen]);
+  }, [layout, positions, plan, byId, critical, flagged, activeId, onOpen]);
 
   const edges = useMemo<RoadmapFlowEdge[]>(
     () =>

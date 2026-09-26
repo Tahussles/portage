@@ -1,15 +1,16 @@
 "use client";
 
-import { AlertTriangle, ExternalLink, Info, Plane, X } from "lucide-react";
+import { AlertTriangle, Check, ExternalLink, Info, Plane, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/cn";
-import type { NodeStatus, PlanWarning } from "@/lib/engine/types";
+import type { NodeStatus } from "@/lib/engine/types";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
 import { ActorIcon } from "./ActorIcon";
 import type { RoadmapNode } from "./contract";
 import { formatCad, formatDay, formatDurationRange, formatTypical, pick } from "./format";
 import { KindBadge } from "./KindBadge";
+import { warningCopy, type WarningView } from "./warnings-view";
 
 type SidePanelProps = {
   open: boolean;
@@ -17,7 +18,8 @@ type SidePanelProps = {
   step: RoadmapNode | null;
   status: NodeStatus;
   critical: boolean;
-  warnings: PlanWarning[];
+  /** Warnings for this step on the schedule on screen (active or resolved). */
+  warnings: WarningView[];
   onClose: () => void;
 };
 
@@ -135,27 +137,33 @@ export function SidePanel({ open, step, status, critical, warnings, onClose }: S
             {warnings.length > 0 && (
               <Section label={t("panel.warnings")}>
                 <ul className="space-y-2">
-                  {warnings.map((w) => {
-                    const Icon = w.severity === "info" ? Info : AlertTriangle;
+                  {warnings.map((view) => {
+                    const resolved = view.state.kind === "resolved";
+                    const info = view.state.kind === "active" && view.state.severity === "info";
+                    const copy = warningCopy(view, t, locale);
+                    const Icon = resolved ? Check : info ? Info : AlertTriangle;
                     return (
                       <li
-                        key={w.id}
+                        key={view.warning.id}
                         className={cn(
                           "rounded-r-[var(--radius)] rounded-l-none border-l-2 bg-ink p-3",
-                          w.severity === "info" ? "border-mist" : "border-accent",
+                          resolved ? "border-stone-600" : info ? "border-mist" : "border-accent",
                         )}
                       >
+                        {resolved && copy.label && <p className="micro-label mb-1.5 text-mist">{copy.label}</p>}
                         <p className="flex items-start gap-2 text-sm font-medium">
                           <Icon
                             aria-hidden="true"
                             className={cn(
                               "mt-0.5 size-4 shrink-0",
-                              w.severity === "info" ? "text-mist" : "text-accent",
+                              resolved ? "text-paper" : info ? "text-mist" : "text-accent",
                             )}
                           />
-                          {pick(w.title, locale)}
+                          {copy.title}
                         </p>
-                        <p className="mt-1 text-xs leading-relaxed text-mist">{pick(w.body, locale)}</p>
+                        <p className="mt-1 text-xs leading-relaxed text-mist">{copy.body}</p>
+                        {copy.facts && <p className="mt-1.5 text-xs text-paper/90">{copy.facts}</p>}
+                        {!resolved && copy.label && <p className="micro-label mt-1.5 text-accent">{copy.label}</p>}
                       </li>
                     );
                   })}
