@@ -4,6 +4,7 @@ import {
   SAMPLE_TRANSCRIPT,
   extractProfile,
   isDemoMode,
+  normalizeLanguage,
   sampleClipExists,
   transcribe,
 } from "./intake-api";
@@ -55,5 +56,13 @@ describe("intake API adapter", () => {
     expect(isDemoMode("?lang=fr")).toBe(false);
     expect(await sampleClipExists("/demo/priya-hi.webm", vi.fn(async () => new Response(null, { status: 404 })))).toBe(false);
     expect(await sampleClipExists("/demo/priya-hi.webm", vi.fn(async () => new Response(null, { status: 200 })))).toBe(true);
+  });
+
+  it("turns three-letter transcription codes into short language tags", async () => {
+    expect(normalizeLanguage("eng")).toBe("en");
+    expect(normalizeLanguage("hin")).toBe("hi");
+    expect(normalizeLanguage("hi")).toBe("hi");
+    const call = vi.fn(async () => ({ ok: true, data: { text: "hello", languageCode: "eng" } }));
+    expect((await transcribe(audio, undefined, { call, demo: false })).data.languageCode).toBe("en");
   });
 });

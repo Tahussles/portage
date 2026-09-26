@@ -39,12 +39,25 @@ async function settle<T>(
   return { data: sample, source: "sample" };
 }
 
-export function transcribe(
+/**
+ * ElevenLabs returns ISO 639-3 codes ("eng", "hin"); the UI and `lang` attributes want the short
+ * BCP 47 form ("en", "hi"). Unknown codes pass through unchanged.
+ */
+export function normalizeLanguage(code: string): string {
+  try {
+    return new Intl.Locale(Intl.getCanonicalLocales(code)[0]).language;
+  } catch {
+    return code;
+  }
+}
+
+export async function transcribe(
   audio: Blob,
   languageHint?: string,
   { call = transcribeAudio, demo = isDemoMode() }: { call?: typeof transcribeAudio; demo?: boolean } = {},
 ): Promise<Result<Transcript>> {
-  return settle(() => call(audio, { languageHint, demo }), transcriptSchema, SAMPLE_TRANSCRIPT);
+  const result = await settle(() => call(audio, { languageHint, demo }), transcriptSchema, SAMPLE_TRANSCRIPT);
+  return { ...result, data: { ...result.data, languageCode: normalizeLanguage(result.data.languageCode) } };
 }
 
 export function extractProfile(
