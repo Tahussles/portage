@@ -78,7 +78,7 @@ describe("golden: Priya (demo persona)", () => {
     expect(plan.order.indexOf("criminal_record_check")).toBe(plan.order.length - 2);
   });
 
-  it("does not fire the evidence-of-practice warning: July 2025 + 3 years is after February 2027", () => {
+  it("does not fire the evidence-of-practice warning: July 2024 + 3 years (July 2027) is after the February 2027 parallel finish", () => {
     expect(ids(plan.warnings)).toEqual(["direct_from_source", "translation_needed"]);
   });
 

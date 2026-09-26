@@ -1,6 +1,6 @@
 # PROJECT_STATE.md (living file: update at every gate)
 
-Last updated: Sat Sep 26, 2026, Step 3a (engine) in review
+Last updated: Sat Sep 26, 2026, Step 2 (pathway data) in review
 Current step: Step 1 (scaffold) + Step 2 (pathway data), in parallel
 Next gate: Gate 1 at 7:30 PM
 
@@ -8,8 +8,8 @@ Next gate: Gate 1 at 7:30 PM
 | Step | Owner | Status | Notes |
 |---|---|---|---|
 | 1 Scaffold | Taha | not started | |
-| 2 Pathway data | Ebrahim | done | PRs #2, #3, #4 merged. Facts in docs/PATHWAY_VERIFIED.md |
-| 3a Engine | Ebrahim | in review | buildPlan in src/lib/engine/plan.ts; golden tests for Priya, Marco, Amina + 200-profile property test pass. src/data/fixtures/plan-priya.json is generated from the engine and checked by a test |
+| 2 Pathway data | Ebrahim | in review | Facts verified in docs/PATHWAY_VERIFIED.md (PR #2). Schema, on-rn-ien.json and tests in PR #3. pnpm test and build pass |
+| 3a Engine | Ebrahim | not started | |
 | 3b Roadmap canvas | Taha | not started | Build against fixtures/plan-priya.json |
 | 4a AI routes | Ebrahim | not started | |
 | 4b Intake UI | Taha | not started | |
@@ -45,13 +45,10 @@ Next gate: Gate 1 at 7:30 PM
 - ICAS fee has two conflicting figures ($132 vs $165); marked estimate.
 
 ## Engine outputs to record (for the pitch)
-(today = 2026-09-26, Priya last practised 2025-07)
-- Priya one-at-a-time total: 58 weeks, finish Nov 2027
-- Priya parallel total: 21.1 weeks, finish Feb 2027. Critical path: eca, cno_application, registration_exam, registration
-- Priya estimate share: 90% of the critical path is estimated
-- Evidence-of-practice warning fires for Priya: NO. Her window closes Jul 2028, after the Feb 2027 finish. The demo beat in PLAN.md section 0 needs a different persona date (it fires if she last practised before about Feb 2024) or a decision from the team
-- Marco: 39 weeks one at a time, 12.1 weeks parallel (exam and language test done)
-- Amina: evidence_of_practice blocked, critical warning fires; 55 weeks one at a time, 21.1 weeks parallel
+- Priya one-at-a-time total: TBD
+- Priya parallel total: TBD
+- Priya estimate share: TBD
+- Evidence-of-practice warning fires for Priya: TBD
 
 ## Estimates in on-rn-ien.json (show the "Estimate" badge)
 | Node | min / typical / max weeks | Why |
