@@ -1,0 +1,36 @@
+{
+  "profession": "nurse",
+  "targetCategory": "RN",
+  "countryOfEducation": "IN",
+  "credential": "bachelor",
+  "graduationYear": 2014,
+  "lastPractisedAt": "2024-07",
+  "yearsExperience": 8,
+  "currentlyInCanada": true,
+  "province": "ON",
+  "authorizedToWork": "yes",
+  "nameOnDocumentsMatches": false,
+  "documentsLanguage": "mixed",
+  "languageProficiency": { "status": "none", "test": null, "date": null },
+  "progress": {
+    "ecaStarted": false,
+    "cnoAccountCreated": false,
+    "cnoApplicationSubmitted": false,
+    "ttpCompleted": false,
+    "jurisprudencePassed": false,
+    "registrationExamPassed": false,
+    "criminalRecordCheckDate": null
+  },
+  "spokenLanguage": "hi",
+  "confidence": {
+    "countryOfEducation": 0.95,
+    "credential": 0.9,
+    "graduationYear": 0.9,
+    "lastPractisedAt": 0.8,
+    "yearsExperience": 0.9,
+    "currentlyInCanada": 0.95,
+    "province": 0.9,
+    "authorizedToWork": 0.9,
+    "languageProficiency.status": 0.85
+  }
+}
