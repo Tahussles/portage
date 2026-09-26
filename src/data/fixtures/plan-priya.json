@@ -52,6 +52,13 @@
       "registration_exam": 44,
       "criminal_record_check": 56,
       "registration": 58
+    },
+    "range": {
+      "bestWeeks": 20.2,
+      "typicalWeeks": 58,
+      "conservativeWeeks": 108.8,
+      "bestFinish": "2027-02-14",
+      "conservativeFinish": "2028-10-27"
     }
   },
   "parallel": {
@@ -79,8 +86,16 @@
       "cno_application",
       "registration_exam",
       "registration"
-    ]
+    ],
+    "range": {
+      "bestWeeks": 7,
+      "typicalWeeks": 21.1,
+      "conservativeWeeks": 36.1,
+      "bestFinish": "2026-11-14",
+      "conservativeFinish": "2027-06-06"
+    }
   },
+  "side": [],
   "warnings": [
     {
       "id": "direct_from_source",

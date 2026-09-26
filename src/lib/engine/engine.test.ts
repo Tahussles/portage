@@ -177,6 +177,46 @@ describe("other warnings", () => {
   });
 });
 
+describe("ranges and side lane (contract)", () => {
+  it("gives best <= typical <= conservative, with typical equal to the total", () => {
+    for (const profile of [priya, marco, amina]) {
+      const plan = buildPlan(profile, pathway, TODAY);
+      for (const s of [plan.sequential, plan.parallel]) {
+        expect(s.range.typicalWeeks).toBe(s.totalWeeks);
+        expect(s.range.bestWeeks).toBeLessThanOrEqual(s.range.typicalWeeks);
+        expect(s.range.typicalWeeks).toBeLessThanOrEqual(s.range.conservativeWeeks);
+        expect(s.range.bestFinish <= s.finishDate && s.finishDate <= s.range.conservativeFinish).toBe(true);
+      }
+    }
+  });
+
+  it("records Priya's ranges", () => {
+    const plan = buildPlan(priya, pathway, TODAY);
+    expect(plan.sequential.range).toMatchObject({ bestWeeks: 20.2, conservativeWeeks: 108.8 });
+    expect(plan.parallel.range).toMatchObject({ bestWeeks: 7, conservativeWeeks: 36.1 });
+  });
+
+  it("keeps side-lane nodes out of the schedule and lists them in Plan.side", () => {
+    const withSide = parsePathway(structuredClone(pathwayJson));
+    withSide.nodes.push({
+      ...withSide.nodes[0],
+      id: "side_step",
+      lane: "side",
+      dependsOn: [],
+      duration: { minWeeks: 50, typicalWeeks: 60, maxWeeks: 70, kind: "estimate", note: "test only" },
+      doneIf: undefined,
+    });
+    const base = buildPlan(priya, pathway, TODAY);
+    const plan = buildPlan(priya, withSide, TODAY);
+    expect(plan.side).toEqual([{ nodeId: "side_step", status: "todo" }]);
+    expect(plan.order).not.toContain("side_step");
+    expect(plan.statuses).not.toHaveProperty("side_step");
+    expect(plan.parallel.startWeek).not.toHaveProperty("side_step");
+    expect(plan.sequential.totalWeeks).toBe(base.sequential.totalWeeks);
+    expect(plan.parallel.range).toEqual(base.parallel.range);
+  });
+});
+
 describe("scheduling primitives", () => {
   const node = (id: string, dependsOn: string[], weeks = 1): PathwayNode => ({
     id,
