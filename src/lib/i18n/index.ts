@@ -17,11 +17,21 @@ export function isLocale(value: unknown): value is Locale {
   return value === "en" || value === "fr";
 }
 
-export function translate(locale: Locale, key: MessageKey): string {
-  return dictionaries[locale][key] ?? en[key] ?? key;
+export type MessageVars = Record<string, string | number>;
+
+/** Looks up a key and fills `{name}` placeholders from `vars`. */
+export function translate(locale: Locale, key: MessageKey, vars?: MessageVars): string {
+  const text: string = dictionaries[locale][key] ?? en[key] ?? key;
+  if (!vars) return text;
+  return text.replace(/\{(\w+)\}/g, (match, name: string) =>
+    name in vars ? String(vars[name]) : match,
+  );
 }
 
 export function useT() {
   const locale = useAppStore((s) => s.locale);
-  return useCallback((key: MessageKey) => translate(locale, key), [locale]);
+  return useCallback(
+    (key: MessageKey, vars?: MessageVars) => translate(locale, key, vars),
+    [locale],
+  );
 }
