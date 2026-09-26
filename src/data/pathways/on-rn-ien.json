@@ -1,6 +1,6 @@
 {
   "id": "on-rn-ien",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "lastReviewed": "2026-09-26",
   "regulator": {
     "name": "College of Nurses of Ontario (CNO)",
@@ -18,7 +18,9 @@
         "en": "Set up your Maintain Your Membership account. Use an email you will keep: your police check must use the same one. Never share your login with anyone.",
         "fr": "Créez votre compte Maintain Your Membership. Utilisez une adresse courriel que vous garderez : votre vérification policière devra utiliser la même. Ne communiquez jamais vos identifiants à qui que ce soit."
       },
-      "actor": ["you"],
+      "actor": [
+        "you"
+      ],
       "dependsOn": [],
       "duration": {
         "minWeeks": 0,
@@ -27,7 +29,10 @@
         "kind": "estimate",
         "note": "Team estimate for setting up an online account. CNO publishes no time for this step."
       },
-      "doneIf": { "field": "progress.cnoAccountCreated", "op": "truthy" },
+      "doneIf": {
+        "field": "progress.cnoAccountCreated",
+        "op": "truthy"
+      },
       "canStartBeforeArrival": true,
       "scheduleHint": "asap",
       "sources": [
@@ -53,7 +58,10 @@
         "en": "Your nursing employers send the Verification of Nursing Practice form, and your home regulator sends the Verification of Registration form, directly to CNO. You cannot send these yourself. Only paid nursing work counts.",
         "fr": "Vos employeurs en soins infirmiers envoient le formulaire de vérification de la pratique infirmière, et votre ordre d'origine envoie le formulaire de vérification de l'inscription, directement à l'OIIO. Vous ne pouvez pas les envoyer vous-même. Seul le travail infirmier rémunéré est pris en compte."
       },
-      "actor": ["you", "third_party"],
+      "actor": [
+        "you",
+        "third_party"
+      ],
       "dependsOn": [],
       "duration": {
         "minWeeks": 2,
@@ -83,6 +91,57 @@
       ]
     },
     {
+      "id": "school_documents",
+      "title": {
+        "en": "Ask your nursing school to send your documents to the assessment provider",
+        "fr": "Demandez à votre école de sciences infirmières d'envoyer vos documents au fournisseur d'évaluation"
+      },
+      "summary": {
+        "en": "Your school sends your transcripts and diploma records directly to WES, ICAS or ICES, following the provider's country-specific rules. The provider's processing time only starts once every document has arrived.",
+        "fr": "Votre école envoie vos relevés de notes et les documents liés à votre diplôme directement à WES, à ICAS ou à ICES, selon les règles du fournisseur pour votre pays. Le délai de traitement du fournisseur ne commence qu'une fois tous les documents reçus."
+      },
+      "actor": [
+        "you",
+        "school"
+      ],
+      "dependsOn": [],
+      "duration": {
+        "minWeeks": 2,
+        "typicalWeeks": 6,
+        "maxWeeks": 12,
+        "kind": "estimate",
+        "note": "Team estimate, unverified. Depends on your school and country; no official time is published. Provider times (see eca) start only after all documents arrive."
+      },
+      "cost": {
+        "amountCad": null,
+        "note": "Set by your school, if any.",
+        "kind": "unknown"
+      },
+      "doneIf": {
+        "field": "progress.cnoApplicationSubmitted",
+        "op": "truthy"
+      },
+      "canStartBeforeArrival": true,
+      "scheduleHint": "asap",
+      "sources": [
+        {
+          "label": "CNO: Approved educational credential assessment providers",
+          "url": "https://www.cno.org/become-a-nurse/approved-educational-credential-assessment-service-providers",
+          "accessed": "2026-09-26"
+        },
+        {
+          "label": "WES: instructions for CNO applicants",
+          "url": "https://www.wes.org/evaluations-and-fees/education/instructions-for-the-candidates-for-registration-with-the-college-of-nurses-of-ontario/",
+          "accessed": "2026-09-26"
+        },
+        {
+          "label": "ICAS: assessments for registration as a nurse",
+          "url": "https://www.icascanada.ca/new/nursing-registration.aspx",
+          "accessed": "2026-09-26"
+        }
+      ]
+    },
+    {
       "id": "eca",
       "title": {
         "en": "Get your nursing education assessed by a CNO-approved provider",
@@ -92,14 +151,19 @@
         "en": "Choose WES, ICAS or ICES (BCIT). Your school sends documents to the provider, and the provider sends the report to CNO. CNO must have the report before you can submit your application.",
         "fr": "Choisissez WES, ICAS ou ICES (BCIT). Votre établissement d'enseignement envoie vos documents au fournisseur, qui transmet ensuite le rapport à l'OIIO. L'OIIO doit avoir reçu le rapport avant que vous puissiez soumettre votre demande."
       },
-      "actor": ["you", "third_party"],
-      "dependsOn": [],
+      "actor": [
+        "you",
+        "third_party"
+      ],
+      "dependsOn": [
+        "school_documents"
+      ],
       "duration": {
         "minWeeks": 3,
         "typicalWeeks": 7,
         "maxWeeks": 10,
         "kind": "estimate",
-        "note": "Provider-posted times after all documents arrive: WES about 2 weeks document verification plus 1 to 2 weeks evaluation, ICES 7 weeks, ICAS 8 to 10 weeks. Does not include the time your school takes to send documents."
+        "note": "Provider-posted times after all documents arrive: WES about 2 weeks document verification plus 1 to 2 weeks evaluation, ICES 7 weeks, ICAS 8 to 10 weeks. Your school's time to send documents is the school_documents step."
       },
       "cost": {
         "amountCad": 200,
@@ -108,7 +172,10 @@
       },
       "canStartBeforeArrival": true,
       "scheduleHint": "asap",
-      "doneIf": { "field": "progress.cnoApplicationSubmitted", "op": "truthy" },
+      "doneIf": {
+        "field": "progress.cnoApplicationSubmitted",
+        "op": "truthy"
+      },
       "sources": [
         {
           "label": "CNO: Approved educational credential assessment providers",
@@ -147,7 +214,10 @@
         "en": "Documents not in English or French must be translated by the issuing source, a consulate or embassy, or a certified translator, who sends the translation directly to CNO.",
         "fr": "Les documents qui ne sont ni en anglais ni en français doivent être traduits par l'organisme émetteur, un consulat ou une ambassade, ou un traducteur agréé, qui envoie la traduction directement à l'OIIO."
       },
-      "actor": ["you", "third_party"],
+      "actor": [
+        "you",
+        "third_party"
+      ],
       "dependsOn": [],
       "duration": {
         "minWeeks": 1,
@@ -161,7 +231,14 @@
         "note": "Set by the translator.",
         "kind": "unknown"
       },
-      "appliesIf": { "field": "documentsLanguage", "op": "in", "value": ["other", "mixed"] },
+      "appliesIf": {
+        "field": "documentsLanguage",
+        "op": "in",
+        "value": [
+          "other",
+          "mixed"
+        ]
+      },
       "canStartBeforeArrival": true,
       "scheduleHint": "asap",
       "sources": [
@@ -182,8 +259,14 @@
         "en": "Once your assessment report is at CNO, complete the application yourself and pay the fee. CNO reviews it and tells you what is still outstanding. From this date you have 2 years to meet every requirement.",
         "fr": "Une fois votre rapport d'évaluation reçu par l'OIIO, remplissez vous-même la demande et payez les droits. L'OIIO l'examine et vous indique les exigences qui restent à remplir. À partir de cette date, vous avez 2 ans pour satisfaire à toutes les exigences."
       },
-      "actor": ["you", "cno"],
-      "dependsOn": ["cno_account", "eca"],
+      "actor": [
+        "you",
+        "cno"
+      ],
+      "dependsOn": [
+        "cno_account",
+        "eca"
+      ],
       "duration": {
         "minWeeks": 0,
         "typicalWeeks": 2.1,
@@ -196,7 +279,10 @@
         "note": "General Class application fee, 2026 ($454 in 2027), plus 13% HST. Non-refundable.",
         "kind": "official"
       },
-      "doneIf": { "field": "progress.cnoApplicationSubmitted", "op": "truthy" },
+      "doneIf": {
+        "field": "progress.cnoApplicationSubmitted",
+        "op": "truthy"
+      },
       "sources": [
         {
           "label": "CNO: Timelines for registration processes",
@@ -225,8 +311,13 @@
         "en": "Send proof of Canadian citizenship, permanent residence, or another immigration document that allows you to practise nursing in Ontario. CNO recommends sending it with your application. Portage does not give immigration advice.",
         "fr": "Envoyez une preuve de citoyenneté canadienne, de résidence permanente ou un autre document d'immigration qui vous autorise à exercer la profession infirmière en Ontario. L'OIIO recommande de l'envoyer avec votre demande. Portage ne donne pas de conseils en immigration."
       },
-      "actor": ["you", "cno"],
-      "dependsOn": ["cno_application"],
+      "actor": [
+        "you",
+        "cno"
+      ],
+      "dependsOn": [
+        "cno_application"
+      ],
       "duration": {
         "minWeeks": 0,
         "typicalWeeks": 2.1,
@@ -257,7 +348,10 @@
         "en": "CELBAN, IELTS, OET, PTE Academic, TEF Canada or TCF Canada, with CNO's minimum score in every component in one sitting. For example IELTS: 7 overall, 7 listening and speaking, 6.5 reading and writing. The test centre sends results directly to CNO.",
         "fr": "CELBAN, IELTS, OET, PTE Academic, TEF Canada ou TCF Canada, avec la note minimale de l'OIIO dans chaque volet, lors d'une même séance. Par exemple, pour l'IELTS : 7 au total, 7 en compréhension orale et en expression orale, 6,5 en compréhension écrite et en expression écrite. Le centre d'examen envoie les résultats directement à l'OIIO."
       },
-      "actor": ["you", "test_provider"],
+      "actor": [
+        "you",
+        "test_provider"
+      ],
       "dependsOn": [],
       "duration": {
         "minWeeks": 2,
@@ -271,8 +365,16 @@
         "note": "Set by the test provider; not verified.",
         "kind": "unknown"
       },
-      "appliesIf": { "field": "languageProficiency.status", "op": "neq", "value": "via_education_or_work" },
-      "doneIf": { "field": "languageProficiency.status", "op": "eq", "value": "passed" },
+      "appliesIf": {
+        "field": "languageProficiency.status",
+        "op": "neq",
+        "value": "via_education_or_work"
+      },
+      "doneIf": {
+        "field": "languageProficiency.status",
+        "op": "eq",
+        "value": "passed"
+      },
       "canStartBeforeArrival": true,
       "sources": [
         {
@@ -292,8 +394,13 @@
         "en": "CNO accepts one type of evidence from the past 2 years: an approved test, nursing education or practice in English or French, or recent Canadian registration. If your evidence expires before you register, CNO extends it once by 1 year.",
         "fr": "L'OIIO accepte un seul type de preuve datant des 2 dernières années : un test approuvé, une formation ou une pratique infirmière en anglais ou en français, ou une inscription récente au Canada. Si votre preuve expire avant votre inscription, l'OIIO la prolonge une fois d'un an."
       },
-      "actor": ["cno"],
-      "dependsOn": ["cno_application", "language_test"],
+      "actor": [
+        "cno"
+      ],
+      "dependsOn": [
+        "cno_application",
+        "language_test"
+      ],
       "duration": {
         "minWeeks": 0,
         "typicalWeeks": 2.1,
@@ -303,8 +410,15 @@
       },
       "doneIf": {
         "all": [
-          { "field": "progress.cnoApplicationSubmitted", "op": "truthy" },
-          { "field": "languageProficiency.status", "op": "eq", "value": "passed" }
+          {
+            "field": "progress.cnoApplicationSubmitted",
+            "op": "truthy"
+          },
+          {
+            "field": "languageProficiency.status",
+            "op": "eq",
+            "value": "passed"
+          }
         ]
       },
       "sources": [
@@ -330,8 +444,15 @@
         "en": "CNO needs paid nursing practice, or nursing education with a clinical part, within the past 3 years. If yours has expired, options include the Supervised Practice Experience Partnership (SPEP), at least 140 supervised hours, or specified upgrading education.",
         "fr": "L'OIIO exige une pratique infirmière rémunérée, ou une formation en soins infirmiers comprenant un volet clinique, au cours des 3 dernières années. Si la vôtre est expirée, vous pouvez notamment suivre le Partenariat d'expérience de pratique supervisée (SPEP), d'au moins 140 heures supervisées, ou une formation de mise à niveau précise."
       },
-      "actor": ["third_party", "cno"],
-      "dependsOn": ["cno_application", "third_party_docs", "translations"],
+      "actor": [
+        "third_party",
+        "cno"
+      ],
+      "dependsOn": [
+        "cno_application",
+        "third_party_docs",
+        "translations"
+      ],
       "duration": {
         "minWeeks": 0,
         "typicalWeeks": 2.1,
@@ -367,7 +488,10 @@
         "en": "An online course, with no clinical part, from one of 8 approved Ontario providers. You can take it at any time, including before you apply. It stays valid for 5 years.",
         "fr": "Un cours en ligne, sans volet clinique, offert par l'un des 8 fournisseurs approuvés en Ontario. Vous pouvez le suivre à tout moment, y compris avant de présenter votre demande. Il demeure valide pendant 5 ans."
       },
-      "actor": ["you", "school"],
+      "actor": [
+        "you",
+        "school"
+      ],
       "dependsOn": [],
       "duration": {
         "minWeeks": 7,
@@ -381,7 +505,10 @@
         "note": "Examples: Conestoga NURS8963 $390; Centennial NCNO-100 $450.85. Other providers not checked.",
         "kind": "estimate"
       },
-      "doneIf": { "field": "progress.ttpCompleted", "op": "truthy" },
+      "doneIf": {
+        "field": "progress.ttpCompleted",
+        "op": "truthy"
+      },
       "canStartBeforeArrival": true,
       "sources": [
         {
@@ -416,8 +543,14 @@
         "en": "Your school sends a Verification of Course Completion directly to CNO, which updates your application.",
         "fr": "Votre établissement envoie une vérification de réussite du cours directement à l'OIIO, qui met à jour votre demande."
       },
-      "actor": ["school", "cno"],
-      "dependsOn": ["cno_application", "ttp_course"],
+      "actor": [
+        "school",
+        "cno"
+      ],
+      "dependsOn": [
+        "cno_application",
+        "ttp_course"
+      ],
       "duration": {
         "minWeeks": 0,
         "typicalWeeks": 2.1,
@@ -427,8 +560,14 @@
       },
       "doneIf": {
         "all": [
-          { "field": "progress.cnoApplicationSubmitted", "op": "truthy" },
-          { "field": "progress.ttpCompleted", "op": "truthy" }
+          {
+            "field": "progress.cnoApplicationSubmitted",
+            "op": "truthy"
+          },
+          {
+            "field": "progress.ttpCompleted",
+            "op": "truthy"
+          }
         ]
       },
       "sources": [
@@ -454,8 +593,13 @@
         "en": "An open-book online exam of 50 multiple-choice questions on Ontario nursing law and CNO standards. After you pay, you have 30 days to pass, with unlimited attempts. A pass is valid for 5 years.",
         "fr": "Un examen en ligne à livre ouvert de 50 questions à choix multiples sur le droit infirmier en Ontario et les normes de l'OIIO. Après le paiement, vous avez 30 jours pour le réussir, avec un nombre illimité de tentatives. Une réussite est valide pendant 5 ans."
       },
-      "actor": ["you", "cno"],
-      "dependsOn": ["cno_application"],
+      "actor": [
+        "you",
+        "cno"
+      ],
+      "dependsOn": [
+        "cno_application"
+      ],
       "duration": {
         "minWeeks": 0.5,
         "typicalWeeks": 1,
@@ -468,7 +612,10 @@
         "note": "2026 fee ($42 in 2027) plus applicable taxes; covers all attempts within 30 days.",
         "kind": "official"
       },
-      "doneIf": { "field": "progress.jurisprudencePassed", "op": "truthy" },
+      "doneIf": {
+        "field": "progress.jurisprudencePassed",
+        "op": "truthy"
+      },
       "sources": [
         {
           "label": "CNO: Jurisprudence examination",
@@ -492,8 +639,14 @@
         "en": "After you open your application and pay the fee, CNO tells you when you are eligible. Register and pay with Pearson, then write in person at a test centre. Results arrive in your CNO portal within a week. If you already passed the NCLEX-RN elsewhere, confirm with CNO.",
         "fr": "Après l'ouverture de votre demande et le paiement des droits, l'OIIO vous avise lorsque vous êtes admissible. Inscrivez-vous et payez auprès de Pearson, puis passez l'examen en personne dans un centre d'examen. Les résultats arrivent dans votre portail de l'OIIO en moins d'une semaine. Si vous avez déjà réussi le NCLEX-RN ailleurs, vérifiez auprès de l'OIIO."
       },
-      "actor": ["you", "test_provider", "cno"],
-      "dependsOn": ["cno_application"],
+      "actor": [
+        "you",
+        "test_provider",
+        "cno"
+      ],
+      "dependsOn": [
+        "cno_application"
+      ],
       "duration": {
         "minWeeks": 4,
         "typicalWeeks": 12,
@@ -506,7 +659,10 @@
         "note": "NCLEX registration fee in Canada, paid to Pearson (excludes local taxes). Rises to $570 on Feb 1, 2027. Extra $150 if written outside Canada or the US.",
         "kind": "official"
       },
-      "doneIf": { "field": "progress.registrationExamPassed", "op": "truthy" },
+      "doneIf": {
+        "field": "progress.registrationExamPassed",
+        "op": "truthy"
+      },
       "sources": [
         {
           "label": "CNO: Registered Nurse (RN) examinations",
@@ -535,8 +691,14 @@
         "en": "Start it from your CNO portal through Sterling Backcheck, near the end of your process. It is valid for 6 months, and you have 30 days to finish it once started. Other checks are not accepted.",
         "fr": "Lancez-la à partir de votre portail de l'OIIO, par l'intermédiaire de Sterling Backcheck, vers la fin de votre démarche. Elle est valide pendant 6 mois, et vous avez 30 jours pour la terminer une fois commencée. Les autres vérifications ne sont pas acceptées."
       },
-      "actor": ["you", "third_party", "cno"],
-      "dependsOn": ["cno_application"],
+      "actor": [
+        "you",
+        "third_party",
+        "cno"
+      ],
+      "dependsOn": [
+        "cno_application"
+      ],
       "duration": {
         "minWeeks": 0.7,
         "typicalWeeks": 2,
@@ -573,7 +735,10 @@
         "en": "When every requirement is met, CNO messages you right away. Pay online and you are registered to practise as an RN in Ontario. The fee is not pro-rated.",
         "fr": "Lorsque toutes les exigences sont remplies, l'OIIO vous envoie immédiatement un message. Payez en ligne et vous êtes inscrit(e) pour exercer à titre d'infirmière autorisée ou d'infirmier autorisé en Ontario. Les droits ne sont pas calculés au prorata."
       },
-      "actor": ["you", "cno"],
+      "actor": [
+        "you",
+        "cno"
+      ],
       "dependsOn": [
         "authorization_to_work",
         "language",
@@ -607,6 +772,127 @@
           "accessed": "2026-09-26"
         }
       ]
+    },
+    {
+      "id": "temporary_class",
+      "lane": "side",
+      "title": {
+        "en": "Work as RN (Temp) while you finish",
+        "fr": "Travaillez comme IA (temporaire) pendant que vous terminez"
+      },
+      "summary": {
+        "en": "If you have a job offer from an approved employer, such as a hospital or long-term care home, you can apply for the Temporary Class. You need recent practice, the jurisprudence exam, language and work authorization, but not the NCLEX. You practise under supervision until you move to the General Class. Not available after two failed registration exams.",
+        "fr": "Si vous avez une offre d'emploi d'un employeur approuvé, comme un hôpital ou un foyer de soins de longue durée, vous pouvez demander l'inscription dans la catégorie temporaire. Il faut une pratique récente, l'examen de jurisprudence, la compétence linguistique et l'autorisation de travailler, mais pas le NCLEX. Vous exercez sous supervision jusqu'à votre passage à la catégorie générale. Non offert après deux échecs à l'examen d'inscription."
+      },
+      "actor": [
+        "you",
+        "cno"
+      ],
+      "dependsOn": [
+        "cno_application"
+      ],
+      "duration": {
+        "minWeeks": 0,
+        "typicalWeeks": 0,
+        "maxWeeks": 0,
+        "kind": "estimate",
+        "note": "Side lane: optional, not part of the licensing timeline, so no duration is modelled."
+      },
+      "cost": {
+        "amountCad": 73,
+        "note": "Temporary Class application fee, 2026 ($76 in 2027), plus 13% HST.",
+        "kind": "official"
+      },
+      "appliesIf": {
+        "field": "authorizedToWork",
+        "op": "neq",
+        "value": "no"
+      },
+      "sources": [
+        {
+          "label": "CNO: Temporary Class",
+          "url": "https://www.cno.org/become-a-nurse/classes-of-registration/temporary-class",
+          "accessed": "2026-09-26"
+        },
+        {
+          "label": "CNO: Application and membership fees",
+          "url": "https://www.cno.org/become-a-nurse/fees/application-membership-fees",
+          "accessed": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "id": "bridge_role",
+      "lane": "side",
+      "title": {
+        "en": "Work in a non-nursing hospital role",
+        "fr": "Travaillez dans un poste non infirmier en milieu hospitalier"
+      },
+      "summary": {
+        "en": "Some Ontario hospitals hire internationally educated nurses into non-nursing roles while they work toward CNO registration. For example, London Health Sciences Centre does this and partners with CARE Centre.",
+        "fr": "Certains hôpitaux de l'Ontario embauchent des infirmières et infirmiers formés à l'étranger dans des postes non infirmiers pendant leur démarche d'inscription auprès de l'OIIO. Par exemple, le London Health Sciences Centre le fait, en partenariat avec le CARE Centre."
+      },
+      "actor": [
+        "you",
+        "third_party"
+      ],
+      "dependsOn": [],
+      "duration": {
+        "minWeeks": 0,
+        "typicalWeeks": 0,
+        "maxWeeks": 0,
+        "kind": "estimate",
+        "note": "Side lane: optional, not part of the licensing timeline, so no duration is modelled."
+      },
+      "appliesIf": {
+        "field": "authorizedToWork",
+        "op": "eq",
+        "value": "yes"
+      },
+      "sources": [
+        {
+          "label": "London Health Sciences Centre: internationally educated nurses",
+          "url": "https://www.lhsc.on.ca/nursing/internationally-educated-nurses",
+          "accessed": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "id": "support_orgs",
+      "lane": "side",
+      "title": {
+        "en": "Get free support from newcomer nursing programs",
+        "fr": "Obtenez du soutien gratuit auprès de programmes pour infirmières et infirmiers nouvellement arrivés"
+      },
+      "summary": {
+        "en": "CARE Centre offers free case management, exam preparation and mentoring for internationally educated nurses in Ontario. Occupation-Specific Language Training offers free health care communication courses at Ontario colleges for eligible newcomers.",
+        "fr": "Le CARE Centre offre gratuitement de la gestion de cas, de la préparation aux examens et du mentorat aux infirmières et infirmiers formés à l'étranger en Ontario. La formation linguistique axée sur les professions (FLAP) offre gratuitement, dans les collèges de l'Ontario, des cours de communication en soins de santé aux personnes nouvellement arrivées admissibles."
+      },
+      "actor": [
+        "you",
+        "third_party"
+      ],
+      "dependsOn": [],
+      "duration": {
+        "minWeeks": 0,
+        "typicalWeeks": 0,
+        "maxWeeks": 0,
+        "kind": "estimate",
+        "note": "Side lane: optional, not part of the licensing timeline, so no duration is modelled."
+      },
+      "canStartBeforeArrival": true,
+      "sources": [
+        {
+          "label": "CARE Centre for Internationally Educated Nurses",
+          "url": "https://care4nurses.org/",
+          "accessed": "2026-09-26"
+        },
+        {
+          "label": "Occupation-Specific Language Training",
+          "url": "https://www.co-oslt.org/en/",
+          "accessed": "2026-09-26"
+        }
+      ]
     }
   ],
   "warnings": [
@@ -614,7 +900,9 @@
       "id": "evidence_of_practice_window",
       "severity": "critical",
       "trigger": "evidence_of_practice_window",
-      "params": { "windowMonths": 36 },
+      "params": {
+        "windowMonths": 36
+      },
       "title": {
         "en": "Your evidence of practice may expire before you finish",
         "fr": "Votre preuve de pratique pourrait expirer avant la fin de votre démarche"
@@ -623,14 +911,18 @@
         "en": "CNO needs nursing practice within the past 3 years. On this plan, your last practice falls outside that window before you register. Options include the Supervised Practice Experience Partnership (SPEP) or upgrading education at an Ontario college.",
         "fr": "L'OIIO exige une pratique infirmière au cours des 3 dernières années. Selon ce plan, votre dernière pratique sortira de cette période avant votre inscription. Vous pouvez notamment suivre le Partenariat d'expérience de pratique supervisée (SPEP) ou une formation de mise à niveau dans un collège de l'Ontario."
       },
-      "relatedNodes": ["evidence_of_practice"],
+      "relatedNodes": [
+        "evidence_of_practice"
+      ],
       "sourceUrl": "https://www.cno.org/become-a-nurse/registration-requirements/evidence-of-practice"
     },
     {
       "id": "crc_validity",
       "severity": "warn",
       "trigger": "criminal_record_check_validity",
-      "params": { "validityMonths": 6 },
+      "params": {
+        "validityMonths": 6
+      },
       "title": {
         "en": "Your police check will expire before you register",
         "fr": "Votre vérification policière expirera avant votre inscription"
@@ -639,14 +931,19 @@
         "en": "A police criminal record check is valid for 6 months from the date it is issued. Get a new one closer to the end of your process.",
         "fr": "Une vérification du casier judiciaire est valide pendant 6 mois à compter de sa date de délivrance. Obtenez-en une nouvelle vers la fin de votre démarche."
       },
-      "relatedNodes": ["criminal_record_check"],
+      "relatedNodes": [
+        "criminal_record_check"
+      ],
       "sourceUrl": "https://www.cno.org/become-a-nurse/registration-requirements/past-offences-and-findings--health-and-conduct/police-criminal-record-check"
     },
     {
       "id": "application_window",
       "severity": "warn",
       "trigger": "application_window",
-      "params": { "fromNode": "cno_application", "windowWeeks": 104 },
+      "params": {
+        "fromNode": "cno_application",
+        "windowWeeks": 104
+      },
       "title": {
         "en": "Your application could close before you finish",
         "fr": "Votre demande pourrait être fermée avant la fin de votre démarche"
@@ -655,7 +952,9 @@
         "en": "CNO closes an application 2 years after receiving it and the fee. If that happens, you must reapply and pay again. Consider finishing slow steps before you apply.",
         "fr": "L'OIIO ferme une demande 2 ans après l'avoir reçue avec les droits. Dans ce cas, vous devez présenter une nouvelle demande et payer de nouveau. Envisagez de terminer les étapes longues avant de présenter votre demande."
       },
-      "relatedNodes": ["cno_application"],
+      "relatedNodes": [
+        "cno_application"
+      ],
       "sourceUrl": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
     },
     {
@@ -670,14 +969,24 @@
         "en": "These must be sent to CNO by your employer or regulator, not uploaded by you.",
         "fr": "Ils doivent être envoyés à l'OIIO par votre employeur ou votre ordre professionnel, et non téléversés par vous."
       },
-      "relatedNodes": ["third_party_docs", "evidence_of_practice"],
+      "relatedNodes": [
+        "third_party_docs",
+        "evidence_of_practice"
+      ],
       "sourceUrl": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
     },
     {
       "id": "translation_needed",
       "severity": "info",
       "trigger": "profile_rule",
-      "appliesIf": { "field": "documentsLanguage", "op": "in", "value": ["other", "mixed"] },
+      "appliesIf": {
+        "field": "documentsLanguage",
+        "op": "in",
+        "value": [
+          "other",
+          "mixed"
+        ]
+      },
       "title": {
         "en": "Some documents need a certified translation",
         "fr": "Certains documents doivent faire l'objet d'une traduction certifiée"
@@ -686,14 +995,20 @@
         "en": "Documents not in English or French must be translated by the source, a consulate or embassy, or a certified translator, and sent directly to CNO.",
         "fr": "Les documents qui ne sont ni en anglais ni en français doivent être traduits par la source, un consulat ou une ambassade, ou un traducteur agréé, puis envoyés directement à l'OIIO."
       },
-      "relatedNodes": ["translations"],
+      "relatedNodes": [
+        "translations"
+      ],
       "sourceUrl": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
     },
     {
       "id": "non_nursing_credential",
       "severity": "critical",
       "trigger": "profile_rule",
-      "appliesIf": { "field": "credential", "op": "eq", "value": "other" },
+      "appliesIf": {
+        "field": "credential",
+        "op": "eq",
+        "value": "other"
+      },
       "title": {
         "en": "CNO only accepts nursing education",
         "fr": "L'OIIO n'accepte que la formation en soins infirmiers"
@@ -702,14 +1017,23 @@
         "en": "CNO does not accept other health qualifications, such as a medical or midwifery degree, as a basis for nurse registration.",
         "fr": "L'OIIO n'accepte pas d'autres titres de compétences en santé, comme un diplôme en médecine ou en pratique sage-femme, pour l'inscription à titre d'infirmière ou d'infirmier."
       },
-      "relatedNodes": ["eca"],
+      "relatedNodes": [
+        "eca"
+      ],
       "sourceUrl": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
     },
     {
       "id": "authorization_unsure_or_no",
       "severity": "info",
       "trigger": "profile_rule",
-      "appliesIf": { "field": "authorizedToWork", "op": "in", "value": ["no", "unsure"] },
+      "appliesIf": {
+        "field": "authorizedToWork",
+        "op": "in",
+        "value": [
+          "no",
+          "unsure"
+        ]
+      },
       "title": {
         "en": "Authorization to practise is required",
         "fr": "Une autorisation d'exercer est requise"
@@ -718,7 +1042,9 @@
         "en": "Registration requires authorization to practise in Canada. Portage does not give immigration advice.",
         "fr": "L'inscription exige une autorisation d'exercer au Canada. Portage ne donne pas de conseils en immigration."
       },
-      "relatedNodes": ["authorization_to_work"],
+      "relatedNodes": [
+        "authorization_to_work"
+      ],
       "sourceUrl": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
     }
   ]
