@@ -1,0 +1,152 @@
+{
+  "statuses": {
+    "cno_account": "todo",
+    "third_party_docs": "todo",
+    "eca": "todo",
+    "translations": "todo",
+    "cno_application": "todo",
+    "authorization_to_work": "todo",
+    "language_test": "todo",
+    "language": "todo",
+    "evidence_of_practice": "todo",
+    "ttp_course": "todo",
+    "ttp": "todo",
+    "jurisprudence": "todo",
+    "registration_exam": "todo",
+    "criminal_record_check": "todo",
+    "registration": "todo"
+  },
+  "order": [
+    "cno_account",
+    "third_party_docs",
+    "eca",
+    "translations",
+    "language_test",
+    "ttp_course",
+    "cno_application",
+    "authorization_to_work",
+    "language",
+    "evidence_of_practice",
+    "ttp",
+    "jurisprudence",
+    "registration_exam",
+    "criminal_record_check",
+    "registration"
+  ],
+  "sequential": {
+    "totalWeeks": 58,
+    "finishDate": "2027-11-06",
+    "startWeek": {
+      "cno_account": 0,
+      "third_party_docs": 0.5,
+      "eca": 8.5,
+      "translations": 15.5,
+      "language_test": 18.5,
+      "ttp_course": 22.5,
+      "cno_application": 32.5,
+      "authorization_to_work": 34.6,
+      "language": 36.7,
+      "evidence_of_practice": 38.8,
+      "ttp": 40.9,
+      "jurisprudence": 43,
+      "registration_exam": 44,
+      "criminal_record_check": 56,
+      "registration": 58
+    },
+    "range": {
+      "bestWeeks": 20.2,
+      "typicalWeeks": 58,
+      "conservativeWeeks": 108.8,
+      "bestFinish": "2027-02-14",
+      "conservativeFinish": "2028-10-27"
+    }
+  },
+  "parallel": {
+    "totalWeeks": 21.1,
+    "finishDate": "2027-02-21",
+    "startWeek": {
+      "cno_account": 0,
+      "third_party_docs": 0,
+      "eca": 0,
+      "translations": 0,
+      "language_test": 0,
+      "ttp_course": 0,
+      "cno_application": 7,
+      "authorization_to_work": 9.1,
+      "language": 9.1,
+      "evidence_of_practice": 9.1,
+      "ttp": 10,
+      "jurisprudence": 9.1,
+      "registration_exam": 9.1,
+      "criminal_record_check": 19.1,
+      "registration": 21.1
+    },
+    "criticalPath": [
+      "eca",
+      "cno_application",
+      "registration_exam",
+      "criminal_record_check",
+      "registration"
+    ],
+    "range": {
+      "bestWeeks": 7,
+      "typicalWeeks": 21.1,
+      "conservativeWeeks": 36.1,
+      "bestFinish": "2026-11-14",
+      "conservativeFinish": "2027-06-06"
+    }
+  },
+  "warnings": [
+    {
+      "id": "evidence_of_practice_window",
+      "severity": "critical",
+      "title": {
+        "en": "Your evidence of practice may expire before you finish",
+        "fr": "Votre preuve de pratique pourrait expirer avant la fin de votre démarche"
+      },
+      "body": {
+        "en": "CNO needs nursing practice within the past 3 years. On this plan, your last practice falls outside that window before you register. Options include the Supervised Practice Experience Partnership (SPEP) or upgrading education at an Ontario college.",
+        "fr": "L'OIIO exige une pratique infirmière au cours des 3 dernières années. Selon ce plan, votre dernière pratique sortira de cette période avant votre inscription. Vous pouvez notamment suivre le Partenariat d'expérience de pratique supervisée (SPEP) ou une formation de mise à niveau dans un collège de l'Ontario."
+      },
+      "relatedNodes": [
+        "evidence_of_practice"
+      ],
+      "sourceUrl": "https://www.cno.org/become-a-nurse/registration-requirements/evidence-of-practice"
+    },
+    {
+      "id": "direct_from_source",
+      "severity": "info",
+      "title": {
+        "en": "These documents must come from the source",
+        "fr": "Ces documents doivent provenir de la source"
+      },
+      "body": {
+        "en": "These must be sent to CNO by your employer or regulator, not uploaded by you.",
+        "fr": "Ils doivent être envoyés à l'OIIO par votre employeur ou votre ordre professionnel, et non téléversés par vous."
+      },
+      "relatedNodes": [
+        "third_party_docs",
+        "evidence_of_practice"
+      ],
+      "sourceUrl": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
+    },
+    {
+      "id": "translation_needed",
+      "severity": "info",
+      "title": {
+        "en": "Some documents need a certified translation",
+        "fr": "Certains documents doivent faire l'objet d'une traduction certifiée"
+      },
+      "body": {
+        "en": "Documents not in English or French must be translated by the source, a consulate or embassy, or a certified translator, and sent directly to CNO.",
+        "fr": "Les documents qui ne sont ni en anglais ni en français doivent être traduits par la source, un consulat ou une ambassade, ou un traducteur agréé, puis envoyés directement à l'OIIO."
+      },
+      "relatedNodes": [
+        "translations"
+      ],
+      "sourceUrl": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
+    }
+  ],
+  "estimateShare": 0.9,
+  "side": []
+}

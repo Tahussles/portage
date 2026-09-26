@@ -83,3 +83,42 @@
     animation: none;
   }
 }
+
+/* Roadmap canvas (React Flow) */
+.react-flow__node.roadmap-node-active .roadmap-step {
+  border-color: var(--color-paper);
+}
+
+path.roadmap-edge-quiet {
+  stroke: #57534e; /* stone-600: visible on ink without competing with red */
+  stroke-width: 1;
+}
+
+path.roadmap-edge-critical {
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 6;
+  animation: roadmap-dash 1.6s linear infinite;
+}
+
+@keyframes roadmap-dash {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  path.roadmap-edge-critical {
+    animation: none;
+    stroke-dasharray: none;
+  }
+}
+
+.react-flow__attribution {
+  background: transparent;
+  opacity: 0.5;
+}
+
+.react-flow__attribution a {
+  color: var(--color-mist);
+}
