@@ -1,89 +1,63 @@
-import sampleProfile from "@/data/fixtures/profile-priya.provisional.json";
-import sampleTranscript from "@/data/fixtures/transcript-priya.provisional.json";
+import { extractProfile as postProfile, transcribeAudio, type ApiResult } from "@/lib/client/api";
+import { profileFixture, transcriptFixture } from "@/lib/demo";
 import type { Locale } from "@/lib/engine/types";
-import {
-  envelopeSchema,
-  extractionSchema,
-  transcriptSchema,
-  type Extraction,
-  type Transcript,
-} from "./profile-schema";
+import { extractionSchema, transcriptSchema, type Extraction, type Transcript } from "./profile-schema";
 
-// TODO(api): swap these for Ebrahim's helpers in src/lib/client/api.ts once that file is on main.
-// Until then the intake talks to /api/transcribe and /api/profile directly (ARCHITECTURE section 5)
-// and falls back to the provisional Priya fixtures when a route is missing, fails, or times out.
+// Thin layer over Ebrahim's client helpers (src/lib/client/api.ts). The routes already serve
+// fixtures in demo mode or when an upstream fails (`fallback: true`); this adds a zod check on
+// what reaches the UI, a timeout, and a local fixture when the route itself cannot be reached.
 
-/** Where a result came from: the live route, or the bundled sample (shown as "Sample · Exemple"). */
+/** Where a result came from: the live service, or the sample (shown as "Sample · Exemple"). */
 export type Source = "live" | "sample";
 export type Result<T> = { data: T; source: Source };
 
 const TIMEOUT_MS = 15_000;
 
-export const SAMPLE_TRANSCRIPT = transcriptSchema.parse(sampleTranscript);
-export const SAMPLE_EXTRACTION = extractionSchema.parse(sampleProfile);
+export const SAMPLE_TRANSCRIPT: Transcript = transcriptSchema.parse(transcriptFixture());
+export const SAMPLE_EXTRACTION: Extraction = extractionSchema.parse(profileFixture());
 
-/** `?demo=1` forces fixtures, so the demo never depends on venue wifi. */
+/** `?demo=1` asks the routes for fixtures, so the demo never depends on venue wifi. */
 export function isDemoMode(search: string = typeof window === "undefined" ? "" : window.location.search) {
   return new URLSearchParams(search).get("demo") === "1";
 }
 
-type FetchLike = typeof fetch;
-
-async function post<T>(
-  url: string,
-  body: BodyInit,
-  schema: ReturnType<typeof envelopeSchema>,
-  fetchImpl: FetchLike,
-  headers?: HeadersInit,
-): Promise<T | null> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+async function settle<T>(
+  call: () => Promise<ApiResult<unknown>>,
+  schema: { safeParse: (v: unknown) => { success: true; data: T } | { success: false } },
+  sample: T,
+): Promise<Result<T>> {
   try {
-    const res = await fetchImpl(url, { method: "POST", body, headers, signal: controller.signal });
-    if (!res.ok) return null;
-    const parsed = schema.safeParse(await res.json());
-    if (!parsed.success || !parsed.data.ok || parsed.data.data === undefined) return null;
-    return parsed.data.data as T;
+    const res = await Promise.race([
+      call(),
+      new Promise<never>((_, reject) => setTimeout(() => reject(new Error("timeout")), TIMEOUT_MS)),
+    ]);
+    const parsed = schema.safeParse(res.data);
+    if (res.ok && parsed.success) return { data: parsed.data, source: res.fallback ? "sample" : "live" };
   } catch {
-    return null;
-  } finally {
-    clearTimeout(timer);
+    // unreachable route, timeout: use the local sample below
   }
+  return { data: sample, source: "sample" };
 }
 
-export async function transcribe(
+export function transcribe(
   audio: Blob,
   languageHint?: string,
-  { fetchImpl = fetch, demo = isDemoMode() }: { fetchImpl?: FetchLike; demo?: boolean } = {},
+  { call = transcribeAudio, demo = isDemoMode() }: { call?: typeof transcribeAudio; demo?: boolean } = {},
 ): Promise<Result<Transcript>> {
-  if (demo) return { data: SAMPLE_TRANSCRIPT, source: "sample" };
-  const form = new FormData();
-  const ext = audio.type.includes("mp4") ? "mp4" : audio.type.includes("wav") ? "wav" : "webm";
-  form.append("audio", audio, `intake.${ext}`);
-  if (languageHint) form.append("languageHint", languageHint);
-  const data = await post<Transcript>("/api/transcribe", form, envelopeSchema(transcriptSchema), fetchImpl);
-  return data ? { data, source: "live" } : { data: SAMPLE_TRANSCRIPT, source: "sample" };
+  return settle(() => call(audio, { languageHint, demo }), transcriptSchema, SAMPLE_TRANSCRIPT);
 }
 
-export async function extractProfile(
+export function extractProfile(
   transcript: string,
   languageCode: string,
   locale: Locale,
-  { fetchImpl = fetch, demo = isDemoMode() }: { fetchImpl?: FetchLike; demo?: boolean } = {},
+  { call = postProfile, demo = isDemoMode() }: { call?: typeof postProfile; demo?: boolean } = {},
 ): Promise<Result<Extraction>> {
-  if (demo) return { data: SAMPLE_EXTRACTION, source: "sample" };
-  const data = await post<Extraction>(
-    "/api/profile",
-    JSON.stringify({ transcript, languageCode, locale }),
-    envelopeSchema(extractionSchema),
-    fetchImpl,
-    { "Content-Type": "application/json" },
-  );
-  return data ? { data, source: "live" } : { data: SAMPLE_EXTRACTION, source: "sample" };
+  return settle(() => call({ transcript, languageCode, locale }, { demo }), extractionSchema, SAMPLE_EXTRACTION);
 }
 
-/** HEAD check so the sample button can use the recorded clip when it has been added. */
-export async function sampleClipExists(url: string, fetchImpl: FetchLike = fetch): Promise<boolean> {
+/** HEAD check so the sample button can use the recorded clip once it has been added. */
+export async function sampleClipExists(url: string, fetchImpl: typeof fetch = fetch): Promise<boolean> {
   try {
     const res = await fetchImpl(url, { method: "HEAD" });
     return res.ok;
