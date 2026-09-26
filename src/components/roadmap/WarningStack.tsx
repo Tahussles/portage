@@ -24,7 +24,8 @@ export function WarningStack({ views, onSeeFix, className }: WarningStackProps) 
   const locale = useAppStore((s) => s.locale);
   const scope = useRef<HTMLElement>(null);
   const previous = useRef<Map<string, string> | null>(null);
-  const stateKey = views.map((v) => `${v.warning.id}:${v.state.kind}`).join("|");
+  const signature = (v: WarningView) => `${v.state.kind}:${v.state.kind === "active" ? v.state.severity : ""}`;
+  const stateKey = views.map((v) => `${v.warning.id}=${signature(v)}`).join("|");
 
   // Cards rise in once, after the canvas starts assembling.
   useGSAP(
@@ -41,18 +42,24 @@ export function WarningStack({ views, onSeeFix, className }: WarningStackProps) 
   // rule grows back. The DOM already shows the end state; these tweens only play the transition.
   useGSAP(
     () => {
-      const now = new Map(views.map((v) => [v.warning.id, v.state.kind]));
+      const now = new Map(views.map((v) => [v.warning.id, signature(v)]));
       const before = previous.current;
       previous.current = now;
       if (!before) return;
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        for (const [id, kind] of now) {
+        for (const [id, sig] of now) {
           const was = before.get(id);
-          if (!was || was === kind) continue;
+          if (!was || was === sig) continue;
           const card = scope.current?.querySelector(`[data-warning="${id}"]`);
           if (!card) continue;
           const q = gsap.utils.selector(card);
+          const kind = sig.split(":")[0];
+          if (kind === was.split(":")[0]) {
+            // Same state, new severity (critical <-> tight): only the copy changes.
+            gsap.from(q("[data-copy]"), { opacity: 0, y: 4, ...EASE, clearProps: "all" });
+            continue;
+          }
           if (kind === "resolved") {
             gsap.fromTo(q("[data-rule]"), { opacity: 1 }, { opacity: 0, ...EASE, clearProps: "opacity" });
             gsap.fromTo(q("[data-icon='resolved']"), { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, ...EASE, clearProps: "all" });

@@ -1,0 +1,40 @@
+{
+  "profile": {
+    "profession": "nurse",
+    "targetCategory": "RN",
+    "countryOfEducation": "IN",
+    "credential": "bachelor",
+    "graduationYear": 2014,
+    "lastPractisedAt": "2024-07",
+    "yearsExperience": 8,
+    "currentlyInCanada": true,
+    "province": "ON",
+    "authorizedToWork": "yes",
+    "nameOnDocumentsMatches": null,
+    "documentsLanguage": null,
+    "languageProficiency": { "status": "none", "test": null, "date": null },
+    "progress": {
+      "ecaStarted": null,
+      "cnoAccountCreated": null,
+      "cnoApplicationSubmitted": null,
+      "ttpCompleted": null,
+      "jurisprudencePassed": null,
+      "registrationExamPassed": null,
+      "criminalRecordCheckDate": null
+    },
+    "spokenLanguage": "hi",
+    "confidence": {
+      "countryOfEducation": 0.95,
+      "credential": 0.9,
+      "graduationYear": 0.95,
+      "lastPractisedAt": 0.6,
+      "yearsExperience": 0.9,
+      "currentlyInCanada": 0.95,
+      "province": 0.85,
+      "authorizedToWork": 0.9,
+      "languageProficiency.status": 0.85
+    }
+  },
+  "englishTranslation": "My name is Priya. I studied nursing in Pune and finished my bachelor's degree in 2014. I worked in an ICU for eight years. I stopped working in the summer of 2024 when we moved to Canada. I live in Waterloo now and I can work here. I have not taken an English test yet. I want to work as a nurse again.",
+  "missingFields": []
+}

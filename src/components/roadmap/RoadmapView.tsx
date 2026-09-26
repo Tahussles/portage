@@ -16,10 +16,12 @@ import { flaggedNodes, viewWarnings } from "./warnings-view";
 
 const pathway = pathwayData as unknown as RoadmapPathway;
 
-// TODO(engine): once the engine lands (src/lib/engine/plan.ts), build the plan from the profile:
-//   const plan = profile ? buildPlan(profile, pathway, today) : null;
-// and fall back to the sample only when there is no profile. Until then every visitor sees the
-// provisional Priya plan, which is labelled as a sample in the header.
+// TODO(engine): buildPlan (src/lib/engine/plan.ts) and the base contract are on main, but the
+// per-schedule warning fields (issue #13) are not, so the engine cannot drive the evidence-of-practice
+// beat yet. Once they land:
+//   const plan = buildPlan(profile ?? sampleProfile, pathway, today);
+// then delete contract.ts and plan-priya.provisional.json. Until then everyone sees Priya's
+// sample plan (engine output for data v1.1.0 plus the per-schedule warning), labelled as a sample.
 const PROVISIONAL_PLAN = samplePlan as unknown as RoadmapPlan;
 
 export function RoadmapView() {
@@ -58,9 +60,9 @@ export function RoadmapView() {
           {isSample && (
             <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-mist">
               <span className="rounded-full border border-slate-line px-3 py-1 text-paper">
-                {t("roadmap.sample")}
+                {profile ? t("roadmap.samplePlan") : t("roadmap.sample")}
               </span>
-              <span>{t("roadmap.sampleNote")}</span>
+              <span>{profile ? t("roadmap.samplePlanNote") : t("roadmap.sampleNote")}</span>
             </p>
           )}
         </div>

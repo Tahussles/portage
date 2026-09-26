@@ -104,12 +104,21 @@ export function warningCopy(view: WarningView, t: Translate, locale: Locale): Wa
     return { title, body, label: t("warnings.resolvedLabel") };
   }
 
+  // Tight: this schedule finishes before the window closes, but its conservative finish does not.
+  // The data's body describes the missed-window case, so a tight card gets its own dated line.
+  if (state.severity === "warn" && state.windowCloses) {
+    return {
+      title,
+      body: t("warnings.tightFacts", { finish: month(state.finish), windowCloses: month(state.windowCloses) }),
+      label: t("warnings.tight"),
+    };
+  }
+
   return {
     title,
     body: pick(warning.body, locale),
     facts: state.windowCloses
       ? t("warnings.activeFacts", { windowCloses: month(state.windowCloses), finish: month(state.finish) })
       : undefined,
-    label: state.severity === "warn" && warning.facts ? t("warnings.tight") : undefined,
   };
 }
