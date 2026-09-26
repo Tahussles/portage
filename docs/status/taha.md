@@ -1,7 +1,7 @@
 # Taha: track status (UI, motion, design)
 
 ## Current phase
-Round 4 done: tight state, documents page and insights page merged. Next: polish (Step 8) and the roadmap chip row (Step 5).
+Round 5 done: landing (Step 8), seamless demo flow, README with screenshots and a smoke test. Next: the roadmap chip row (Step 5) and live checks once the Vercel URL is public.
 
 ## Completed
 - Step 1: scaffold, tokens, fonts, i18n, navbar, hero, stub pages (PR #1).
@@ -10,10 +10,12 @@ Round 4 done: tight state, documents page and insights page merged. Next: polish
 - Step 4b: voice intake on `/start` (PR #20) through the shared client helpers (PR #21).
 - Step 6 UI: `/documents` with drop zone, samples, scan line, findings and extracted fields (PR #26).
 - Step 7: `/insights` with sourced CNO numbers, Natural Earth province map (`scripts/gen-geo.mjs`, 12 KB) and an illustrative stage funnel.
+- Step 8: landing ticker, scroll-scrubbed chapters, three data-driven stats, final CTA, footer; Pexels hero footage (PR #31).
+- Demo flow: shared screen nav, next-step links, `?demo=1` kept on links, `?reset=1`, favicon, Open Graph image, 404, copy lint (PR #32).
+- README with screenshots of the five screens, `pnpm smoke <baseUrl>`.
 
 ## Next
 - Step 5: editable profile chip row above the roadmap canvas.
-- Step 8 polish: landing chapters, ticker, final CTA, 404, favicon, Open Graph image.
 - Swap `src/data/insights.provisional.json` for `src/data/insights.json` (issue #27).
 
 ## Needs from Ebrahim
@@ -23,7 +25,7 @@ Round 4 done: tight state, documents page and insights page merged. Next: polish
 - `public/demo/priya-hi.webm` (native Hindi speaker).
 
 ## Blockers
-- None. Vercel import and keys are Taha's manual steps (issue #15).
+- The Vercel deployment is behind Vercel Authentication (every URL redirects to the Vercel login), so judges cannot open it yet. Taha: turn off Deployment Protection for production or share the public domain.
 
 ## Last updated
-Sat Sep 26, 2026, 5:25 PM
+Sat Sep 26, 2026, 6:35 PM
