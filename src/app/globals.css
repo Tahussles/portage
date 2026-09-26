@@ -20,6 +20,18 @@
   --animate-ticker: ticker 40s linear infinite;
   --animate-ticker-reverse: ticker 50s linear infinite reverse;
 
+  --animate-wave: wave 0.9s ease-in-out infinite;
+
+  @keyframes wave {
+    0%,
+    100% {
+      transform: scaleY(0.35);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
   @keyframes ticker {
     from {
       transform: translateX(0);
