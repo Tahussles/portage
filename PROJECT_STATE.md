@@ -1,8 +1,8 @@
 # PROJECT_STATE.md (living file: update at every gate)
 
-Last updated: Sat Sep 26, 2026, 3:50 PM (round 2 sync)
-Current step: Step 3a (engine, Ebrahim) + Step 3b (roadmap canvas, Taha), in parallel
-Next gate: Gate 2 at 10:30 PM
+Last updated: Sat Sep 26, 2026, 5:05 PM (round 4 sync)
+Current step: Step 6 documents UI + Step 7 insights (Taha); live checks once keys are set (Ebrahim)
+Next gate: Gate 4 (feature freeze) at 8:00 AM Sunday
 
 Live per-track status (updated in every PR): [docs/status/taha.md](docs/status/taha.md) and [docs/status/ebrahim.md](docs/status/ebrahim.md). This file holds decisions, the gate log and cross-track facts.
 
@@ -11,13 +11,13 @@ Live per-track status (updated in every PR): [docs/status/taha.md](docs/status/t
 |---|---|---|---|
 | 1 Scaffold | Taha | done | PR #1: tokens, fonts, i18n, navbar, hero, stub pages. Vercel import pending. |
 | 2 Pathway data | Ebrahim | done | PR #2 (docs/PATHWAY_VERIFIED.md) and PR #3 (schema, on-rn-ien.json, tests) merged 3:40 PM. Data corrections in progress (decision 10) |
-| 3a Engine | Ebrahim | not started | |
-| 3b Roadmap canvas | Taha | in progress | Built against src/data/fixtures/plan-priya.provisional.json until the engine lands |
-| 4a AI routes | Ebrahim | not started | |
-| 4b Intake UI | Taha | not started | |
-| 5 Wiring | Both | not started | |
-| 6 Doc check (SHOULD) | Ebrahim | not started | |
-| 7 Insights (SHOULD) | Taha | not started | |
+| 3a Engine | Ebrahim | done | PR #6; per-schedule warnings PR #16; side lane and school documents PRs #10, #11 |
+| 3b Roadmap canvas | Taha | done | PR #7; warnings per schedule PR #12; built from `buildPlan` since PR #21 |
+| 4a AI routes | Ebrahim | done | PR #14 (transcribe, profile, demo fallbacks). Live keys not set yet (issue #15) |
+| 4b Intake UI | Taha | done | PR #20; shared client helpers PR #21. iOS Safari recording untested |
+| 5 Wiring | Both | in progress | Intake profile drives the roadmap via `buildPlan` (PR #21); chip row on the roadmap still to do |
+| 6 Doc check (SHOULD) | Both | in progress | API and rules PR #18 (Ebrahim); documents page UI (Taha, issue #19) |
+| 7 Insights (SHOULD) | Taha | in progress | |
 | 8 Polish | Both | not started | |
 | 9 Ship | Both | not started | |
 
@@ -25,6 +25,8 @@ Live per-track status (updated in every PR): [docs/status/taha.md](docs/status/t
 | Gate | Time | Result | Cuts applied |
 |---|---|---|---|
 | Gate 1 | 3:50 PM | Gate 1: passed; hero local PASS, Vercel pending; pathway schema tests 10/10 | none |
+| Gate 2 | 4:40 PM | Passed ahead of schedule: engine with golden tests (PR #6), roadmap canvas with animated toggle and side panel (PRs #7, #12), ranges and side lane (PRs #10, #11) | none |
+| Gate 3 | 4:55 PM | Passed ahead of schedule: AI routes with demo fallbacks (PR #14), voice intake (PR #20), roadmap built from the intake profile (PR #21), per-schedule warnings (PR #16). Vercel not imported yet; live keys pending (issue #15) | none |
 
 ## Roles
 - Taha: Builder B (UI, motion, design) and repo owner.
@@ -44,6 +46,7 @@ Live per-track status (updated in every PR): [docs/status/taha.md](docs/status/t
 11. Priya persona: stopped practising in July 2024 when she moved to Canada (paid ICU work).
 12. Language and Transition to Practice are split into an applicant step (estimate) and CNO processing (official).
 13. Two independent tracks coordinated only through the repo: status files, PRs, and labelled issues (see AGENTS.md "Coordination").
+14. Priya's Portage plan is 'tight' for evidence of practice (typical Apr 2027, conservative Aug 2027, window Jul 2027). We keep it: the honest story is stronger than a forced 'resolved'.
 
 ## Open questions
 - Pitch time limit on Sunday (ask organizers).
