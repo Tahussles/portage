@@ -247,5 +247,8 @@
   "notFound.title": "This page took a different route.",
   "notFound.body": "The link may be old or mistyped. Your plan is still one click away.",
   "notFound.home": "Back to the start",
-  "notFound.roadmap": "See a sample plan · Voir un exemple"
+  "notFound.roadmap": "See a sample plan · Voir un exemple",
+  "intake.progress.transcribe": "Transcribing · Transcription",
+  "intake.progress.understand": "Understanding your story · Analyse de votre parcours",
+  "intake.progress.build": "Building your plan · Création de votre parcours"
 }
