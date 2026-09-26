@@ -60,16 +60,16 @@ describe("golden: Priya (demo persona)", () => {
   const plan = buildPlan(priya, pathway, TODAY);
 
   it("has every step to do, including translations for mixed-language documents", () => {
-    for (const id of pathway.nodes.map((n) => n.id)) expect(plan.statuses[id], id).toBe("todo");
+    for (const n of pathway.nodes.filter((n) => n.lane !== "side")) expect(plan.statuses[n.id], n.id).toBe("todo");
   });
 
   it("computes both totals", () => {
-    expect(plan.sequential.totalWeeks).toBe(58);
-    expect(plan.sequential.finishDate).toBe("2027-11-06");
-    expect(plan.parallel.totalWeeks).toBe(21.1);
-    expect(plan.parallel.finishDate).toBe("2027-02-21");
-    expect(plan.parallel.criticalPath).toEqual(["eca", "cno_application", "registration_exam", "registration"]);
-    expect(plan.estimateShare).toBe(0.9);
+    expect(plan.sequential.totalWeeks).toBe(64);
+    expect(plan.sequential.finishDate).toBe("2027-12-18");
+    expect(plan.parallel.totalWeeks).toBe(27.1);
+    expect(plan.parallel.finishDate).toBe("2027-04-04");
+    expect(plan.parallel.criticalPath).toEqual(["school_documents", "eca", "cno_application", "registration_exam", "registration"]);
+    expect(plan.estimateShare).toBe(0.923);
   });
 
   it("schedules the criminal record check as late as possible", () => {
@@ -78,12 +78,12 @@ describe("golden: Priya (demo persona)", () => {
     expect(plan.order.indexOf("criminal_record_check")).toBe(plan.order.length - 2);
   });
 
-  it("does not fire the evidence-of-practice warning: July 2024 + 3 years (July 2027) is after the February 2027 parallel finish", () => {
+  it("does not fire the evidence-of-practice warning: July 2024 + 3 years (July 2027) is after the April 2027 parallel finish", () => {
     expect(ids(plan.warnings)).toEqual(["direct_from_source", "translation_needed"]);
   });
 
   it("fires the evidence-of-practice warning once the window closes before the finish", () => {
-    const later = buildPlan({ ...priya, lastPractisedAt: "2024-01" }, pathway, TODAY);
+    const later = buildPlan({ ...priya, lastPractisedAt: "2024-02" }, pathway, TODAY);
     expect(ids(later.warnings)[0]).toBe("evidence_of_practice_window");
     expect(later.statuses.evidence_of_practice).toBe("todo");
   });
@@ -106,9 +106,9 @@ describe("golden: Marco (exam passed elsewhere, IELTS passed)", () => {
 
   it("is shorter than Priya on both schedules", () => {
     const p = buildPlan(priya, pathway, TODAY);
-    expect(plan.sequential.totalWeeks).toBe(39);
-    expect(plan.parallel.totalWeeks).toBe(12.1);
-    expect(plan.parallel.criticalPath).toEqual(["ttp_course", "ttp", "registration"]);
+    expect(plan.sequential.totalWeeks).toBe(45);
+    expect(plan.parallel.totalWeeks).toBe(17.2);
+    expect(plan.parallel.criticalPath.slice(0, 3)).toEqual(["school_documents", "eca", "cno_application"]);
     expect(plan.sequential.totalWeeks).toBeLessThan(p.sequential.totalWeeks);
     expect(plan.parallel.totalWeeks).toBeLessThan(p.parallel.totalWeeks);
     expect(ids(plan.warnings)).toEqual(["direct_from_source"]);
@@ -132,9 +132,24 @@ describe("golden: Amina (last practised 4 years ago)", () => {
   });
 
   it("still schedules the blocked step so the roadmap shows where it sits", () => {
-    expect(plan.sequential.totalWeeks).toBe(55);
-    expect(plan.parallel.totalWeeks).toBe(21.1);
+    expect(plan.sequential.totalWeeks).toBe(61);
+    expect(plan.parallel.totalWeeks).toBe(27.1);
     expect(plan.parallel.startWeek.evidence_of_practice).toBeGreaterThan(0);
+  });
+});
+
+describe("side lane data", () => {
+  it("lists the While-you-wait steps for Priya and hides bridge roles without work authorization", () => {
+    expect(buildPlan(priya, pathway, TODAY).side).toEqual([
+      { nodeId: "temporary_class", status: "todo" },
+      { nodeId: "bridge_role", status: "todo" },
+      { nodeId: "support_orgs", status: "todo" },
+    ]);
+    const noAuth = buildPlan({ ...priya, authorizedToWork: "no" }, pathway, TODAY);
+    expect(noAuth.side.filter((s) => s.status === "not_applicable").map((s) => s.nodeId)).toEqual([
+      "temporary_class",
+      "bridge_role",
+    ]);
   });
 });
 
@@ -192,8 +207,8 @@ describe("ranges and side lane (contract)", () => {
 
   it("records Priya's ranges", () => {
     const plan = buildPlan(priya, pathway, TODAY);
-    expect(plan.sequential.range).toMatchObject({ bestWeeks: 20.2, conservativeWeeks: 108.8 });
-    expect(plan.parallel.range).toMatchObject({ bestWeeks: 7, conservativeWeeks: 36.1 });
+    expect(plan.sequential.range).toMatchObject({ bestWeeks: 22.2, conservativeWeeks: 120.8 });
+    expect(plan.parallel.range).toMatchObject({ bestWeeks: 9, conservativeWeeks: 48.1 });
   });
 
   it("keeps side-lane nodes out of the schedule and lists them in Plan.side", () => {
@@ -208,7 +223,7 @@ describe("ranges and side lane (contract)", () => {
     });
     const base = buildPlan(priya, pathway, TODAY);
     const plan = buildPlan(priya, withSide, TODAY);
-    expect(plan.side).toEqual([{ nodeId: "side_step", status: "todo" }]);
+    expect(plan.side.map((s) => s.nodeId)).toEqual(["temporary_class", "bridge_role", "support_orgs", "side_step"]);
     expect(plan.order).not.toContain("side_step");
     expect(plan.statuses).not.toHaveProperty("side_step");
     expect(plan.parallel.startWeek).not.toHaveProperty("side_step");

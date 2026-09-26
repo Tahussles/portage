@@ -175,11 +175,24 @@ Outside Canada guide (https://www.cno.org/become-a-nurse/registration-guides/out
 | Node | Estimate (min / typical / max weeks) | Basis |
 |---|---|---|
 | `cno_account` | 0 / 0.5 / 1 | Team estimate: online account creation; no official time |
+| `school_documents` | 2 / 6 / 12 | Team estimate: time for the nursing school to send documents to the ECA provider; provider times start only after all documents arrive (WES, ICAS pages) |
 | `third_party_docs` | 2 / 8 / 16 | Team estimate: depends on foreign employers and regulators; no official time published anywhere |
-| `eca` | 3 / 7 / 10 | Provider-posted times: WES about 2 + 1 weeks, ICES 7 weeks, ICAS 8 to 10 weeks. Excludes the school's time to send documents |
+| `eca` | 3 / 7 / 10 | Provider-posted times: WES about 2 + 1 weeks, ICES 7 weeks, ICAS 8 to 10 weeks. The school's time to send documents is `school_documents` |
 | `translations` | 1 / 3 / 6 | Team estimate; no official time |
 | `language_test` | 2 / 4 / 8 | Team estimate for booking a seat and receiving results; unverified with test providers |
 | `ttp_course` | 7 / 10 / 14 | CNO: courses typically 7 to 14 weeks; typical 10 is a team midpoint |
 | `jurisprudence` | 0.5 / 1 / 4.3 | Team estimate for preparation; exam access lasts 30 days after payment (4.3 weeks, official) and the result arrives within 24 hours |
 | `registration_exam` | 4 / 8 / 16 | Team estimate for eligibility message, preparation, booking and result (1 week, official); retakes need 45 days |
 | `criminal_record_check` | 0.7 / 2 / 5 | Official: 30 days to complete once started, CNO processes within 5 days; typical 2 is a team estimate |
+
+## 13. Side-lane ("While you wait") sources
+
+Not scheduled; shown beside the plan. All accessed 2026-09-26.
+
+| Node | Fact | Source | Status |
+|---|---|---|---|
+| `temporary_class` | Temporary Class requirements and limits (section 8); application fee $73 (2026) plus HST | https://www.cno.org/become-a-nurse/classes-of-registration/temporary-class | CONFIRMED |
+| `bridge_role` | London Health Sciences Centre hires IENs into non-nursing roles while they work toward CNO registration, partners with CARE Centre, and hosts SPEP | https://www.lhsc.on.ca/nursing/internationally-educated-nurses | CONFIRMED |
+| `support_orgs` | CARE Centre: free case management, exam prep and mentoring (funded by IRCC and Ontario); STARS program for IENs living in Ontario | https://care4nurses.org/ | CONFIRMED |
+| `support_orgs` | Occupation-Specific Language Training: free health care communication courses at Ontario public colleges for eligible newcomers (PR, protected persons and others; CLB 5+) | https://www.co-oslt.org/en/ | CONFIRMED |
+| HealthForceOntario Access Centre (listed in the research doc) | Not added: not re-verified that the service still exists | - | UNCONFIRMED |
