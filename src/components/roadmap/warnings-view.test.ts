@@ -1,10 +1,14 @@
 import { describe, expect, it } from "vitest";
 import planData from "@/data/fixtures/plan-priya.json";
+import pathwayData from "@/data/pathways/on-rn-ien.json";
 import { translate, type MessageKey, type MessageVars } from "@/lib/i18n";
-import type { Plan, PlanWarning } from "@/lib/engine/types";
+import type { Pathway, Plan, PlanWarning } from "@/lib/engine/types";
 import {
+  backupFor,
   firesIn,
   flaggedNodes,
+  isTight,
+  protectingSteps,
   monthsBetween,
   severityIn,
   viewWarnings,
@@ -120,5 +124,49 @@ describe("warning copy", () => {
     expect(warningCopy(view, fr, "fr").body).toBe(
       "Se termine en avr. 2027, 3 mois avant la fin de votre période en juill. 2027.",
     );
+  });
+});
+
+describe("tight state", () => {
+  const pathway = pathwayData as unknown as Pathway;
+
+  it("detects tight only for a dated warn", () => {
+    expect(isTight(find(viewWarnings(plan, "parallel"), EOP)!)).toBe(true);
+    expect(isTight(find(viewWarnings(plan, "sequential"), EOP)!)).toBe(false); // critical
+    expect(isTight(find(viewWarnings(plan, "parallel"), "direct_from_source")!)).toBe(false); // info
+  });
+
+  it("rings the step solid when critical and dashed when tight", () => {
+    expect(flaggedNodes(viewWarnings(plan, "sequential")).get("evidence_of_practice")).toBe("solid");
+    expect(flaggedNodes(viewWarnings(plan, "parallel")).get("evidence_of_practice")).toBe("dashed");
+  });
+
+  it("lists the first three not-done critical-path steps with their start on the Portage plan", () => {
+    const steps = protectingSteps(plan, pathway, "parallel");
+    expect(steps.map((s) => s.id)).toEqual(plan.parallel.criticalPath.slice(0, 3));
+    expect(steps[0]).toMatchObject({ startWeek: 0, startsNow: true });
+    expect(steps[1].startsNow).toBe(false);
+    expect(steps[1].startWeek).toBe(Math.round(plan.parallel.startWeek[steps[1].id]));
+    expect(steps[0].title.en.length).toBeGreaterThan(0);
+  });
+
+  it("skips steps that are already done", () => {
+    const first = plan.parallel.criticalPath[0];
+    const done: Plan = { ...plan, statuses: { ...plan.statuses, [first]: "done" } };
+    expect(protectingSteps(done, pathway, "parallel").map((s) => s.id)).not.toContain(first);
+  });
+
+  it("offers the SPEP backup only when the engine provides its facts (issue #23)", () => {
+    expect(backupFor(eopDef)).toBeNull();
+    const withBackup: PlanWarning = {
+      ...eopDef,
+      facts: {
+        windowCloses: "2027-07",
+        backup: "spep",
+        backupEligibleUntil: "2032-07",
+        backupSourceUrl: "https://www.cno.org/example",
+      },
+    };
+    expect(backupFor(withBackup)).toEqual({ until: "2032-07", sourceUrl: "https://www.cno.org/example" });
   });
 });
