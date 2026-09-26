@@ -11,13 +11,14 @@ import { ActorIcon } from "./ActorIcon";
 import { formatDurationRange, pick } from "./format";
 import { KindBadge } from "./KindBadge";
 import { NODE_WIDTH } from "./layout";
+import type { Flag } from "./warnings-view";
 
 export type StepNodeData = {
   step: PathwayNode;
   status: NodeStatus;
   critical: boolean;
-  /** A warning fires for this step on the schedule on screen. */
-  flagged: boolean;
+  /** A warning fires for this step on the schedule on screen: solid ring, or dashed when only tight. */
+  flag: Flag | null;
   side: boolean;
   /** Parallel timeline: title and duration only. */
   compact: boolean;
@@ -58,7 +59,8 @@ function StatusGlyph({ status }: { status: NodeStatus }) {
 function StepNodeView({ id, data }: NodeProps<StepNodeType>) {
   const t = useT();
   const locale = useAppStore((s) => s.locale);
-  const { step, status, critical, flagged, side, compact, height, order, onOpen } = data;
+  const { step, status, critical, flag, side, compact, height, order, onOpen } = data;
+  const flagged = flag !== null;
   const title = pick(step.title, locale);
 
   return (
@@ -81,10 +83,11 @@ function StepNodeView({ id, data }: NodeProps<StepNodeType>) {
         aria-label={t("roadmap.openStep", { title })}
         style={{ width: NODE_WIDTH, height }}
         className={cn(
-          "roadmap-step group relative flex flex-col gap-2 rounded-[var(--radius)] border bg-granite p-3 text-left transition-[border-color,box-shadow] duration-500 motion-reduce:transition-none",
+          "roadmap-step group relative flex flex-col gap-2 rounded-[var(--radius)] border bg-granite p-3 text-left transition-[border-color,box-shadow,outline-color] duration-500 motion-reduce:transition-none",
           side ? "border-dashed border-slate-line" : "border-slate-line",
           critical && "ring-1 ring-accent",
-          flagged && "ring-2 ring-accent",
+          flag === "solid" && "ring-2 ring-accent",
+          flag === "dashed" && "outline-2 outline-offset-2 outline-accent outline-dashed",
           status === "blocked" && "ring-1 ring-accent",
           status === "done" && "opacity-70",
           "hover:border-mist/50",
@@ -107,7 +110,8 @@ function StepNodeView({ id, data }: NodeProps<StepNodeType>) {
         <span className="sr-only">
           {step.actor.map((a) => t(`actor.${a}`)).join(", ")}. {t(`status.${status}`)}
           {critical ? `, ${t("status.critical")}` : ""}
-          {flagged ? `, ${t("status.flagged")}` : ""}
+          {flag === "solid" ? `, ${t("status.flagged")}` : ""}
+          {flag === "dashed" ? `, ${t("status.tight")}` : ""}
         </span>
         <span className="line-clamp-2 font-display text-[15px] leading-snug font-medium text-paper">
           {title}

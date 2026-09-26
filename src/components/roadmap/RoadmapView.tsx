@@ -13,7 +13,7 @@ import { RoadmapCanvas } from "./RoadmapCanvas";
 import { statusOf, type LayoutMode } from "./layout";
 import { SidePanel } from "./SidePanel";
 import { WarningStack } from "./WarningStack";
-import { flaggedNodes, viewWarnings } from "./warnings-view";
+import { flaggedNodes, protectingSteps, viewWarnings } from "./warnings-view";
 
 const pathway = pathwayData as unknown as Pathway;
 
@@ -53,6 +53,7 @@ export function RoadmapView() {
   const schedule = plan[mode];
   const warnings = useMemo(() => viewWarnings(plan, mode), [plan, mode]);
   const flagged = useMemo(() => flaggedNodes(warnings), [warnings]);
+  const protecting = useMemo(() => protectingSteps(plan, pathway, mode), [plan, mode]);
   const step = pathway.nodes.find((n) => n.id === panel.id) ?? null;
 
   return (
@@ -90,7 +91,7 @@ export function RoadmapView() {
       <div className="flex flex-1 flex-col md:min-h-0 md:flex-row">
         {plan.warnings.length > 0 && (
           <div className="order-last border-t border-slate-line p-4 md:order-none md:w-[340px] md:shrink-0 md:overflow-y-auto md:border-t-0 md:border-r">
-            <WarningStack views={warnings} onSeeFix={openStep} />
+            <WarningStack views={warnings} protecting={protecting} onSeeFix={openStep} />
           </div>
         )}
         <div className="relative min-h-[70svh] flex-1 overflow-hidden md:min-h-0">

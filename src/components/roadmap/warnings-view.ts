@@ -1,4 +1,4 @@
-import type { Locale, Plan, PlanWarning, ScheduleKey } from "@/lib/engine/types";
+import type { Locale, Pathway, Plan, PlanWarning, ScheduleKey } from "@/lib/engine/types";
 import type { MessageKey, MessageVars } from "@/lib/i18n";
 import { formatMonthYear, pick } from "./format";
 
@@ -64,13 +64,64 @@ export function viewWarnings(plan: Plan, schedule: ScheduleKey): WarningView[] {
     });
 }
 
-/** Steps that get a red ring: related to a warning that fires (warn or critical) on this schedule. */
-export function flaggedNodes(views: WarningView[]): Set<string> {
-  return new Set(
-    views
-      .filter((v) => v.state.kind === "active" && v.state.severity !== "info")
-      .flatMap((v) => v.warning.relatedNodes),
-  );
+/**
+ * A date warning is "tight" on a schedule when that schedule's typical finish is inside the window
+ * but its conservative finish is not (the engine marks this as `warn` and fills `facts.windowCloses`).
+ */
+export function isTight(view: WarningView): boolean {
+  return view.state.kind === "active" && view.state.severity === "warn" && Boolean(view.state.windowCloses);
+}
+
+export type Flag = "solid" | "dashed";
+
+/**
+ * Steps that get a red ring on this schedule: solid for a warning that fires (warn or critical),
+ * dashed when it is only tight. Solid wins when a step has both.
+ */
+export function flaggedNodes(views: WarningView[]): Map<string, Flag> {
+  const flags = new Map<string, Flag>();
+  for (const view of views) {
+    if (view.state.kind !== "active" || view.state.severity === "info") continue;
+    const flag: Flag = isTight(view) ? "dashed" : "solid";
+    for (const id of view.warning.relatedNodes) {
+      if (flags.get(id) !== "solid") flags.set(id, flag);
+    }
+  }
+  return flags;
+}
+
+export type ProtectingStep = {
+  id: string;
+  title: { en: string; fr: string };
+  /** Earliest start on the schedule on screen, in whole weeks from today. */
+  startWeek: number;
+  startsNow: boolean;
+};
+
+/**
+ * What keeps a tight window open: the first not-done steps on the critical path, in the order the
+ * schedule on screen starts them. Starting these on time is what the Portage plan depends on.
+ */
+export function protectingSteps(plan: Plan, pathway: Pathway, schedule: ScheduleKey, limit = 3): ProtectingStep[] {
+  const nodes = new Map(pathway.nodes.map((n) => [n.id, n]));
+  const starts = plan[schedule].startWeek;
+  return plan.parallel.criticalPath
+    .filter((id) => nodes.has(id) && (plan.statuses[id] === "todo" || plan.statuses[id] === "blocked"))
+    .sort((a, b) => (starts[a] ?? 0) - (starts[b] ?? 0))
+    .slice(0, limit)
+    .map((id) => {
+      const startWeek = Math.round(starts[id] ?? 0);
+      return { id, title: nodes.get(id)!.title, startWeek, startsNow: startWeek < 1 };
+    });
+}
+
+export type Backup = { until: string; sourceUrl: string };
+
+/** Backup route (SPEP) when the engine says it applies; nothing is assumed without the facts (issue #23). */
+export function backupFor(warning: PlanWarning): Backup | null {
+  const f = warning.facts;
+  if (f?.backup !== "spep" || !f.backupEligibleUntil || !f.backupSourceUrl) return null;
+  return { until: f.backupEligibleUntil, sourceUrl: f.backupSourceUrl };
 }
 
 type Translate = (key: MessageKey, vars?: MessageVars) => string;

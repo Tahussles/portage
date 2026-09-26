@@ -29,6 +29,7 @@ import {
 import { QuietEdge } from "./QuietEdge";
 import { SideLaneLabel } from "./SideLaneLabel";
 import { StepNode, type StepNodeType } from "./StepNode";
+import type { Flag } from "./warnings-view";
 import { WeekRuler } from "./WeekRuler";
 import { ZoomControls } from "./ZoomControls";
 
@@ -46,7 +47,7 @@ type RoadmapCanvasProps = {
   mode: LayoutMode;
   activeId: string | null;
   /** Steps with a warning that fires on the schedule on screen. */
-  flagged: Set<string>;
+  flagged: Map<string, Flag>;
   onOpen: (id: string, trigger: HTMLElement) => void;
 };
 
@@ -191,7 +192,7 @@ function Canvas({ plan, pathway, mode, activeId, flagged, onOpen }: RoadmapCanva
         step: byId.get(id)!,
         status: statusOf(plan, id),
         critical: critical.has(id),
-        flagged: flagged.has(id),
+        flag: flagged.get(id) ?? null,
         side: layout.sideIds.includes(id),
         compact: layout.mode === "parallel",
         height: layout.nodeHeight,
