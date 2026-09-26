@@ -1,6 +1,6 @@
 # PROJECT_STATE.md (living file: update at every gate)
 
-Last updated: Sat Sep 26, 2026, 5:05 PM (round 4 sync)
+Last updated: Sat Sep 26, 2026, 7:40 PM (round 7 sync)
 Current step: Step 6 documents UI + Step 7 insights (Taha); live checks once keys are set (Ebrahim)
 Next gate: Gate 4 (feature freeze) at 8:00 AM Sunday
 
@@ -27,6 +27,7 @@ Live per-track status (updated in every PR): [docs/status/taha.md](docs/status/t
 | Gate 1 | 3:50 PM | Gate 1: passed; hero local PASS, Vercel pending; pathway schema tests 10/10 | none |
 | Gate 2 | 4:40 PM | Passed ahead of schedule: engine with golden tests (PR #6), roadmap canvas with animated toggle and side panel (PRs #7, #12), ranges and side lane (PRs #10, #11) | none |
 | Gate 3 | 4:55 PM | Passed ahead of schedule: AI routes with demo fallbacks (PR #14), voice intake (PR #20), roadmap built from the intake profile (PR #21), per-schedule warnings (PR #16). Vercel not imported yet; live keys pending (issue #15) | none |
+| Live gate | 7:22 PM | Passed: https://portage-navy.vercel.app public, all pages 200 without a login; real AI verified (fallback false): /api/profile 7.2 to 8.5 s, /api/doc-check about 3 s per sample, /api/transcribe about 0.5 s on real speech (round 6) | none |
 
 ## Roles
 - Taha: Builder B (UI, motion, design) and repo owner.
@@ -47,6 +48,7 @@ Live per-track status (updated in every PR): [docs/status/taha.md](docs/status/t
 12. Language and Transition to Practice are split into an applicant step (estimate) and CNO processing (official).
 13. Two independent tracks coordinated only through the repo: status files, PRs, and labelled issues (see AGENTS.md "Coordination").
 14. Priya's Portage plan is 'tight' for evidence of practice (typical Apr 2027, conservative Aug 2027, window Jul 2027). We keep it: the honest story is stronger than a forced 'resolved'.
+15. Pitch runs live with real AI; ?demo=1 is the instant backup; warm up every route 2 minutes before.
 
 ## Open questions
 - Pitch time limit on Sunday (ask organizers).
