@@ -9,9 +9,13 @@
   "currentlyInCanada": true,
   "province": "ON",
   "authorizedToWork": "yes",
-  "nameOnDocumentsMatches": false,
+  "nameOnDocumentsMatches": null,
   "documentsLanguage": "mixed",
-  "languageProficiency": { "status": "none", "test": null, "date": null },
+  "languageProficiency": {
+    "status": "none",
+    "test": null,
+    "date": null
+  },
   "progress": {
     "ecaStarted": false,
     "cnoAccountCreated": false,
@@ -31,6 +35,7 @@
     "currentlyInCanada": 0.95,
     "province": 0.9,
     "authorizedToWork": 0.9,
-    "languageProficiency.status": 0.85
+    "languageProficiency.status": 0.85,
+    "documentsLanguage": 0.85
   }
 }
