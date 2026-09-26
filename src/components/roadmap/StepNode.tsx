@@ -80,7 +80,6 @@ function StepNodeView({ id, data }: NodeProps<StepNodeType>) {
         data-step-card
         data-order={order}
         onClick={(e) => onOpen(id, e.currentTarget)}
-        aria-label={t("roadmap.openStep", { title })}
         style={{ width: NODE_WIDTH, height }}
         className={cn(
           "roadmap-step group relative flex flex-col gap-2 rounded-[var(--radius)] border bg-granite p-3 text-left transition-[border-color,box-shadow,outline-color] duration-500 motion-reduce:transition-none",

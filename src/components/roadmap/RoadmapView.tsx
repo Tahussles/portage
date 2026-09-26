@@ -4,6 +4,7 @@ import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from "re
 import pathwayData from "@/data/pathways/on-rn-ien.json";
 import { profileFixture } from "@/lib/demo";
 import { buildPlan } from "@/lib/engine/plan";
+import { NextLink } from "@/components/ui/NextLink";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
 import type { Pathway } from "@/lib/engine/types";
@@ -57,7 +58,7 @@ export function RoadmapView() {
   const step = pathway.nodes.find((n) => n.id === panel.id) ?? null;
 
   return (
-    <main className="flex min-h-svh flex-col bg-ink pt-16 md:h-svh">
+    <main className="flex min-h-svh flex-col bg-ink pt-(--nav-h) md:h-svh">
       <header className="flex flex-col gap-5 border-b border-slate-line px-5 py-5 lg:flex-row lg:items-end lg:justify-between md:px-8">
         <div className="max-w-xl">
           <p className="micro-label text-mist">{t("roadmap.label")}</p>
@@ -89,11 +90,10 @@ export function RoadmapView() {
       </header>
 
       <div className="flex flex-1 flex-col md:min-h-0 md:flex-row">
-        {plan.warnings.length > 0 && (
-          <div className="order-last border-t border-slate-line p-4 md:order-none md:w-[340px] md:shrink-0 md:overflow-y-auto md:border-t-0 md:border-r">
-            <WarningStack views={warnings} protecting={protecting} onSeeFix={openStep} />
-          </div>
-        )}
+        <div className="order-last flex flex-col gap-6 border-t border-slate-line p-4 md:order-none md:w-[340px] md:shrink-0 md:overflow-y-auto md:border-t-0 md:border-r">
+          {plan.warnings.length > 0 && <WarningStack views={warnings} protecting={protecting} onSeeFix={openStep} />}
+          <NextLink from="roadmap" className="mt-auto" />
+        </div>
         <div className="relative min-h-[70svh] flex-1 overflow-hidden md:min-h-0">
           <div
             aria-hidden="true"

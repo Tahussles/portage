@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { AppLink } from "@/components/ui/AppLink";
 import { useRef } from "react";
 import { useT } from "@/lib/i18n";
 import { ChapterVisual } from "./ChapterVisual";
@@ -40,7 +40,7 @@ export function Chapters() {
   );
 
   return (
-    <section ref={scope} id="how" aria-labelledby="how-title" className="scroll-mt-16 bg-white text-ink">
+    <section ref={scope} id="how" aria-labelledby="how-title" className="scroll-mt-(--nav-h) bg-white text-ink">
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <h2 id="how-title" className="micro-label text-quiet">
           {t("chapters.label")}
@@ -51,18 +51,18 @@ export function Chapters() {
               <div className="min-w-0">
                 <p data-chapter-word className="font-display text-[clamp(3rem,12vw,10rem)] leading-none font-medium tracking-tighter">
                   <span className="block">{t(`chapter.${chapter.id}.en`)}</span>
-                  <span lang="fr" className="block text-stone-400">
+                  <span lang="fr" className="block text-stone-500">
                     {t(`chapter.${chapter.id}.fr`)}
                   </span>
                 </p>
                 <p className="mt-6 max-w-md text-base leading-relaxed text-quiet md:text-lg">{t(`chapter.${chapter.id}.copy`)}</p>
-                <Link
+                <AppLink
                   href={chapter.href}
                   className="group mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink underline-offset-4 hover:underline"
                 >
                   {t("chapter.go")}
                   <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" />
-                </Link>
+                </AppLink>
               </div>
               <ChapterVisual kind={chapter.id} />
             </li>

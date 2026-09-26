@@ -54,7 +54,7 @@ export function SidePanel({ open, step, status, critical, warnings, onClose }: S
       aria-hidden={!open}
       inert={!open}
       className={cn(
-        "fixed top-16 right-0 bottom-0 z-40 flex w-full flex-col border-l border-slate-line bg-granite shadow-2xl shadow-black/60 transition-transform duration-500 ease-out motion-reduce:transition-none sm:w-[420px]",
+        "fixed top-(--nav-h) right-0 bottom-0 z-40 flex w-full flex-col border-l border-slate-line bg-granite shadow-2xl shadow-black/60 transition-transform duration-500 ease-out motion-reduce:transition-none sm:w-[420px]",
         open ? "translate-x-0" : "translate-x-full",
       )}
     >

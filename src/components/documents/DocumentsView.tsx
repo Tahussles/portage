@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, RotateCcw } from "lucide-react";
-import Link from "next/link";
+import { AppLink } from "@/components/ui/AppLink";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { isDemoMode } from "@/components/intake/intake-api";
 import { profileFixture } from "@/lib/demo";
@@ -20,6 +20,7 @@ import {
   type Sample,
 } from "./doc-check";
 import { DocPreview } from "./DocPreview";
+import { NextLink } from "@/components/ui/NextLink";
 import { DropZone } from "./DropZone";
 import { FindingsList } from "./FindingsList";
 
@@ -97,7 +98,7 @@ export function DocumentsView() {
 
   return (
     <main className="min-h-svh bg-paper text-ink">
-      <section className="bg-ink pt-16 text-paper">
+      <section className="bg-ink pt-(--nav-h) text-paper">
         <div className="mx-auto max-w-5xl px-5 pt-10 pb-12 md:px-8">
           <p className="micro-label text-mist">{t("documents.label")}</p>
           <h1 className="mt-3 max-w-3xl font-display text-3xl leading-tight font-medium tracking-tight md:text-5xl">
@@ -212,13 +213,13 @@ export function DocumentsView() {
                       <RotateCcw aria-hidden="true" className="size-4" />
                       {t("docs.another")}
                     </button>
-                    <Link
+                    <AppLink
                       href="/roadmap"
                       className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper"
                     >
                       {t("docs.roadmapLink")}
                       <ArrowRight aria-hidden="true" className="size-4" />
-                    </Link>
+                    </AppLink>
                   </div>
                 </div>
               )}
@@ -226,7 +227,10 @@ export function DocumentsView() {
           </div>
         )}
 
-        <p className="mt-12 max-w-md text-xs leading-relaxed text-quiet">{t("docs.consent")}</p>
+        <div className="mt-12 flex flex-col gap-6 border-t border-rule pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-md text-xs leading-relaxed text-quiet">{t("docs.consent")}</p>
+          <NextLink from="documents" tone="light" />
+        </div>
       </section>
     </main>
   );

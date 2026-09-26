@@ -3,7 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { AppLink } from "@/components/ui/AppLink";
 import { useEffect, useRef, useState } from "react";
 import { useT } from "@/lib/i18n";
 
@@ -95,7 +95,7 @@ export function Hero() {
           </span>
         </h1>
         <div data-rise="cta" className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-          <Link
+          <AppLink
             href="/start"
             className="group inline-flex items-center gap-2 rounded-full bg-paper px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-white"
           >
@@ -104,13 +104,13 @@ export function Hero() {
               aria-hidden="true"
               className="size-4 transition-transform group-hover:translate-x-0.5"
             />
-          </Link>
-          <Link
+          </AppLink>
+          <AppLink
             href="/roadmap?demo=1"
             className="text-sm text-mist underline-offset-4 transition-colors hover:text-paper hover:underline"
           >
             {t("hero.sample")}
-          </Link>
+          </AppLink>
         </div>
       </div>
     </section>
