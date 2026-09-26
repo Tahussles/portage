@@ -74,5 +74,12 @@
   "panel.sources": "Official sources · Sources officielles",
   "panel.accessed": "Accessed {date}",
   "panel.newTab": "opens in a new tab",
-  "panel.dataNote": "Notes from our data file are in English."
+  "panel.dataNote": "Notes from our data file are in English.",
+  "warnings.resolvedLabel": "Resolved in the Portage plan · Résolu dans le plan Portage",
+  "warnings.resolvedFacts": "Finishes {finish}, {months} months before your window closes in {windowCloses}.",
+  "warnings.resolvedFactsOne": "Finishes {finish}, 1 month before your window closes in {windowCloses}.",
+  "warnings.resolvedPlain": "The Portage plan finishes before this becomes a problem.",
+  "warnings.activeFacts": "Your window closes in {windowCloses}. This plan finishes in {finish}.",
+  "warnings.tight": "Tight: only if each step goes to plan",
+  "status.flagged": "Deadline warning"
 }

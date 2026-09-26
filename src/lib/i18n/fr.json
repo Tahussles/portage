@@ -74,5 +74,12 @@
   "panel.sources": "Official sources · Sources officielles",
   "panel.accessed": "Consulté le {date}",
   "panel.newTab": "s’ouvre dans un nouvel onglet",
-  "panel.dataNote": "Les notes de notre fichier de données sont en anglais."
+  "panel.dataNote": "Les notes de notre fichier de données sont en anglais.",
+  "warnings.resolvedLabel": "Resolved in the Portage plan · Résolu dans le plan Portage",
+  "warnings.resolvedFacts": "Se termine en {finish}, {months} mois avant la fin de votre période en {windowCloses}.",
+  "warnings.resolvedFactsOne": "Se termine en {finish}, 1 mois avant la fin de votre période en {windowCloses}.",
+  "warnings.resolvedPlain": "Le plan Portage se termine avant que cela ne pose problème.",
+  "warnings.activeFacts": "Votre période se termine en {windowCloses}. Ce plan se termine en {finish}.",
+  "warnings.tight": "Serré : seulement si chaque étape se déroule comme prévu",
+  "status.flagged": "Alerte d’échéance"
 }
