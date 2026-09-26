@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import pathwayData from "@/data/pathways/on-rn-ien.json";
 import samplePlan from "@/data/fixtures/plan-priya.provisional.json";
 import { useT } from "@/lib/i18n";
@@ -12,6 +12,7 @@ import { RoadmapCanvas } from "./RoadmapCanvas";
 import { statusOf, type LayoutMode } from "./layout";
 import { SidePanel } from "./SidePanel";
 import { WarningStack } from "./WarningStack";
+import { flaggedNodes, viewWarnings } from "./warnings-view";
 
 const pathway = pathwayData as unknown as RoadmapPathway;
 
@@ -42,6 +43,8 @@ export function RoadmapView() {
   }, []);
 
   const schedule = plan[mode];
+  const warnings = useMemo(() => viewWarnings(plan, mode), [plan, mode]);
+  const flagged = useMemo(() => flaggedNodes(warnings), [warnings]);
   const step = pathway.nodes.find((n) => n.id === panel.id) ?? null;
 
   return (
@@ -79,7 +82,7 @@ export function RoadmapView() {
       <div className="flex flex-1 flex-col md:min-h-0 md:flex-row">
         {plan.warnings.length > 0 && (
           <div className="order-last border-t border-slate-line p-4 md:order-none md:w-[340px] md:shrink-0 md:overflow-y-auto md:border-t-0 md:border-r">
-            <WarningStack warnings={plan.warnings} onSeeFix={openStep} />
+            <WarningStack views={warnings} onSeeFix={openStep} />
           </div>
         )}
         <div className="relative min-h-[70svh] flex-1 overflow-hidden md:min-h-0">
@@ -92,6 +95,7 @@ export function RoadmapView() {
             pathway={pathway}
             mode={mode}
             activeId={panel.open ? panel.id : null}
+            flagged={flagged}
             onOpen={openStep}
           />
         </div>
@@ -102,7 +106,7 @@ export function RoadmapView() {
         step={step}
         status={step ? statusOf(plan, step.id) : "todo"}
         critical={step ? plan.parallel.criticalPath.includes(step.id) : false}
-        warnings={step ? plan.warnings.filter((w) => w.relatedNodes.includes(step.id)) : []}
+        warnings={step ? warnings.filter((v) => v.warning.relatedNodes.includes(step.id)) : []}
         onClose={closePanel}
       />
     </main>

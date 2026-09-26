@@ -100,6 +100,16 @@
     {
       "id": "evidence_of_practice_window",
       "severity": "critical",
+      "schedules": [
+        "sequential"
+      ],
+      "severityBySchedule": {
+        "sequential": "critical"
+      },
+      "facts": {
+        "windowCloses": "2027-07",
+        "finish": "2027-11"
+      },
       "title": {
         "en": "Your evidence of practice may expire before you finish",
         "fr": "Votre preuve de pratique pourrait expirer avant la fin de votre démarche"

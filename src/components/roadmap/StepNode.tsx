@@ -17,6 +17,8 @@ export type StepNodeData = {
   step: RoadmapNode;
   status: NodeStatus;
   critical: boolean;
+  /** A warning fires for this step on the schedule on screen. */
+  flagged: boolean;
   side: boolean;
   /** Parallel timeline: title and duration only. */
   compact: boolean;
@@ -57,7 +59,7 @@ function StatusGlyph({ status }: { status: NodeStatus }) {
 function StepNodeView({ id, data }: NodeProps<StepNodeType>) {
   const t = useT();
   const locale = useAppStore((s) => s.locale);
-  const { step, status, critical, side, compact, height, order, onOpen } = data;
+  const { step, status, critical, flagged, side, compact, height, order, onOpen } = data;
   const title = pick(step.title, locale);
 
   return (
@@ -80,9 +82,10 @@ function StepNodeView({ id, data }: NodeProps<StepNodeType>) {
         aria-label={t("roadmap.openStep", { title })}
         style={{ width: NODE_WIDTH, height }}
         className={cn(
-          "roadmap-step group relative flex flex-col gap-2 rounded-[var(--radius)] border bg-granite p-3 text-left transition-colors",
+          "roadmap-step group relative flex flex-col gap-2 rounded-[var(--radius)] border bg-granite p-3 text-left transition-[border-color,box-shadow] duration-500 motion-reduce:transition-none",
           side ? "border-dashed border-slate-line" : "border-slate-line",
           critical && "ring-1 ring-accent",
+          flagged && "ring-2 ring-accent",
           status === "blocked" && "ring-1 ring-accent",
           status === "done" && "opacity-70",
           "hover:border-mist/50",
@@ -96,6 +99,7 @@ function StepNodeView({ id, data }: NodeProps<StepNodeType>) {
               ))}
             </span>
             <span className="flex items-center gap-2">
+              {flagged && <AlertTriangle aria-hidden="true" className="size-3.5 text-accent" />}
               {critical && <span aria-hidden="true" className="size-1.5 rounded-full bg-accent" />}
               <StatusGlyph status={status} />
             </span>
@@ -104,12 +108,14 @@ function StepNodeView({ id, data }: NodeProps<StepNodeType>) {
         <span className="sr-only">
           {step.actor.map((a) => t(`actor.${a}`)).join(", ")}. {t(`status.${status}`)}
           {critical ? `, ${t("status.critical")}` : ""}
+          {flagged ? `, ${t("status.flagged")}` : ""}
         </span>
         <span className="line-clamp-2 font-display text-[15px] leading-snug font-medium text-paper">
           {title}
         </span>
         <span className="mt-auto flex items-center justify-between gap-2 text-xs text-mist">
           <span className="flex min-w-0 items-center gap-2">
+            {compact && flagged && <AlertTriangle aria-hidden="true" className="size-3.5 shrink-0 text-accent" />}
             {compact && critical && <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-accent" />}
             {compact && status !== "todo" && <StatusGlyph status={status} />}
             <span className="truncate">{formatDurationRange(step.duration, t)}</span>
