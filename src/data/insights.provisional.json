@@ -1,0 +1,39 @@
+{
+  "_note": "PROVISIONAL (issue #27): real numbers copied from docs/PATHWAY_VERIFIED.md section 10 until src/data/insights.json exists. The funnel shares are illustrative.",
+  "stats": [
+    {
+      "id": "international_applicants",
+      "value": 7957,
+      "total": 14298,
+      "asOf": "2026-09-01",
+      "source": {
+        "label": "CNO: Applicant statistics",
+        "url": "https://www.cno.org/what-is-cno/nursing-demographics/applicant-statistics"
+      }
+    },
+    {
+      "id": "spep_registered",
+      "value": 6738,
+      "total": 8406,
+      "asOf": "2026-09-18",
+      "source": {
+        "label": "CNO: Applicant statistics",
+        "url": "https://www.cno.org/what-is-cno/nursing-demographics/applicant-statistics"
+      }
+    }
+  ],
+  "funnel": {
+    "illustrative": true,
+    "stages": [
+      { "nodeId": "eca", "share": 1 },
+      { "nodeId": "cno_application", "share": 0.88 },
+      { "nodeId": "language", "share": 0.8 },
+      { "nodeId": "evidence_of_practice", "share": 0.62 },
+      { "nodeId": "ttp", "share": 0.57 },
+      { "nodeId": "jurisprudence", "share": 0.54 },
+      { "nodeId": "registration_exam", "share": 0.44 },
+      { "nodeId": "criminal_record_check", "share": 0.4 },
+      { "nodeId": "registration", "share": 0.36 }
+    ]
+  }
+}
