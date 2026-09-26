@@ -1,0 +1,4 @@
+# One email per line. Only these identities may author or commit to this repo.
+# Use the email linked to each GitHub account (the users.noreply.github.com address keeps it private).
+173319783+Tahussles@users.noreply.github.com
+ebrahimszuberi@gmail.com

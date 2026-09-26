@@ -1,0 +1,12 @@
+#!/bin/sh
+ALLOW=".github/allowed-authors.txt"
+AUTHOR_EMAIL=$(git var GIT_AUTHOR_IDENT | sed -E 's/.*<([^>]+)>.*/\1/')
+COMMITTER_EMAIL=$(git var GIT_COMMITTER_IDENT | sed -E 's/.*<([^>]+)>.*/\1/')
+for mail in "$AUTHOR_EMAIL" "$COMMITTER_EMAIL"; do
+  if ! grep -v '^#' "$ALLOW" | grep -qixF "$mail"; then
+    echo "Commit blocked: $mail is not an allowed author (see $ALLOW)." >&2
+    echo "Fix with: git config user.email <your GitHub email>" >&2
+    exit 1
+  fi
+done
+exit 0

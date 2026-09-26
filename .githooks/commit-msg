@@ -1,0 +1,23 @@
+#!/bin/sh
+# 1) Strip assistant attribution footers automatically (so tool-made commits still succeed clean).
+# 2) Reject the commit if any assistant name or attribution survives.
+MSG_FILE="$1"
+STRIP='(co-authored-by:.*(claude|anthropic))|(generated with.*claude)|(^claude-session:)|(claude\.ai/code/session)'
+grep -viE "$STRIP" "$MSG_FILE" > "$MSG_FILE.clean" || true
+mv "$MSG_FILE.clean" "$MSG_FILE"
+
+if grep -v '^#' "$MSG_FILE" | grep -qiE 'claude|noreply@anthropic\.com|copilot|chatgpt'; then
+  echo "Commit rejected: an AI assistant name or attribution is in the commit message." >&2
+  echo "Describe the change without naming tools (e.g. 'feat: add profile extraction route')." >&2
+  exit 1
+fi
+
+# Any Co-authored-by trailer must be an allowed human author.
+ALLOW=".github/allowed-authors.txt"
+grep -iE '^co-authored-by:' "$MSG_FILE" | sed -E 's/.*<([^>]+)>.*/\1/' | while read -r mail; do
+  if ! grep -v '^#' "$ALLOW" | grep -qixF "$mail"; then
+    echo "Commit rejected: co-author $mail is not in $ALLOW." >&2
+    exit 1
+  fi
+done || exit 1
+exit 0

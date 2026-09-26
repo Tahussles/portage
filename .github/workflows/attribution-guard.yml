@@ -1,0 +1,33 @@
+name: attribution-guard
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Only allowed humans in history, no assistant attribution
+        shell: bash
+        run: |
+          set -uo pipefail
+          allowed=$(grep -v '^#' .github/allowed-authors.txt | sed '/^$/d' | tr 'A-Z' 'a-z')
+          fail=0
+          while IFS='|' read -r sha ae ce; do
+            ae=$(echo "$ae" | tr 'A-Z' 'a-z'); ce=$(echo "$ce" | tr 'A-Z' 'a-z')
+            echo "$allowed" | grep -qxF "$ae" || { echo "::error::$sha author $ae is not allowed"; fail=1; }
+            printf '%s\nnoreply@github.com\n' "$allowed" | grep -qxF "$ce" || { echo "::error::$sha committer $ce is not allowed"; fail=1; }
+            body=$(git log -1 --format=%B "$sha")
+            if echo "$body" | grep -qiE 'claude|noreply@anthropic\.com|copilot|chatgpt'; then
+              echo "::error::$sha message contains an AI assistant name or attribution"; fail=1
+            fi
+            for co in $(echo "$body" | grep -iE '^co-authored-by:' | sed -E 's/.*<([^>]+)>.*/\1/' | tr 'A-Z' 'a-z'); do
+              echo "$allowed" | grep -qxF "$co" || { echo "::error::$sha co-author $co is not allowed"; fail=1; }
+            done
+          done < <(git log --format='%H|%ae|%ce' HEAD)
+          if [ "$fail" -eq 0 ]; then echo "History is clean: only allowed authors, no assistant attribution."; fi
+          exit $fail
