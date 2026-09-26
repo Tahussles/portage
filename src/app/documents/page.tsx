@@ -1,5 +1,5 @@
-import { ComingSoon } from "@/components/ui/ComingSoon";
+import { DocumentsView } from "@/components/documents/DocumentsView";
 
 export default function DocumentsPage() {
-  return <ComingSoon labelKey="documents.label" titleKey="documents.title" />;
+  return <DocumentsView />;
 }
