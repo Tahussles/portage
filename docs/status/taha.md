@@ -14,9 +14,8 @@ Step 3b roadmap canvas: built and in review (PR "feat: roadmap canvas (Step 3b)"
 - Step 4b intake screen.
 
 ## Needs from Ebrahim
-- `feat(contract): add schedule ranges and side lane` in `src/lib/engine/types.ts`: `Lane`, `ScheduleRange`, `range` on both schedules, `Plan.side`.
+- `feat(contract): add schedule ranges and side lane` in `src/lib/engine/types.ts`: exact shape in issue "contract: schedule ranges and side lane in types.ts".
 - Side-lane nodes in on-rn-ien.json with `lane: "side"` (Temporary Class, bridge roles, support organizations).
-- Engine fixture `plan-priya.json` uses last practised 2025-07; decision 11 says July 2024.
 
 ## Blockers
 - None. Vercel import is a manual step for Taha.
