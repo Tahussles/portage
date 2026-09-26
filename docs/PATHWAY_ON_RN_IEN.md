@@ -98,8 +98,8 @@ Secondary sources seen during research (useful for cross-checking only, never ci
 - nursingmanthra.com (older NNAS-based flow; **outdated**: CNO now uses approved ECA providers, and asks pre-April-2025 ECA holders to have their provider send info to CNO)
 
 ## 7. Demo persona: Priya (composite, fictional)
-- BSc Nursing, India. 8 years ICU experience. Last practised: 14 months ago. Lives in Waterloo, ON. Authorized to work: yes. No language test yet. Nothing started with CNO. Documents partly in Hindi. Name on diploma includes a middle name missing from her passport (triggers name-change finding in the doc-check demo).
+- BSc Nursing, India. 8 years ICU experience. Last practised: July 2024 (paid ICU work), when she moved to Canada. Lives in Waterloo, ON. Authorized to work: yes. No language test yet. Nothing started with CNO. Documents partly in Hindi. Name on diploma includes a middle name missing from her passport (triggers name-change finding in the doc-check demo).
 - Record her intake line in Hindi (script below), 30 to 45 seconds, native speaker, quiet room.
 
 Suggested English script to translate for the recording:
-"My name is Priya. I studied nursing in Pune and finished my bachelor's degree in 2014. I worked in an ICU for eight years. I stopped working last summer when we moved to Canada. I live in Waterloo now and I can work here. I have not taken an English test yet. I want to work as a nurse again."
+"My name is Priya. I studied nursing in Pune and finished my bachelor's degree in 2014. I worked in an ICU for eight years. I stopped working in the summer of 2024 when we moved to Canada. I live in Waterloo now and I can work here. I have not taken an English test yet. I want to work as a nurse again."
