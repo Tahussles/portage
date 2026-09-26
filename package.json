@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "gen:topo": "node scripts/gen-topo.mjs",
-    "gen:geo": "node scripts/gen-geo.mjs"
+    "gen:geo": "node scripts/gen-geo.mjs",
+    "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
