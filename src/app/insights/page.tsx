@@ -1,5 +1,5 @@
-import { ComingSoon } from "@/components/ui/ComingSoon";
+import { InsightsView } from "@/components/insights/InsightsView";
 
 export default function InsightsPage() {
-  return <ComingSoon labelKey="insights.label" titleKey="insights.title" />;
+  return <InsightsView />;
 }

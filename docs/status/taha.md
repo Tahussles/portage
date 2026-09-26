@@ -1,28 +1,29 @@
 # Taha: track status (UI, motion, design)
 
 ## Current phase
-Round 3 done: warnings per schedule (PR #12) merged; Step 4b voice intake in review.
+Round 4 done: tight state, documents page and insights page merged. Next: polish (Step 8) and the roadmap chip row (Step 5).
 
 ## Completed
 - Step 1: scaffold, tokens, fonts, i18n, navbar, hero, stub pages (PR #1).
-- Round 2 docs sync (PR #5), store ownership (PR #9).
-- Step 3b: roadmap canvas, layouts, toggle animation, counter, side panel, warning stack (PR #7).
-- Evidence-of-practice beat: warnings evaluated per schedule; critical, tight ("only if each step goes to plan") and "Resolved in the Portage plan" states animate on the toggle; flagged steps get a red ring (PR #12).
-- Step 4b: `/start` voice intake (mic orb with live level, MediaRecorder webm/opus or mp4 with WAV fallback, 60 s cap, permission-denied message), native transcript + English translation, editable profile chips into the store, sample voice (Priya), language hint, consent line. Talks to `/api/transcribe` and `/api/profile` and falls back to provisional fixtures (`?demo=1`, 404, failure, timeout).
-- Provisional plan refreshed to engine output for data v1.1.0 (school documents step, side lane) plus the per-schedule evidence-of-practice warning.
-
-- `/roadmap` builds from `buildPlan(profile ?? Priya, pathway, today)`; provisional contract and fixtures deleted. The intake calls `src/lib/client/api.ts` and Ebrahim's demo fixtures.
+- Step 3b: roadmap canvas, layouts, animated toggle, counter, side panel, warnings (PRs #7, #12); built from `buildPlan` (PR #21).
+- Evidence-of-practice beat: critical one at a time; tight on the Portage plan with a dashed rule and ring, plus "What protects your window" steps (PR #24). The SPEP backup line appears once issue #23 lands.
+- Step 4b: voice intake on `/start` (PR #20) through the shared client helpers (PR #21).
+- Step 6 UI: `/documents` with drop zone, samples, scan line, findings and extracted fields (PR #26).
+- Step 7: `/insights` with sourced CNO numbers, Natural Earth province map (`scripts/gen-geo.mjs`, 12 KB) and an illustrative stage funnel.
 
 ## Next
-- Step 5 polish: editable profile chip row above the roadmap canvas.
-- Step 6 documents screen (API and rules are on main).
-- Step 7 insights view.
+- Step 5: editable profile chip row above the roadmap canvas.
+- Step 8 polish: landing chapters, ticker, final CTA, 404, favicon, Open Graph image.
+- Swap `src/data/insights.provisional.json` for `src/data/insights.json` (issue #27).
 
 ## Needs from Ebrahim
-- `public/demo/priya-hi.webm` (the sample button uses it when present; until then a HEAD 404 shows in the console).
+- #23: SPEP backup facts on the evidence-of-practice warning.
+- #25: profile-based `name_mismatch` is dropped by `/api/doc-check` with the full Priya profile.
+- #27: `src/data/insights.json`.
+- `public/demo/priya-hi.webm` (native Hindi speaker).
 
 ## Blockers
-- None. Vercel import is a manual step for Taha.
+- None. Vercel import and keys are Taha's manual steps (issue #15).
 
 ## Last updated
-Sat Sep 26, 2026, 4:55 PM
+Sat Sep 26, 2026, 5:25 PM
