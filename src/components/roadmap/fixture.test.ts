@@ -34,6 +34,11 @@ const planSchema = z.object({
       body: localized,
       relatedNodes: z.array(z.string()),
       sourceUrl: z.url(),
+      schedules: z.array(z.enum(["sequential", "parallel"])).optional(),
+      severityBySchedule: z
+        .partialRecord(z.enum(["sequential", "parallel"]), z.enum(["info", "warn", "critical"]))
+        .optional(),
+      facts: z.record(z.string(), z.string()).optional(),
     }),
   ),
   estimateShare: z.number().min(0).max(1),

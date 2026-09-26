@@ -1,6 +1,7 @@
-import type { NodeStatus, Pathway, PathwayNode, Plan } from "@/lib/engine/types";
+import type { NodeStatus, Pathway, PathwayNode, Plan, PlanWarning } from "@/lib/engine/types";
 
-// PROVISIONAL: local copy of the "feat(contract): add schedule ranges and side lane" block.
+// PROVISIONAL: local copy of the contract in issue #8 ("feat(contract): add schedule ranges and
+// side lane", plus the per-schedule warning fields).
 // Once that PR is merged into src/lib/engine/types.ts, import Lane, ScheduleRange and Plan from
 // there and delete this file. Never edit types.ts from this track.
 
@@ -16,7 +17,18 @@ export type ScheduleRange = {
 
 type WithRange<T> = T & { range: ScheduleRange };
 
-export type RoadmapPlan = Omit<Plan, "sequential" | "parallel"> & {
+export type ScheduleKey = "sequential" | "parallel";
+
+export type RoadmapWarning = PlanWarning & {
+  /** Schedules under which this warning fires; absent means both. */
+  schedules?: ScheduleKey[];
+  severityBySchedule?: Partial<Record<ScheduleKey, PlanWarning["severity"]>>;
+  /** Values for UI copy, e.g. { windowCloses: "2027-07", finish: "2027-11" }. */
+  facts?: Record<string, string>;
+};
+
+export type RoadmapPlan = Omit<Plan, "sequential" | "parallel" | "warnings"> & {
+  warnings: RoadmapWarning[];
   sequential: WithRange<Plan["sequential"]>;
   parallel: WithRange<Plan["parallel"]>;
   side: { nodeId: string; status: NodeStatus }[];
