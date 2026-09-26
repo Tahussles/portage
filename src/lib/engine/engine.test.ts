@@ -87,7 +87,13 @@ describe("golden: Priya (demo persona)", () => {
       severity: "critical",
       schedules: ["sequential", "parallel"],
       severityBySchedule: { sequential: "critical", parallel: "warn" },
-      facts: { windowCloses: "2027-07" },
+      facts: {
+        windowCloses: "2027-07",
+        backup: "spep",
+        backupEligibleUntil: "2032-07",
+        backupSourceUrl:
+          "https://www.cno.org/become-a-nurse/registration-requirements/evidence-of-practice/supervised-practice-experience-partnership",
+      },
     });
     // Profile rules carry no per-schedule fields: absent means both.
     expect(plan.warnings[1].schedules).toBeUndefined();
@@ -140,6 +146,17 @@ describe("golden: Amina (last practised 4 years ago)", () => {
     expect(plan.warnings[0].severity).toBe("critical");
     expect(plan.warnings[0].sourceUrl).toBe("https://www.cno.org/become-a-nurse/registration-requirements/evidence-of-practice");
     expect(plan.warnings[0].body.en).toMatch(/SPEP/);
+  });
+
+  it("offers SPEP as a backup: window closed Sep 2025, eligible until Sep 2030 (issue #23)", () => {
+    expect(plan.warnings[0].facts).toMatchObject({ windowCloses: "2025-09", backup: "spep", backupEligibleUntil: "2030-09" });
+  });
+
+  it("drops the SPEP backup once the window closed more than 5 years before the plan finishes", () => {
+    const longAgo = buildPlan({ ...amina, lastPractisedAt: "2019-01" }, pathway, TODAY);
+    const eop = longAgo.warnings.find((w) => w.id === "evidence_of_practice_window")!;
+    expect(eop.facts).toEqual({ windowCloses: "2022-01" }); // eligible until Jan 2027, before the Apr 2027 finish
+    expect(longAgo.statuses.evidence_of_practice).toBe("blocked");
   });
 
   it("still schedules the blocked step so the roadmap shows where it sits", () => {
