@@ -1,0 +1,11 @@
+{
+  "sampleFile": "sample-police-check.pdf",
+  "extraction": {
+    "docType": "criminal_record_check",
+    "nameOnDocument": "Priya Deshpande",
+    "issueDate": "2026-09-01",
+    "documentLanguage": "en",
+    "issuer": "Sample Police Records Office (fictional)",
+    "description": "Police criminal record check certificate stating no records found."
+  }
+}

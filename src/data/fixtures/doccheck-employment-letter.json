@@ -1,0 +1,11 @@
+{
+  "sampleFile": "sample-employment-letter.pdf",
+  "extraction": {
+    "docType": "employment_letter",
+    "nameOnDocument": "Priya Anand Deshpande",
+    "issueDate": "2024-07-31",
+    "documentLanguage": "en",
+    "issuer": "Sample City Hospital, Pune (fictional)",
+    "description": "Letter confirming eight years of employment as an ICU staff nurse, from 2016 to July 2024."
+  }
+}
