@@ -51,7 +51,14 @@ export function buildPlan(profile: Profile, pathway: Pathway, today: string | Da
       range: range(best.parallel.totalWeeks, total, conservative.parallel.totalWeeks),
     },
     side: sideNodes.map((n) => ({ nodeId: n.id, status: statuses[n.id] })),
-    warnings: evaluateWarnings(pathway, { profile, statuses: mainStatuses, schedule: sched, today: start }),
+    warnings: evaluateWarnings(pathway, {
+      profile,
+      statuses: mainStatuses,
+      nodes: mainNodes,
+      schedule: sched,
+      conservative,
+      today: start,
+    }),
     estimateShare: total > 0 ? Math.round((estimateWeeks / total) * 1000) / 1000 : 0,
   };
 }

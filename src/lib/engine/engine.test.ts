@@ -78,8 +78,19 @@ describe("golden: Priya (demo persona)", () => {
     expect(plan.order.indexOf("criminal_record_check")).toBe(plan.order.length - 2);
   });
 
-  it("does not fire the evidence-of-practice warning: July 2024 + 3 years (July 2027) is after the April 2027 parallel finish", () => {
-    expect(ids(plan.warnings)).toEqual(["direct_from_source", "translation_needed"]);
+  it("raises evidence of practice per schedule: critical one at a time, tight in the Portage plan (issue #13)", () => {
+    expect(ids(plan.warnings)).toEqual(["evidence_of_practice_window", "direct_from_source", "translation_needed"]);
+    const eop = plan.warnings[0];
+    // Window closes Jul 2027. One at a time finishes Dec 2027 (typical); the Portage plan finishes
+    // Apr 2027 (typical) but Aug 2027 (conservative).
+    expect(eop).toMatchObject({
+      severity: "critical",
+      schedules: ["sequential", "parallel"],
+      severityBySchedule: { sequential: "critical", parallel: "warn" },
+      facts: { windowCloses: "2027-07" },
+    });
+    // Profile rules carry no per-schedule fields: absent means both.
+    expect(plan.warnings[1].schedules).toBeUndefined();
   });
 
   it("fires the evidence-of-practice warning once the window closes before the finish", () => {
@@ -156,9 +167,26 @@ describe("side lane data", () => {
 describe("other warnings", () => {
   it("warns when a criminal record check will be stale at the projected finish", () => {
     const withOldCheck = { ...priya, progress: { ...priya.progress, criminalRecordCheckDate: "2026-06-01" } };
-    expect(ids(buildPlan(withOldCheck, pathway, TODAY).warnings)).toContain("crc_validity");
-    const withFreshCheck = { ...priya, progress: { ...priya.progress, criminalRecordCheckDate: "2027-01-15" } };
-    expect(ids(buildPlan(withFreshCheck, pathway, TODAY).warnings)).not.toContain("crc_validity");
+    const old = buildPlan(withOldCheck, pathway, TODAY).warnings.find((w) => w.id === "crc_validity");
+    expect(old).toMatchObject({ severityBySchedule: { sequential: "warn", parallel: "warn" }, facts: { windowCloses: "2026-12" } });
+    // Expires Jul 2027: fine for the typical Portage plan (Apr 2027), tight on its conservative end (Aug 2027),
+    // stale for one at a time (Dec 2027).
+    const withLaterCheck = { ...priya, progress: { ...priya.progress, criminalRecordCheckDate: "2027-01-15" } };
+    const later = buildPlan(withLaterCheck, pathway, TODAY).warnings.find((w) => w.id === "crc_validity");
+    expect(later?.severityBySchedule).toEqual({ sequential: "warn", parallel: "info" });
+    const noCheck = buildPlan(priya, pathway, TODAY);
+    expect(ids(noCheck.warnings)).not.toContain("crc_validity");
+  });
+
+  it("does not fire a date warning on a schedule where neither end of the range breaks it", () => {
+    const recent = buildPlan({ ...priya, lastPractisedAt: "2026-06" }, pathway, TODAY);
+    expect(ids(recent.warnings)).not.toContain("evidence_of_practice_window");
+    const between = buildPlan({ ...priya, lastPractisedAt: "2025-01" }, pathway, TODAY).warnings[0];
+    // Closes Jan 2028: after Dec 2027 (one at a time, typical) but before its conservative Jan 2029.
+    expect(between.id).toBe("evidence_of_practice_window");
+    expect(between.schedules).toEqual(["sequential"]);
+    expect(between.severityBySchedule).toEqual({ sequential: "warn" });
+    expect(between.severity).toBe("warn");
   });
 
   it("flags non-nursing credentials and unsure work authorization", () => {
