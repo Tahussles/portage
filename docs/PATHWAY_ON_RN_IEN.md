@@ -102,4 +102,4 @@ Secondary sources seen during research (useful for cross-checking only, never ci
 - Record her intake line in Hindi (script below), 30 to 45 seconds, native speaker, quiet room.
 
 Suggested English script to translate for the recording:
-"My name is Priya. I studied nursing in Pune and finished my bachelor's degree in 2014. I worked in an ICU for eight years. I stopped working in the summer of 2024 when we moved to Canada. I live in Waterloo now and I can work here. I have not taken an English test yet. I want to work as a nurse again."
+"My name is Priya. I studied nursing in Pune and finished my bachelor's degree in 2014. I worked in an ICU for eight years. I stopped working in the summer of 2024 when we moved to Canada. I live in Waterloo now and I can work here. I have not taken an English test yet. Some of my documents are in Hindi. I want to work as a nurse again."
