@@ -18,6 +18,8 @@ export const insightsSchema = z.object({
       illustrative: z.boolean().optional(),
     }),
   ),
+  /** CNO's registration requirements (the landing counts them; never typed as a number). */
+  requirements: z.object({ source: sourceSchema, items: z.array(z.string().min(1)).min(1) }),
   funnel: z.object({
     illustrative: z.boolean(),
     stages: z.array(z.object({ nodeId: z.string().min(1), share: z.number().min(0).max(1) })).min(2),

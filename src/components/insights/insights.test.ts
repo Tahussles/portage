@@ -59,3 +59,11 @@ describe("province map file", () => {
     expect([...LIVE_PROVINCES].every((c) => map.provinces.some((p) => p.code === c))).toBe(true);
   });
 });
+
+describe("requirements", () => {
+  it("lists CNO's registration requirements with the official source", () => {
+    expect(INSIGHTS.requirements.items).toHaveLength(9);
+    expect(new Set(INSIGHTS.requirements.items).size).toBe(9);
+    expect(INSIGHTS.requirements.source.url).toBe("https://www.cno.org/become-a-nurse/registration-guides/outside-canada");
+  });
+});
