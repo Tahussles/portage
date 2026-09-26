@@ -17,9 +17,8 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "http://localhost:3000";
+// Absolute base for Open Graph and other metadata URLs (the public production domain by default).
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://portage-navy.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
