@@ -134,8 +134,6 @@
   "docsLang.fr": "Français",
   "docsLang.other": "Une autre langue",
   "docsLang.mixed": "Plusieurs langues",
-  "roadmap.samplePlan": "Sample plan · Plan exemple",
-  "roadmap.samplePlanNote": "Vos réponses sont gardées pour cette session. Votre propre parcours s’affichera ici une fois relié.",
   "intake.fallbackNote": "Nous n’avons pas pu joindre le service de transcription, voici donc l’exemple à la place.",
   "warnings.tightFacts": "Ce plan se termine en {finish}, avant la fin de votre période en {windowCloses}, mais seulement si chaque étape se déroule comme prévu."
 }

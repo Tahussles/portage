@@ -3,11 +3,10 @@
 import { AlertTriangle, Check, ExternalLink, Info, Plane, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/cn";
-import type { NodeStatus } from "@/lib/engine/types";
+import type { NodeStatus, PathwayNode } from "@/lib/engine/types";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
 import { ActorIcon } from "./ActorIcon";
-import type { RoadmapNode } from "./contract";
 import { formatCad, formatDay, formatDurationRange, formatTypical, pick } from "./format";
 import { KindBadge } from "./KindBadge";
 import { warningCopy, type WarningView } from "./warnings-view";
@@ -15,7 +14,7 @@ import { warningCopy, type WarningView } from "./warnings-view";
 type SidePanelProps = {
   open: boolean;
   /** Last opened step; kept while the panel slides out. */
-  step: RoadmapNode | null;
+  step: PathwayNode | null;
   status: NodeStatus;
   critical: boolean;
   /** Warnings for this step on the schedule on screen (active or resolved). */

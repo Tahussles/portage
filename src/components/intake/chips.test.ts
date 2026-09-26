@@ -1,10 +1,16 @@
 import { describe, expect, it } from "vitest";
-import sample from "@/data/fixtures/profile-priya.provisional.json";
+import sample from "@/data/fixtures/profile-priya.json";
 import type { Profile } from "@/lib/engine/types";
 import { translate, type MessageKey, type MessageVars } from "@/lib/i18n";
 import { applyChipEdit, profileChips } from "./chips";
 
-const profile = sample.profile as Profile;
+const profile = sample as Profile;
+/** What the model returns when she says only "the summer of 2024" and nothing about documents. */
+const unsure: Profile = {
+  ...profile,
+  documentsLanguage: null,
+  confidence: { ...profile.confidence, lastPractisedAt: 0.6 },
+};
 const en = (key: MessageKey, vars?: MessageVars) => translate("en", key, vars);
 const fr = (key: MessageKey, vars?: MessageVars) => translate("fr", key, vars);
 const chip = (p: Profile, field: string, t = en, locale: "en" | "fr" = "en") =>
@@ -21,12 +27,14 @@ describe("profile chips", () => {
   });
 
   it("asks to check low-confidence facts", () => {
-    expect(chip(profile, "lastPractisedAt").lowConfidence).toBe(true); // "summer of 2024" = 0.6
+    expect(chip(unsure, "lastPractisedAt").lowConfidence).toBe(true);
+    expect(chip(profile, "lastPractisedAt").lowConfidence).toBe(false); // 0.8
     expect(chip(profile, "graduationYear").lowConfidence).toBe(false);
   });
 
   it("marks facts that were not said", () => {
-    const docs = chip(profile, "documentsLanguage");
+    expect(chip(profile, "documentsLanguage").value).toBe("Several languages");
+    const docs = chip(unsure, "documentsLanguage");
     expect(docs.missing).toBe(true);
     expect(docs.value).toBe("Not said");
     expect(docs.lowConfidence).toBe(false);

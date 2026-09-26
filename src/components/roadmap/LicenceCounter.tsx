@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { useRef, useState } from "react";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
-import type { ScheduleRange } from "./contract";
+import type { ScheduleRange } from "@/lib/engine/types";
 import { formatMonthYear } from "./format";
 
 gsap.registerPlugin(useGSAP);
