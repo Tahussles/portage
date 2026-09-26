@@ -1,5 +1,6 @@
 {
   "sampleFile": "sample-employment-letter.pdf",
+  "legalName": "Priya Deshpande",
   "extraction": {
     "docType": "employment_letter",
     "nameOnDocument": "Priya Anand Deshpande",

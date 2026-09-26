@@ -65,6 +65,31 @@ describe("/api/doc-check", () => {
     expect(ids).toEqual(["must_come_from_employer", "name_mismatch", "language_ok"]);
   });
 
+  it("issue #25: raises the profile-based name mismatch through the route, with any profile shape", async () => {
+    const priyaSaid = { ...profilePriya, nameOnDocumentsMatches: false };
+    const cases = [
+      { nameOnDocumentsMatches: false },
+      { nameOnDocumentsMatches: false, lastPractisedAt: "2024-07", documentsLanguage: "mixed" },
+      priyaSaid,
+    ];
+    for (const profile of cases) {
+      // A real (non-sample) file name, so no sample passport name is filled in; demo mode serves the fixture.
+      const res = await upload("my-letter.pdf", samplePdf, { profile: JSON.stringify(profile) }, true);
+      const findings = (await res.json()).data.findings;
+      expect(findings.map((f: { id: string }) => f.id), JSON.stringify(profile)).toContain("name_mismatch");
+    }
+  });
+
+  it("issue #25: the Priya samples show the name finding with the full demo profile and no typed name", async () => {
+    const res = await upload("sample-employment-letter.pdf", samplePdf, { profile: JSON.stringify(profilePriya) }, true);
+    const mismatch = (await res.json()).data.findings.find((f: { id: string }) => f.id === "name_mismatch");
+    expect(mismatch.body.en).toContain('"Priya Anand Deshpande"');
+    expect(mismatch.body.en).toContain('"Priya Deshpande"');
+    // A typed name wins over the sample's.
+    const typed = await upload("sample-employment-letter.pdf", samplePdf, { legalName: "Priya Anand Deshpande" }, true);
+    expect((await typed.json()).data.findings.map((f: { id: string }) => f.id)).toContain("name_matches");
+  });
+
   it("without a key, falls back only for known samples", async () => {
     vi.spyOn(console, "warn").mockImplementation(() => {});
     vi.stubEnv("ANTHROPIC_API_KEY", "");

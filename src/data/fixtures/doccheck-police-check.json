@@ -1,5 +1,6 @@
 {
   "sampleFile": "sample-police-check.pdf",
+  "legalName": "Priya Deshpande",
   "extraction": {
     "docType": "criminal_record_check",
     "nameOnDocument": "Priya Deshpande",

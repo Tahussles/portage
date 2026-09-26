@@ -58,13 +58,18 @@ export async function POST(req: Request) {
   const legalName = typeof legalNameRaw === "string" ? legalNameRaw.slice(0, 200) : null;
 
   const today = todayInOntario();
-  const respond = (extraction: DocExtraction, fallback: boolean) => {
+  const respond = (extraction: DocExtraction, fallback: boolean, sampleLegalName?: string) => {
     const plan = profile ? buildPlan(profile, pathway, today) : null;
-    const findings = docRules({ extraction, today, profile, plan, legalName });
+    // A scripted sample uses Priya's passport name unless the applicant typed one.
+    const name = legalName?.trim() || sampleLegalName || null;
+    const findings = docRules({ extraction, today, profile, plan, legalName: name });
     return json({ ok: true, data: { extraction, findings }, ...(fallback ? { fallback: true } : {}) });
   };
   // Demo: scripted samples, recognised by file name; anything else shows the employment letter.
-  if (demo) return respond(docFixtureFor(file.name, { orDefault: true })!, true);
+  if (demo) {
+    const sample = docFixtureFor(file.name, { orDefault: true })!;
+    return respond(sample.extraction, true, sample.legalName);
+  }
 
   const bytes = new Uint8Array(await file.arrayBuffer());
   const mediaType = sniff(bytes);
@@ -76,7 +81,7 @@ export async function POST(req: Request) {
     console.warn(`[doc-check] fallback: ${reason}`);
     const sample = docFixtureFor(file.name);
     return sample
-      ? respond(sample, true)
+      ? respond(sample.extraction, true, sample.legalName)
       : json({ ok: false, error: "We could not read this document right now. Please try again.", fallback: true });
   };
 

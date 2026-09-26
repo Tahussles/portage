@@ -33,12 +33,20 @@ export function profileFixture(): ProfileData {
 
 const DOC_FIXTURES = [doccheckEmploymentLetter, doccheckPoliceCheck];
 
+export type DocSample = { extraction: DocExtraction; legalName?: string };
+
 /**
- * Extraction fixture for a watermarked sample in public/demo/docs, matched by file name.
- * With `orDefault`, unknown names get the employment letter (demo mode only).
+ * Fixture for a watermarked sample in public/demo/docs, matched by file name. The samples are
+ * written for Priya, so an exact match carries her passport name for the name check.
+ * With `orDefault`, unknown names get the employment letter's extraction only (demo mode only).
  */
-export function docFixtureFor(fileName: string, opts: { orDefault?: boolean } = {}): DocExtraction | null {
+export function docFixtureFor(fileName: string, opts: { orDefault?: boolean } = {}): DocSample | null {
   const match = DOC_FIXTURES.find((f) => f.sampleFile === fileName.toLowerCase());
   const fixture = match ?? (opts.orDefault ? DOC_FIXTURES[0] : null);
-  return fixture ? (structuredClone(fixture.extraction) as DocExtraction) : null;
+  return fixture
+    ? {
+        extraction: structuredClone(fixture.extraction) as DocExtraction,
+        ...(match ? { legalName: fixture.legalName } : {}),
+      }
+    : null;
 }
