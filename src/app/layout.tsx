@@ -17,9 +17,21 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Portage",
   description: "Carry your career across. Emportez votre carrière avec vous.",
+  openGraph: {
+    title: "Portage",
+    description: "A personal, cited, deadline-aware licensing roadmap for internationally educated nurses in Ontario.",
+    type: "website",
+    locale: "en_CA",
+    alternateLocale: ["fr_CA"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
