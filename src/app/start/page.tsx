@@ -1,5 +1,5 @@
-import { ComingSoon } from "@/components/ui/ComingSoon";
+import { IntakeView } from "@/components/intake/IntakeView";
 
 export default function StartPage() {
-  return <ComingSoon labelKey="start.label" titleKey="start.title" />;
+  return <IntakeView />;
 }
