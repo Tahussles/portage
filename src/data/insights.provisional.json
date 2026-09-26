@@ -1,5 +1,5 @@
 {
-  "_note": "PROVISIONAL (issue #27): real numbers copied from docs/PATHWAY_VERIFIED.md section 10 until src/data/insights.json exists. The funnel shares are illustrative.",
+  "_note": "PROVISIONAL (issue #27): real numbers copied from docs/PATHWAY_VERIFIED.md section 10 and the nine requirements from docs/PATHWAY_ON_RN_IEN.md section 2, until src/data/insights.json exists. The funnel shares are illustrative.",
   "stats": [
     {
       "id": "international_applicants",
@@ -25,15 +25,59 @@
   "funnel": {
     "illustrative": true,
     "stages": [
-      { "nodeId": "eca", "share": 1 },
-      { "nodeId": "cno_application", "share": 0.88 },
-      { "nodeId": "language", "share": 0.8 },
-      { "nodeId": "evidence_of_practice", "share": 0.62 },
-      { "nodeId": "ttp", "share": 0.57 },
-      { "nodeId": "jurisprudence", "share": 0.54 },
-      { "nodeId": "registration_exam", "share": 0.44 },
-      { "nodeId": "criminal_record_check", "share": 0.4 },
-      { "nodeId": "registration", "share": 0.36 }
+      {
+        "nodeId": "eca",
+        "share": 1
+      },
+      {
+        "nodeId": "cno_application",
+        "share": 0.88
+      },
+      {
+        "nodeId": "language",
+        "share": 0.8
+      },
+      {
+        "nodeId": "evidence_of_practice",
+        "share": 0.62
+      },
+      {
+        "nodeId": "ttp",
+        "share": 0.57
+      },
+      {
+        "nodeId": "jurisprudence",
+        "share": 0.54
+      },
+      {
+        "nodeId": "registration_exam",
+        "share": 0.44
+      },
+      {
+        "nodeId": "criminal_record_check",
+        "share": 0.4
+      },
+      {
+        "nodeId": "registration",
+        "share": 0.36
+      }
+    ]
+  },
+  "requirements": {
+    "source": {
+      "label": "CNO: Outside Canada registration guide",
+      "url": "https://www.cno.org/become-a-nurse/registration-guides/outside-canada"
+    },
+    "items": [
+      "nursing_education",
+      "evidence_of_practice",
+      "registration_exam",
+      "transition_to_practice",
+      "jurisprudence_exam",
+      "language_proficiency",
+      "authorization_to_practise",
+      "past_offences_and_findings",
+      "health_and_conduct"
     ]
   }
 }
