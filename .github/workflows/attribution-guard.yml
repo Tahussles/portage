@@ -11,6 +11,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # On pull requests, check the PR's own commits, not GitHub's synthetic merge commit
+          # (that one is authored with the account's primary email, which is not on the allowlist).
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Only allowed humans in history, no assistant attribution
         shell: bash
         run: |
