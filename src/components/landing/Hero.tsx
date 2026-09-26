@@ -18,11 +18,18 @@ export function Hero() {
   const [videoFailed, setVideoFailed] = useState(false);
 
   // The error event can fire before hydration attaches onError, so check once on mount too.
+  // React does not write `muted` into server HTML, so browsers block autoplay: mute and play here.
+  // Under reduced motion the video stays on its poster frame.
   useEffect(() => {
     const v = videoRef.current;
-    if (v && (v.error || v.networkState === HTMLMediaElement.NETWORK_NO_SOURCE)) {
+    if (!v) return;
+    if (v.error || v.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
       setVideoFailed(true);
+      return;
     }
+    v.muted = true;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) v.pause();
+    else void v.play().catch(() => {});
   }, []);
 
   useGSAP(
