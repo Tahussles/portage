@@ -1,7 +1,7 @@
 # Taha: track status (UI, motion, design)
 
 ## Current phase
-Round 5 done: landing (Step 8), seamless demo flow, README with screenshots and a smoke test. Next: the roadmap chip row (Step 5) and live checks once the Vercel URL is public.
+Round 7 done: live site demo-proofed (intake progress, Hear your plan, demo runbook). Next: Step 5 chip row on the roadmap, pitch rehearsal.
 
 ## Completed
 - Step 1: scaffold, tokens, fonts, i18n, navbar, hero, stub pages (PR #1).
@@ -13,6 +13,10 @@ Round 5 done: landing (Step 8), seamless demo flow, README with screenshots and 
 - Step 8: landing ticker, scroll-scrubbed chapters, three data-driven stats, final CTA, footer; Pexels hero footage (PR #31).
 - Demo flow: shared screen nav, next-step links, `?demo=1` kept on links, `?reset=1`, favicon, Open Graph image, 404, copy lint (PR #32).
 - README with screenshots of the five screens, `pnpm smoke <baseUrl>`.
+- Live at https://portage-navy.vercel.app with real AI (PR #34).
+- Intake progress tied to the real request phases (PR #40).
+- Hear your plan: deterministic summary, faithful translation, ElevenLabs speech (PR #41).
+- docs/DEMO_RUNBOOK.md: checklist, tested warm-up commands, click paths, failure plays.
 
 ## Next
 - Step 5: editable profile chip row above the roadmap canvas.
@@ -25,7 +29,7 @@ Round 5 done: landing (Step 8), seamless demo flow, README with screenshots and 
 - `public/demo/priya-hi.webm` (native Hindi speaker).
 
 ## Blockers
-- The Vercel deployment is behind Vercel Authentication (every URL redirects to the Vercel login), so judges cannot open it yet. Taha: turn off Deployment Protection for production or share the public domain.
+- None. Waiting on the native Hindi recording (#15) and Ebrahim's #35 / #37.
 
 ## Last updated
-Sat Sep 26, 2026, 6:35 PM
+Sat Sep 26, 2026, 8:00 PM
