@@ -92,6 +92,7 @@ export function WarningStack({ views, protecting, onSeeFix, className }: Warning
       aria-live="polite"
       className={cn("flex flex-col gap-2", className)}
     >
+      <h2 className="sr-only">{t("roadmap.warnings")}</h2>
       {views.map((view) => {
         const { warning, state } = view;
         const resolved = state.kind === "resolved";

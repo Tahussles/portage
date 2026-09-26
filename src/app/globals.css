@@ -30,6 +30,17 @@
   }
 }
 
+/* Fixed navbar height: one row on md+, two rows (screen links) on phones. */
+:root {
+  --nav-h: 104px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-h: 64px;
+  }
+}
+
 @layer base {
   html {
     color-scheme: dark;
@@ -120,5 +131,8 @@ path.roadmap-edge-critical {
 }
 
 .react-flow__attribution a {
+  display: inline-block;
+  min-height: 24px;
+  padding: 4px 6px;
   color: var(--color-mist);
 }

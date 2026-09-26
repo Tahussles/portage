@@ -3,8 +3,10 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ArrowLeft, ArrowRight, Play } from "lucide-react";
-import Link from "next/link";
+import { AppLink } from "@/components/ui/AppLink";
 import { useRouter } from "next/navigation";
+import { useHref } from "@/components/ui/links";
+import { NextLink } from "@/components/ui/NextLink";
 import { useCallback, useRef, useState } from "react";
 import type { Profile } from "@/lib/engine/types";
 import { useT } from "@/lib/i18n";
@@ -44,6 +46,7 @@ const ERROR_KEY = {
 export function IntakeView() {
   const t = useT();
   const router = useRouter();
+  const toHref = useHref();
   const locale = useAppStore((s) => s.locale);
   const profile = useAppStore((s) => s.profile);
   const setProfile = useAppStore((s) => s.setProfile);
@@ -130,13 +133,13 @@ export function IntakeView() {
       : t(`intake.status.${orbState}`);
 
   return (
-    <main className="min-h-svh bg-ink pt-16">
+    <main className="min-h-svh bg-ink pt-(--nav-h)">
       <div className="mx-auto flex max-w-3xl flex-col items-center px-5 pt-8 pb-16 text-center md:pt-12">
         <div className="flex w-full flex-wrap items-center justify-between gap-3">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-mist transition-colors hover:text-paper">
+          <AppLink href="/" className="inline-flex items-center gap-2 text-sm text-mist transition-colors hover:text-paper">
             <ArrowLeft aria-hidden="true" className="size-4" />
             {t("intake.back")}
-          </Link>
+          </AppLink>
           <LanguageHintSelect value={hint} onChange={setHint} />
         </div>
 
@@ -196,7 +199,7 @@ export function IntakeView() {
           <button
             type="button"
             disabled={!profile}
-            onClick={() => router.push("/roadmap")}
+            onClick={() => router.push(toHref("/roadmap"))}
             className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-granite disabled:text-mist"
           >
             {t("intake.build")}
@@ -214,6 +217,7 @@ export function IntakeView() {
         </div>
 
         <p className="mt-10 max-w-md text-xs leading-relaxed text-mist">{t("intake.consent")}</p>
+        <NextLink from="start" className="mt-8" />
       </div>
     </main>
   );

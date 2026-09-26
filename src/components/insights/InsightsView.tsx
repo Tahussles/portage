@@ -1,5 +1,6 @@
 "use client";
 
+import { NextLink } from "@/components/ui/NextLink";
 import { useT } from "@/lib/i18n";
 import { ProvinceMap } from "./ProvinceMap";
 import { StageFunnel } from "./StageFunnel";
@@ -8,7 +9,7 @@ import { StatsBand } from "./StatsBand";
 export function InsightsView() {
   const t = useT();
   return (
-    <main className="min-h-svh bg-ink pt-16">
+    <main className="min-h-svh bg-ink pt-(--nav-h)">
       <div className="relative isolate overflow-hidden">
         <div
           aria-hidden="true"
@@ -30,7 +31,10 @@ export function InsightsView() {
             <StageFunnel />
           </div>
 
-          <p className="mt-20 border-t border-slate-line pt-6 text-xs text-mist">{t("insights.footer")}</p>
+          <div className="mt-20 flex flex-col gap-4 border-t border-slate-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs text-mist">{t("insights.footer")}</p>
+            <NextLink from="insights" />
+          </div>
         </div>
       </div>
     </main>

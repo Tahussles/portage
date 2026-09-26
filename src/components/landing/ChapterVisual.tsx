@@ -39,7 +39,7 @@ export function ChapterVisual({ kind }: ChapterVisualProps) {
   if (kind === "prepare") {
     return (
       <div aria-hidden="true" className={`${frame} bg-paper`}>
-        <img src="/demo/docs/sample-employment-letter.png" alt="" className="size-full object-cover object-top grayscale" />
+        <img src="/landing/chapter-prepare.jpg" alt="" width={640} height={906} loading="lazy" decoding="async" className="size-full object-cover object-top" />
         <span className="absolute inset-x-0 top-1/3 h-0.5 bg-accent shadow-[0_0_18px_4px_rgba(213,43,30,0.35)]" />
       </div>
     );
@@ -47,7 +47,7 @@ export function ChapterVisual({ kind }: ChapterVisualProps) {
 
   return (
     <div aria-hidden="true" className={frame}>
-      <img src="/video/hero-poster.jpg" alt="" className="size-full object-cover grayscale" />
+      <img src="/landing/chapter-practise.jpg" alt="" width={640} height={360} loading="lazy" decoding="async" className="size-full object-cover" />
     </div>
   );
 }
