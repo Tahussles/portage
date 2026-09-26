@@ -59,10 +59,20 @@ export type Schedule = {
 /** Rounds away floating point noise (2.1 + 2.1 ...) without hiding real fractions. */
 const clean = (weeks: number) => Math.round(weeks * 1000) / 1000;
 
-export function schedule(nodes: PathwayNode[], statuses: Record<string, NodeStatus>): Schedule {
+export type DurationField = "minWeeks" | "typicalWeeks" | "maxWeeks";
+
+/**
+ * Schedules the given nodes (callers pass main-lane nodes only). `field` picks which duration
+ * estimate to use: typicalWeeks for the plan, minWeeks / maxWeeks for the best / conservative range.
+ */
+export function schedule(
+  nodes: PathwayNode[],
+  statuses: Record<string, NodeStatus>,
+  field: DurationField = "typicalWeeks",
+): Schedule {
   const order = topologicalOrder(nodes);
   const byId = new Map(nodes.map((n) => [n.id, n]));
-  const weeks = (id: string) => (isOpen(statuses[id]) ? byId.get(id)!.duration.typicalWeeks : 0);
+  const weeks = (id: string) => (isOpen(statuses[id]) ? byId.get(id)!.duration[field] : 0);
   const open = order.filter((id) => isOpen(statuses[id]));
 
   // One at a time: each open step starts when the previous one finishes.

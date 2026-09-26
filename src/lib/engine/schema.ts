@@ -62,6 +62,7 @@ export const pathwayNodeSchema = z.object({
   doneIf: ruleSchema.optional(),
   canStartBeforeArrival: z.boolean().optional(),
   scheduleHint: z.enum(["asap", "late"]).optional(),
+  lane: z.enum(["main", "side"]).optional(),
   sources: z.array(sourceSchema).min(1),
 });
 

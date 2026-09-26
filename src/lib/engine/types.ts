@@ -51,8 +51,11 @@ export type PathwayNode = {
   doneIf?: Rule;                       // profile says it is complete
   canStartBeforeArrival?: boolean;
   scheduleHint?: "asap" | "late";      // "late" for criminal record check (6-month validity)
+  lane?: Lane;                         // default "main"; "side" nodes are never scheduled (see Plan.side)
   sources: { label: string; url: string; accessed: string }[];
 };
+
+export type Lane = "main" | "side";
 
 export type Rule =
   | { all: Rule[] } | { any: Rule[] } | { not: Rule }
@@ -69,11 +72,19 @@ export type Pathway = {
 
 export type NodeStatus = "done" | "todo" | "not_applicable" | "blocked";
 
+// best / typical / conservative totals from minWeeks / typicalWeeks / maxWeeks (decision 9).
+// typicalWeeks always equals the schedule's totalWeeks. Finish dates are ISO dates.
+export type ScheduleRange = {
+  bestWeeks: number; typicalWeeks: number; conservativeWeeks: number;
+  bestFinish: string; conservativeFinish: string;
+};
+
 export type Plan = {
   statuses: Record<string, NodeStatus>;
   order: string[];                     // topological
-  sequential: { totalWeeks: number; finishDate: string; startWeek: Record<string, number> };
-  parallel:   { totalWeeks: number; finishDate: string; startWeek: Record<string, number>; criticalPath: string[] };
+  sequential: { totalWeeks: number; finishDate: string; startWeek: Record<string, number>; range: ScheduleRange };
+  parallel:   { totalWeeks: number; finishDate: string; startWeek: Record<string, number>; criticalPath: string[]; range: ScheduleRange };
+  side: { nodeId: string; status: NodeStatus }[];   // "While you wait" nodes: not in order, startWeek or totals
   warnings: PlanWarning[];
   estimateShare: number;               // fraction of critical-path weeks that are estimates (shown in UI)
 };

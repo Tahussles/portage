@@ -48,6 +48,14 @@ describe("on-rn-ien pathway data", () => {
     expect(missing).toEqual([]);
   });
 
+  it("never makes a main-lane node depend on a side-lane node", () => {
+    const side = new Set(pathway.nodes.filter((n) => n.lane === "side").map((n) => n.id));
+    const bad = pathway.nodes
+      .filter((n) => (n.lane ?? "main") === "main")
+      .flatMap((n) => n.dependsOn.filter((d) => side.has(d)).map((d) => `${n.id} -> ${d}`));
+    expect(bad).toEqual([]);
+  });
+
   it("has no dependency cycles", () => {
     expect(findCycle(pathway.nodes)).toBeNull();
   });
