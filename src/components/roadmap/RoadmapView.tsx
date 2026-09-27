@@ -4,6 +4,7 @@ import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from "re
 import pathwayData from "@/data/pathways/on-rn-ien.json";
 import { profileFixture } from "@/lib/demo";
 import { buildPlan } from "@/lib/engine/plan";
+import { HearPlan } from "@/components/speak/HearPlan";
 import { NextLink } from "@/components/ui/NextLink";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
@@ -33,6 +34,7 @@ const subscribeNever = () => () => {};
 export function RoadmapView() {
   const t = useT();
   const profile = useAppStore((s) => s.profile);
+  const locale = useAppStore((s) => s.locale);
   const today = useSyncExternalStore(subscribeNever, getToday, getReferenceDate);
   const plan = useMemo(() => buildPlan(profile ?? SAMPLE_PROFILE, pathway, today), [profile, today]);
   const isSample = profile === null;
@@ -81,11 +83,20 @@ export function RoadmapView() {
               {mode === "parallel" ? t("roadmap.ifToPlan") : t("roadmap.oneAtATimeNote")}
             </p>
           </div>
-          <LicenceCounter
+          <div className="flex flex-col gap-3">
+            <LicenceCounter
             finishDate={schedule.finishDate}
             range={schedule.range}
             estimateShare={plan.estimateShare}
           />
+            <HearPlan
+              key={`${mode}-${(profile ?? SAMPLE_PROFILE).spokenLanguage ?? locale}`}
+              plan={plan}
+              pathway={pathway}
+              schedule={mode}
+              language={(profile ?? SAMPLE_PROFILE).spokenLanguage ?? locale}
+            />
+          </div>
         </div>
       </header>
 

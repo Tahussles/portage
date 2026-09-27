@@ -2,8 +2,10 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useT } from "@/lib/i18n";
+import { useAppStore } from "@/lib/store";
 import { AppLink } from "./AppLink";
 import { SCREENS, isCurrent } from "./links";
 import { LocaleToggle } from "./LocaleToggle";
@@ -14,6 +16,7 @@ export function Navbar() {
   const t = useT();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const fromPitch = useAppStore((s) => s.fromPitch);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -21,6 +24,9 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // The deck is full screen: no site nav on /pitch.
+  const onPitch = pathname.startsWith("/pitch");
 
   const links = (className: string) =>
     SCREENS.map((screen) => {
@@ -41,6 +47,8 @@ export function Navbar() {
       );
     });
 
+  if (onPitch) return null;
+
   return (
     <header
       className={cn(
@@ -58,6 +66,15 @@ export function Navbar() {
           <div className="hidden items-center gap-7 text-sm md:flex">{links("py-1")}</div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            {fromPitch && (
+              <a
+                href="/pitch?s=6"
+                className="hidden items-center gap-1.5 rounded-full border border-slate-line px-3 py-1.5 text-xs text-mist transition-colors hover:text-paper sm:inline-flex"
+              >
+                <ArrowLeft aria-hidden="true" className="size-3.5" />
+                {t("nav.backToPitch")}
+              </a>
+            )}
             <LocaleToggle />
             <AppLink
               href="/start"

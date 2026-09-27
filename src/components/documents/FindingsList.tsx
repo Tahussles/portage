@@ -31,7 +31,7 @@ export function FindingsList({ findings }: FindingsListProps) {
   );
 
   return (
-    <ol ref={scope} className="flex flex-col gap-3">
+    <ol ref={scope} className="flex flex-col gap-3 overflow-x-clip">
       {findings.map((finding) => {
         const tone = toneOf(finding);
         const Icon = tone === "ok" ? Check : tone === "issue" ? Flag : Info;

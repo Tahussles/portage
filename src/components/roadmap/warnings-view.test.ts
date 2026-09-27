@@ -157,7 +157,9 @@ describe("tight state", () => {
   });
 
   it("offers the SPEP backup only when the engine provides its facts (issue #23)", () => {
-    expect(backupFor(eopDef)).toBeNull();
+    // Independent of whether the engine fixture already carries the SPEP facts (#23 / PR #35).
+    expect(backupFor({ ...eopDef, facts: { windowCloses: "2027-07" } })).toBeNull();
+    expect(backupFor({ ...eopDef, facts: undefined })).toBeNull();
     const withBackup: PlanWarning = {
       ...eopDef,
       facts: {

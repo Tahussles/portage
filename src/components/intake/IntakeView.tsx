@@ -8,7 +8,9 @@ import { useRouter } from "next/navigation";
 import { useHref } from "@/components/ui/links";
 import { NextLink } from "@/components/ui/NextLink";
 import { useCallback, useRef, useState } from "react";
-import type { Profile } from "@/lib/engine/types";
+import pathwayData from "@/data/pathways/on-rn-ien.json";
+import { buildPlan } from "@/lib/engine/plan";
+import type { Pathway, Profile } from "@/lib/engine/types";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
 import {
@@ -19,14 +21,17 @@ import {
   transcribe,
   type Source,
 } from "./intake-api";
+import { IntakeProgress, SkeletonChips } from "./IntakeProgress";
 import { LanguageHintSelect } from "./LanguageHintSelect";
 import { MicOrb, type OrbState } from "./MicOrb";
 import { ProfileChips } from "./ProfileChips";
+import { completeStep, startProgress, type Progress } from "./progress";
 import { useRecorder, type RecorderError } from "./useRecorder";
 
 gsap.registerPlugin(useGSAP);
 
 const SAMPLE_CLIP = "/demo/priya-hi.webm";
+const pathway = pathwayData as unknown as Pathway;
 
 type Heard = {
   text: string;
@@ -54,6 +59,7 @@ export function IntakeView() {
   const [phase, setPhase] = useState<OrbState>("idle");
   const [hint, setHint] = useState("auto");
   const [heard, setHeard] = useState<Heard | null>(null);
+  const [progress, setProgress] = useState<Progress | null>(null);
   const ringRef = useRef<HTMLSpanElement>(null);
   const resultRef = useRef<HTMLElement>(null);
 
@@ -68,8 +74,15 @@ export function IntakeView() {
   const runPipeline = useCallback(
     async (audio: Blob, fromSample: boolean) => {
       setPhase("thinking");
+      setHeard(null);
+      setProgress(startProgress());
       const transcript = await transcribe(audio, hint === "auto" ? undefined : hint);
+      setProgress((p) => p && completeStep(p, "transcribe"));
       const extraction = await extractProfile(transcript.data.text, transcript.data.languageCode, locale);
+      setProgress((p) => p && completeStep(p, "understand"));
+      // The real plan build; it takes milliseconds, and /roadmap builds the same plan from the store.
+      buildPlan(extraction.data.profile, pathway, new Date().toLocaleDateString("en-CA"));
+      setProgress((p) => p && completeStep(p, "build"));
       const source: Source = transcript.source === "live" && extraction.source === "live" ? "live" : "sample";
       setHeard({
         text: transcript.data.text,
@@ -102,6 +115,7 @@ export function IntakeView() {
         // fall through to the bundled sample
       }
     }
+    setProgress(null);
     setHeard({
       text: SAMPLE_TRANSCRIPT.text,
       languageCode: SAMPLE_TRANSCRIPT.languageCode,
@@ -155,6 +169,9 @@ export function IntakeView() {
         <p aria-live="polite" className="mt-6 min-h-5 text-sm text-mist">
           {status}
         </p>
+        {progress && <IntakeProgress progress={progress} />}
+        {phase === "thinking" && <SkeletonChips />}
+
         {recorder.error && (
           <p role="alert" className="mt-3 max-w-md text-sm text-paper">
             {t(ERROR_KEY[recorder.error])}

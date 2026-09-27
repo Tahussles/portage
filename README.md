@@ -4,9 +4,9 @@
 
 **Portage turns the licensing maze for internationally educated professionals into a personal, cited, deadline-aware roadmap, starting with internationally educated nurses becoming Registered Nurses in Ontario.**
 
-- Live: `LIVE_URL`
+- Live: https://portage-navy.vercel.app
 - Demo video: `VIDEO_URL`
-- Walk-through without keys or network: add `?demo=1` to any page (for example `LIVE_URL/?demo=1`).
+- Walk-through without keys or network: add `?demo=1` to any page (for example https://portage-navy.vercel.app/?demo=1).
 
 ## The problem
 

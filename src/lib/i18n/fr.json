@@ -247,5 +247,14 @@
   "notFound.title": "Cette page a pris un autre chemin.",
   "notFound.body": "Le lien est peut-être ancien ou mal saisi. Votre parcours n’est qu’à un clic.",
   "notFound.home": "Retour à l’accueil",
-  "notFound.roadmap": "See a sample plan · Voir un exemple"
+  "notFound.roadmap": "See a sample plan · Voir un exemple",
+  "intake.progress.transcribe": "Transcribing · Transcription",
+  "intake.progress.understand": "Understanding your story · Analyse de votre parcours",
+  "intake.progress.build": "Building your plan · Création de votre parcours",
+  "speak.hear": "Hear your plan · Écouter votre parcours",
+  "speak.stop": "Stop · Arrêter",
+  "speak.loading": "Preparing audio · Préparation de l’audio",
+  "speak.transcript": "Transcript · Transcription",
+  "speak.full": "Full plan · Parcours complet",
+  "nav.backToPitch": "Retour à la présentation"
 }

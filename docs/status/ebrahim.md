@@ -1,7 +1,7 @@
 # Ebrahim: track status (pathway data, engine, AI routes)
 
 ## Current phase
-Part 2, Phase H. #25 merged (PR #30). #23 SPEP backup facts in review on `feat/spep-backup-facts`, waiting on a one-line change in Taha's `warnings-view.test.ts` (line 160 expects no backup in plan-priya.json). Next: #27 insights.json, third sample document.
+Part 2, Phase H. #25 (PR #30) and #27 (PR #37) merged. #23 SPEP backup facts in review (PR #35), unblocked by Taha's #38. Next: third sample document (transcript partly in Hindi).
 
 ## Completed
 - Step 2: pathway facts verified (`docs/PATHWAY_VERIFIED.md`, PR #2), schema + `on-rn-ien.json` + tests (PR #3).
