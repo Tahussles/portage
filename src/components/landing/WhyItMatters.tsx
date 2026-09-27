@@ -1,6 +1,6 @@
 "use client";
 
-import { INSIGHTS, formatAsOf, formatCount } from "@/components/insights/insights";
+import { INSIGHTS, formatAsOf, formatCount, sourceName } from "@/components/insights/insights";
 import pathwayData from "@/data/pathways/on-rn-ien.json";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
@@ -16,21 +16,21 @@ export function WhyItMatters() {
       key: "applicants",
       value: formatCount(applicants.value, locale),
       label: t("why.applicants"),
-      source: t("insights.source", { label: applicants.source.label, date: formatAsOf(applicants.asOf, locale) }),
+      source: t("insights.source", { label: sourceName(applicants.source.label, t), date: formatAsOf(applicants.asOf, locale) }),
       url: applicants.source.url,
     },
     pathwayData.guidelineMonths && {
       key: "guideline",
       value: `~${pathwayData.guidelineMonths}`,
       label: t("why.guideline"),
-      source: t("insights.sourcePlain", { label: pathwayData.regulator.name }),
+      source: t("insights.sourcePlain", { label: sourceName(pathwayData.regulator.name, t) }),
       url: pathwayData.regulator.url,
     },
     {
       key: "requirements",
       value: formatCount(INSIGHTS.requirements.items.length, locale),
       label: t("why.requirements"),
-      source: t("insights.sourcePlain", { label: INSIGHTS.requirements.source.label }),
+      source: t("insights.sourcePlain", { label: sourceName(INSIGHTS.requirements.source.label, t) }),
       url: INSIGHTS.requirements.source.url,
     },
   ].filter((s): s is Exclude<typeof s, undefined | 0 | null> => Boolean(s));

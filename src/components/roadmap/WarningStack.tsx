@@ -150,7 +150,7 @@ export function WarningStack({ views, protecting, onSeeFix, className }: Warning
                             className="flex w-full items-baseline justify-between gap-3 text-left text-xs text-paper underline-offset-4 hover:underline"
                           >
                             <span className="min-w-0">{pick(step.title, locale)}</span>
-                            <span className={cn("shrink-0", step.startsNow ? "text-accent" : "text-mist")}>
+                            <span className={cn("max-w-22 shrink-0 text-right", step.startsNow ? "text-accent" : "text-mist")}>
                               {step.startsNow ? t("warnings.startNow") : t("roadmap.week", { n: step.startWeek })}
                             </span>
                           </button>

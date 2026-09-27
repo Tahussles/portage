@@ -12,8 +12,11 @@ type LanguageHintSelectProps = {
   onChange: (value: string) => void;
 };
 
+/** A spoken language's own name next to the UI name ("हिन्दी · Hindi"), so speakers can find it. English and
+ *  French are the UI languages themselves, so they only get the UI name (one language on screen). */
 function languageLabel(code: string, locale: string) {
   try {
+    if (code === "en" || code === "fr") return new Intl.DisplayNames([locale], { type: "language" }).of(code) ?? code;
     const own = new Intl.DisplayNames([code], { type: "language" }).of(code) ?? code;
     const ui = new Intl.DisplayNames([locale], { type: "language" }).of(code) ?? code;
     return own.toLocaleLowerCase(code) === ui.toLocaleLowerCase(locale) ? ui : `${own} · ${ui}`;

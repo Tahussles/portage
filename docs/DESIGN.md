@@ -1,11 +1,11 @@
 # Portage Design System
 
-Architex's design language, Canadian edition. Cinematic dark sections, huge two-tone type, scroll-scrubbed motion, stone neutrals, one rare accent. What changes: flag red instead of violet, bilingual micro-labels, Canadian footage, and the map as a recurring visual.
+Architex's design language, Canadian edition. Cinematic dark sections, huge two-tone type, scroll-scrubbed motion, stone neutrals, one rare accent. What changes: flag red instead of violet, English and French (one at a time), Canadian footage, and the map as a recurring visual.
 
 ## 1. Principles
 1. **Restraint is the luxury.** One accent colour, two fonts, lots of air.
 2. **Motion explains.** Every animation shows a change in state (steps assembling, a plan getting shorter). No motion for decoration only.
-3. **Bilingual by default.** Micro-labels always show both languages. Body copy follows the toggle.
+3. **One language at a time.** The toggle selects English or French; every string exists in both, and nothing on screen shows both at once. A French browser starts in French; `?lang=` wins.
 4. **Trust is visible.** Sources, "official" vs "estimate" badges, and "Illustrative data" labels are designed elements, not footnotes.
 5. **No kitsch.** No moose, beavers, hockey, "eh", or anything resembling Government of Canada branding (no "Canada" wordmark, no flag-plus-wordmark lockup).
 
@@ -35,7 +35,7 @@ Usage map:
 - Dark sections (hero, intake, roadmap, insights): background `ink`, text `paper`, secondary `mist`, borders `slate-line`.
 - Light sections (landing chapters after hero, documents): background `white`/`paper`, text `ink`, secondary `quiet`, borders `rule`.
 - Accent red ONLY for: primary CTA, critical path edges and node rings, logo mark, warning icons, the "active province" on maps.
-- Status: done = `paper` check icon on `granite`; todo = outline; blocked = red ring + icon; estimate badge = `mist` outline pill with "Estimate · Estimation"; official badge = `paper` fill pill "Official · Officiel".
+- Status: done = `paper` check icon on `granite`; todo = outline; blocked = red ring + icon; estimate badge = `mist` outline pill with "Estimate" (FR "Estimation"); official badge = `paper` fill pill "Official" (FR "Officiel").
 
 ## 3. Typography
 - Display: Space Grotesk 500. Body: Inter 400/500. Numbers in counters: Space Grotesk with `font-variant-numeric: tabular-nums`.
@@ -45,7 +45,7 @@ Usage map:
   - Section title: `text-4xl md:text-6xl font-display tracking-tight`
   - Counter: `text-6xl md:text-8xl font-display tabular-nums`
   - Body: `text-base md:text-lg leading-relaxed`
-  - Micro-label: `text-[10px] tracking-[0.2em] uppercase font-medium` (always bilingual: `PROCESSUS · PROCESS`)
+  - Micro-label: `text-[10px] tracking-[0.2em] uppercase font-medium` (in the selected language: `ROADMAP` or `PARCOURS`)
 - Two-tone headline: line 1 `text-paper`, line 2 `text-stone-500`.
 
 ## 4. Motion (GSAP)
@@ -72,36 +72,36 @@ Reduced motion: every tween short-circuits to its end state (`gsap.matchMedia()`
 ## 6. Screens
 
 ### 6.1 Landing `/`
-1. **Navbar** (transparent over hero, `glass` on scroll): logo mark (original single-line maple leaf, red) + "Portage" wordmark in Space Grotesk; links "How it works · Comment ça marche", "For government · Pour les gouvernements"; `EN | FR` toggle; pill CTA "Start · Commencer".
+1. **Navbar** (transparent over hero, `glass` on scroll): logo mark (original single-line maple leaf, red) + "Portage" wordmark in Space Grotesk; screen links (Speak, Roadmap, Documents, Insights); `EN | FR` toggle; pill CTA "Start" (FR "Commencer").
 2. **Hero** (h-screen, `ink`, grayscale video 40% opacity, gradient to `ink`):
-   - Micro-label: `POUR LES PROFESSIONNELS FORMÉS À L'ÉTRANGER · FOR INTERNATIONALLY TRAINED PROFESSIONALS`
+   - Micro-label: `FOR INTERNATIONALLY TRAINED PROFESSIONALS` (FR `POUR LES PROFESSIONNELS FORMÉS À L'ÉTRANGER`)
    - EN: "You trained for this abroad." / "Now practise it here."
    - FR: "Vous avez été formé à l'étranger." / "Exercez maintenant ici."
-   - CTA white pill: "Map my path · Tracer mon parcours"; ghost link: "See a sample plan · Voir un exemple".
+   - CTA white pill: "Map my path" (FR "Tracer mon parcours"); ghost link: "See a sample plan" (FR "Voir un exemple de parcours").
 3. **Ticker** (two rows, opposite directions, `mist` on `ink`): "ICU nurse · Manila → Sudbury", "Registered nurse · Lagos → Halifax", "Nurse · Kerala → Waterloo", "Midwife · Nairobi → Winnipeg", "Nurse · Kyiv → Calgary", "Nurse · Lahore → Mississauga", "Nurse · Bogotá → Montréal". (Nursing only in v1 so the ticker does not promise professions we do not cover. Add engineers and trades when those pathways exist.)
-4. **Chapters** (`white`, scroll-scrubbed words, each with a small grayscale still or clip on the right):
-   - **Speak / Parlez:** "Tell us your story in your own language."
-   - **Map / Tracez:** "Every requirement, in the right order, with the official source."
-   - **Prepare / Préparez:** "Catch document problems before they cost you months."
-   - **Practise / Exercez:** "Get to your first shift sooner."
+4. **Chapters** (`white`, numbered 01 to 04, one scroll-scrubbed word each in the selected language, with a small visual on the right):
+   - **Speak** (FR **Parlez**): "Tell us your story in your own language."
+   - **Map** (**Tracez**): "Every requirement, in the right order, with the official source."
+   - **Prepare** (**Préparez**): "Catch document problems before they cost you months."
+   - **Practise** (**Exercez**): "Get to your first shift sooner."
 5. **Why it matters band** (`ink`): 2 or 3 big sourced stats only (e.g., "~12 months: CNO's own guideline for nurses educated outside Canada", "9 requirements", "32,000 professionals supported by federal FCR agreements this year"). Each stat has a tiny source line.
-6. **Final CTA** (`ink`): "Carry your career across." / "Emportez votre carrière avec vous." + CTA.
-7. **Footer:** "Portage is a planning tool. It never asks for your regulator login and never submits anything for you. Always confirm with your regulator." (bilingual)
+6. **Final CTA** (`ink`), two-tone: "Carry your career across." / "Start in your own language." (FR "Emportez votre carrière avec vous." / "Commencez dans votre langue.") + CTA.
+7. **Footer:** "Portage is a planning tool. It never asks for your regulator login and never submits anything for you. Always confirm with your regulator." (in the selected language)
 
 ### 6.2 Intake `/start`
-- Full-screen `ink`. Top-left: back + micro-label `ÉTAPE 1 · STEP 1`.
+- Full-screen `ink`. Top-left: back + micro-label `STEP 1` (FR `ÉTAPE 1`).
 - Centre: mic orb (180 px, `granite` fill, `paper` 1 px ring; while listening, a red 2 px ring pulses with volume).
 - Prompt above orb (display, 3xl): "Tell me about your nursing career." / "Parlez-moi de votre parcours en soins infirmiers." Subtext listing what helps: where you studied, years of experience, when you last worked as a nurse, language tests, whether you can work in Canada.
 - After stop: transcript in native script, large (2xl), then English translation fades in below in `mist`.
-- Profile chips animate in (pill, `granite`, `paper` text; low-confidence fields get a dashed outline and "Check · Vérifier").
-- Buttons: "Build my roadmap · Créer mon parcours" (red pill), "Use sample voice (Priya) · Utiliser l'exemple".
+- Profile chips animate in (pill, `granite`, `paper` text; low-confidence fields get a dashed outline and "Check" (FR "Vérifier")).
+- Buttons: "Build my roadmap" (red pill), "Use sample voice (Priya)".
 - Consent (xs, `mist`): "Your audio is sent to ElevenLabs for transcription and your words to Anthropic to build your profile. Portage does not store either."
 
 ### 6.3 Roadmap `/roadmap`
 - `ink` background with topo overlay. React Flow controls hidden; custom zoom buttons bottom-right in `granite`.
-- **Header bar:** micro-label `PARCOURS · ROADMAP`, title "Registered Nurse, Ontario" / "Infirmier(ère) autorisé(e), Ontario", profile chips (editable).
-- **Counter block** (top-right): label "Earliest licence · Permis au plus tôt", value "MAY 2027" style month + year, sub "X% estimated · X % estimé".
-- **Toggle** (segmented, pill): "One at a time · Une à la fois" | "Portage plan · Plan Portage".
+- **Header bar:** micro-label `ROADMAP` (FR `PARCOURS`), title "Registered Nurse, Ontario" / "Infirmier(ère) autorisé(e), Ontario", profile chips (editable).
+- **Counter block** (top-right): label "Earliest licence" (FR "Permis au plus tôt"), value "MAY 2027" style month + year, sub "X% estimated" (FR "X % estimé").
+- **Toggle** (segmented, pill): "One at a time" | "Portage plan" (FR "Une à la fois" | "Plan Portage").
 - **StepNode:** 240 px card, `granite`, 1 px `slate-line`; top row actor icons (you / CNO / third party); title (display, lg); duration line "6 to 10 wks" + Official/Estimate badge; status glyph. Critical nodes: 1 px red ring + small red dot.
 - **Edges:** stone 1 px; critical: red 1.5 px with flowing dash.
 - **Parallel layout:** x = earliest start week × 40 px, lanes by concurrency; a faint week ruler along the top ("Week 0, 4, 8..." / "Semaine").
@@ -109,15 +109,15 @@ Reduced motion: every tween short-circuits to its end state (`gsap.matchMedia()`
 - **Warnings stack** (left, under header): cards with red left rule (border-radius 0 on that side), icon, title, one-line body, "See fix".
 
 ### 6.4 Documents `/documents` [SHOULD]
-- Light section (`paper`). Drop zone: dashed `rule`, large display text "Drop a document · Déposez un document".
+- Light section (`paper`). Drop zone: dashed `rule`, large display text "Drop a document" (FR "Déposez un document").
 - On upload: document thumbnail, scan line sweeps, then findings list: ticks (`ink`) for OK, red flags for issues with plain-language fix and the CNO source link.
-- Sample docs row: "Try a sample · Essayer un exemple" (three watermarked SAMPLE / EXEMPLE files).
+- Sample docs row: "Try a sample" (FR "Essayer un exemple"); the sample files themselves carry a SAMPLE / EXEMPLE watermark.
 
 ### 6.5 Insights `/insights` [SHOULD]
 - `ink`. Title: "Where Canada's talent gets stuck." / "Où les talents du Canada restent bloqués."
-- Left: Canada map, Ontario active (red), others dimmed with "Coming soon · Bientôt".
+- Left: Canada map, Ontario active (red), others dimmed with "Coming soon" (FR "Bientôt").
 - Right: stage funnel for the nine requirements (horizontal bars, stone with the biggest drop in red).
-- Persistent badge top-right: "Illustrative data · Données illustratives" unless replaced with sourced aggregates.
+- Persistent badge top-right: "Illustrative data" (FR "Données illustratives") unless replaced with sourced aggregates.
 - Footer line: "Built for the FLMM credential recognition platform recommendations, Fall 2026."
 
 ## 7. Assets

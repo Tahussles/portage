@@ -7,7 +7,7 @@ import { extractionSchema, transcriptSchema, type Extraction, type Transcript } 
 // fixtures in demo mode or when an upstream fails (`fallback: true`); this adds a zod check on
 // what reaches the UI, a timeout, and a local fixture when the route itself cannot be reached.
 
-/** Where a result came from: the live service, or the sample (shown as "Sample · Exemple"). */
+/** Where a result came from: the live service, or the sample (shown as "Sample"). */
 export type Source = "live" | "sample";
 export type Result<T> = { data: T; source: Source };
 

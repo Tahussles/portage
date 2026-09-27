@@ -1,7 +1,7 @@
 # Taha: track status (UI, motion, design)
 
 ## Current phase
-Round 8: in-app pitch deck at `/pitch`, short "Hear your plan", known-good release tag `v1.0-demo`. Next: Step 5 chip row on the roadmap, pitch rehearsal.
+Round 9: one language at a time (the toggle decides). Next: Step 5 chip row on the roadmap, pitch rehearsal.
 
 ## Completed
 - Step 1: scaffold, tokens, fonts, i18n, navbar, hero, stub pages (PR #1).
@@ -20,6 +20,7 @@ Round 8: in-app pitch deck at `/pitch`, short "Hear your plan", known-good relea
 - `/pitch`: nine-slide deck in the product's design language, keys, speaker notes with a timer, print to PDF, "See it live" and "Back to pitch" (PR #46). Every number comes from the data files, the engine or `src/components/pitch/sources.ts`.
 - Hear your plan plays a short version by default (licence, window, first step), with "Full plan · Parcours complet" under the pill.
 - Known-good release: tag `v1.0-demo` on `8063c17` after a clean live smoke; runbook covers the /pitch flow and the rollback to that deployment.
+- One language at a time (decision 16): the EN/FR toggle decides, a French browser starts in French with no flash of English, `<html lang>`, title and description follow the locale; `one-language.test.ts` guards against pairs.
 
 ## Next
 - Step 5: editable profile chip row above the roadmap canvas.
@@ -35,4 +36,4 @@ Round 8: in-app pitch deck at `/pitch`, short "Hear your plan", known-good relea
 - None. Waiting on the native Hindi recording (#15) and Ebrahim's #35 / #37.
 
 ## Last updated
-Sat Sep 26, 2026, 8:26 PM
+Sat Sep 26, 2026, 8:54 PM

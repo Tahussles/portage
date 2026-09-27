@@ -1,7 +1,7 @@
 import { z } from "zod";
 import insightsData from "@/data/insights.provisional.json";
 import type { Locale } from "@/lib/engine/types";
-import { htmlLang } from "@/lib/i18n";
+import { htmlLang, type MessageKey } from "@/lib/i18n";
 
 // TODO(data): read src/data/insights.json once it exists (issue #27); drop the provisional copy.
 
@@ -38,6 +38,18 @@ export function formatAsOf(isoDate: string, locale: Locale) {
   return new Intl.DateTimeFormat(htmlLang[locale], { dateStyle: "long", timeZone: "UTC" }).format(
     Date.parse(`${isoDate}T00:00:00Z`),
   );
+}
+
+/** Source names come from the data files in English; show them in the selected language. */
+const SOURCE_NAMES: Record<string, MessageKey> = {
+  "College of Nurses of Ontario (CNO)": "source.regulator",
+  "CNO: Applicant statistics": "source.cnoApplicantStats",
+  "CNO: Outside Canada registration guide": "source.cnoOutsideCanada",
+};
+
+export function sourceName(label: string, t: (key: MessageKey) => string) {
+  const key = SOURCE_NAMES[label];
+  return key ? t(key) : label;
 }
 
 export type FunnelBar = { nodeId: string; share: number; drop: number; biggestDrop: boolean };

@@ -92,6 +92,16 @@
   text-transform: uppercase;
 }
 
+/* A French visit hydrates from the English server render: the <head> boot script marks the root and
+   the body stays hidden until French is rendered (at most 3 s), so English never flashes. */
+html[data-locale-pending] {
+  background-color: var(--color-ink);
+}
+
+html[data-locale-pending] body {
+  visibility: hidden;
+}
+
 /* Elements that GSAP rises in start hidden only when motion is allowed,
    so there is no flash before hydration and reduced motion shows them instantly. */
 @media (prefers-reduced-motion: no-preference) {

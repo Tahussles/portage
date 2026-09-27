@@ -33,7 +33,8 @@ describe("i18n interpolation", () => {
   it("fills placeholders and leaves unknown ones", () => {
     expect(translate("en", "roadmap.week", { n: 4 })).toBe("Week 4");
     expect(translate("fr", "roadmap.week", { n: 4 })).toBe("Semaine 4");
-    expect(translate("en", "roadmap.estimated", { n: 90 })).toBe("90% estimated · 90 % estimé");
+    expect(translate("en", "roadmap.estimated", { n: 90 })).toBe("90% estimated");
+    expect(translate("fr", "roadmap.estimated", { n: 90 })).toBe("90 % estimé");
     expect(translate("en", "roadmap.week")).toBe("Week {n}");
   });
 });

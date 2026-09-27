@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { LocaleSync } from "@/components/ui/LocaleSync";
 import { Navbar } from "@/components/ui/Navbar";
+import { LOCALE_BOOT_SCRIPT } from "@/lib/i18n/boot";
+import en from "@/lib/i18n/en.json";
 import "./globals.css";
 
 const inter = Inter({
@@ -22,11 +24,10 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://portage-navy.vercel
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Portage",
-  description: "Carry your career across. Emportez votre carrière avec vous.",
+  // The page title and description are rendered by LocaleSync, in the selected language.
   openGraph: {
-    title: "Portage",
-    description: "A personal, cited, deadline-aware licensing roadmap for internationally educated nurses in Ontario.",
+    title: en["meta.title"],
+    description: en["meta.description"],
     type: "website",
     locale: "en_CA",
     alternateLocale: ["fr_CA"],
@@ -35,7 +36,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-CA" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    // The boot script may set lang and data-locale-pending on <html> before hydration.
+    <html lang="en-CA" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: LOCALE_BOOT_SCRIPT }} />
+      </head>
       <body className="min-h-svh bg-ink font-sans text-paper antialiased">
         <noscript>
           <style>{"[data-rise]{opacity:1!important}"}</style>

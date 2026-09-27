@@ -18,7 +18,7 @@ const CHAPTERS = [
   { id: "practise", href: "/insights" },
 ] as const;
 
-/** Four chapters on white. Each giant word is scrubbed from 0.15 to full opacity as it scrolls in. */
+/** Four chapters on white, numbered. Each giant word is scrubbed from 0.15 to full opacity as it scrolls in. */
 export function Chapters() {
   const t = useT();
   const scope = useRef<HTMLElement>(null);
@@ -46,16 +46,18 @@ export function Chapters() {
           {t("chapters.label")}
         </h2>
         <ol className="mt-10 flex flex-col gap-20 md:gap-28">
-          {CHAPTERS.map((chapter) => (
+          {CHAPTERS.map((chapter, i) => (
             <li key={chapter.id} className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
               <div className="min-w-0">
-                <p data-chapter-word className="font-display text-[clamp(3rem,12vw,10rem)] leading-none font-medium tracking-tighter">
-                  <span className="block">{t(`chapter.${chapter.id}.en`)}</span>
-                  <span lang="fr" className="block text-stone-500">
-                    {t(`chapter.${chapter.id}.fr`)}
-                  </span>
+                <p aria-hidden="true" className="font-display text-2xl font-medium text-stone-400 tabular-nums md:text-3xl">
+                  {String(i + 1).padStart(2, "0")}
                 </p>
-                <p className="mt-6 max-w-md text-base leading-relaxed text-quiet md:text-lg">{t(`chapter.${chapter.id}.copy`)}</p>
+                <p data-chapter-word className="mt-2 font-display text-[clamp(3rem,12vw,10rem)] leading-none font-medium tracking-tighter">
+                  {t(`chapter.${chapter.id}.word`)}
+                </p>
+                <p className="mt-6 max-w-md text-lg leading-relaxed text-quiet md:text-2xl md:leading-snug">
+                  {t(`chapter.${chapter.id}.copy`)}
+                </p>
                 <AppLink
                   href={chapter.href}
                   className="group mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink underline-offset-4 hover:underline"

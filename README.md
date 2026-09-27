@@ -42,9 +42,9 @@ Canada needs nurses, and thousands of internationally educated nurses already li
 
 ## Honesty notes
 
-- Durations marked **Estimate · Estimation** are applicant-side time with a note on where the number came from; **Official · Officiel** durations come from CNO's published processing times.
+- Durations marked **Estimate** are applicant-side time with a note on where the number came from; **Official** durations come from CNO's published processing times.
 - Every timeline is a range; the Portage plan is labelled "if each step goes to plan".
-- The insights stage funnel is **Illustrative data · Données illustratives**; there is no public per-stage data yet.
+- The insights stage funnel is labelled **Illustrative data**; there is no public per-stage data yet.
 - Sample documents are watermarked **SAMPLE / EXEMPLE**. Priya is a composite persona.
 - Portage never asks for a regulator login and never submits anything. Always confirm with the regulator.
 
