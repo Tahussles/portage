@@ -6,6 +6,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { isDemoMode } from "@/components/intake/intake-api";
 import { profileFixture } from "@/lib/demo";
 import { useT } from "@/lib/i18n";
+import { useActiveProfile } from "@/lib/account/hooks";
+import { mergeDocument } from "@/lib/account/merge";
+import { useAccountStore, useCurrentAccount } from "@/lib/account/store";
 import { useAppStore } from "@/lib/store";
 import {
   SAMPLES,
@@ -32,13 +35,16 @@ type Current = { name: string; src: string; kind: "image" | "pdf"; objectUrl: bo
 export function DocumentsView() {
   const t = useT();
   const locale = useAppStore((s) => s.locale);
-  const profile = useAppStore((s) => s.profile);
+  const profile = useActiveProfile();
+  const account = useCurrentAccount();
 
   const [current, setCurrent] = useState<Current | null>(null);
   const [outcome, setOutcome] = useState<CheckOutcome | null>(null);
   const [scanned, setScanned] = useState(false);
   const [problem, setProblem] = useState<FileProblem | "docs.error.read" | null>(null);
-  const [legalName, setLegalName] = useState("");
+  // Signed in, the legal name comes from the profile (settled there when sources disagree).
+  const [typedName, setLegalName] = useState<string | null>(null);
+  const legalName = typedName ?? account?.legalName ?? "";
   const run = useRef(0);
 
   // Release blob URLs for uploaded files.
@@ -70,6 +76,15 @@ export function DocumentsView() {
         return;
       }
       setOutcome(result);
+      // Signed in: keep the findings and the extracted fields (never the file) on the account.
+      const store = useAccountStore.getState();
+      if (store.currentId) {
+        const at = new Date().toISOString();
+        const { extraction, findings } = result.data;
+        store.update((a) =>
+          mergeDocument(a, { id: `${extraction.docType}@${at}`, docType: extraction.docType, checkedAt: at, extraction, findings, sample: result.sample }),
+        );
+      }
     },
     [profile, legalName],
   );

@@ -12,6 +12,8 @@ import pathwayData from "@/data/pathways/on-rn-ien.json";
 import { buildPlan } from "@/lib/engine/plan";
 import type { Pathway, Profile } from "@/lib/engine/types";
 import { useT } from "@/lib/i18n";
+import { changedFacts, editField, mergeVoice } from "@/lib/account/merge";
+import { useAccountStore, useCurrentAccount } from "@/lib/account/store";
 import { useAppStore } from "@/lib/store";
 import {
   SAMPLE_EXTRACTION,
@@ -31,6 +33,20 @@ import { useRecorder, type RecorderError } from "./useRecorder";
 gsap.registerPlugin(useGSAP);
 
 const SAMPLE_CLIP = "/demo/priya-hi.webm";
+
+/** Signed in: what the interview found joins the account (voice fills gaps; edits and documents win). */
+function saveVoice(profile: Profile) {
+  const store = useAccountStore.getState();
+  if (store.currentId) store.update((a) => mergeVoice(a, profile, new Date().toISOString()));
+}
+
+/** Signed in: a fact corrected on the chips counts as the person's own edit. */
+function saveEdits(before: Profile, after: Profile) {
+  const store = useAccountStore.getState();
+  if (!store.currentId) return;
+  const at = new Date().toISOString();
+  store.update((a) => changedFacts(before, after).reduce((acc, [path, value]) => editField(acc, path, value, at), a));
+}
 const pathway = pathwayData as unknown as Pathway;
 
 type Heard = {
@@ -55,6 +71,7 @@ export function IntakeView() {
   const locale = useAppStore((s) => s.locale);
   const profile = useAppStore((s) => s.profile);
   const setProfile = useAppStore((s) => s.setProfile);
+  const account = useCurrentAccount();
 
   const [phase, setPhase] = useState<OrbState>("idle");
   const [hint, setHint] = useState("auto");
@@ -92,6 +109,7 @@ export function IntakeView() {
         fellBack: source === "sample" && !fromSample,
       });
       setProfile(extraction.data.profile);
+      saveVoice(extraction.data.profile);
       setPhase("done");
     },
     [hint, locale, setProfile],
@@ -124,6 +142,7 @@ export function IntakeView() {
       fellBack: false,
     });
     setProfile(SAMPLE_EXTRACTION.profile);
+    saveVoice(SAMPLE_EXTRACTION.profile);
     setPhase("done");
   };
 
@@ -208,7 +227,19 @@ export function IntakeView() {
           <section aria-label={t("intake.profile")} className="mt-10 w-full">
             <p className="micro-label mb-2 text-mist">{t("intake.profile")}</p>
             <p className="mb-4 text-xs text-mist">{t("intake.profileNote")}</p>
-            <ProfileChips profile={profile} onChange={(p: Profile) => setProfile(p)} />
+            <ProfileChips
+              profile={profile}
+              onChange={(p: Profile) => {
+                saveEdits(profile, p);
+                setProfile(p);
+              }}
+            />
+            {account && (
+              <AppLink href="/profile" className="mt-4 inline-flex items-center gap-1.5 text-sm text-paper underline-offset-4 hover:underline">
+                {t("profile.review")}
+                <ArrowRight aria-hidden="true" className="size-4" />
+              </AppLink>
+            )}
           </section>
         )}
 
