@@ -38,7 +38,7 @@ Canada needs nurses, and thousands of internationally educated nurses already li
 
 - Official CNO pages for every requirement, fee and processing time; every step in `src/data/pathways/on-rn-ien.json` carries its source URLs and an access date. Verification notes: [`docs/PATHWAY_VERIFIED.md`](docs/PATHWAY_VERIFIED.md); research base: [`docs/PATHWAY_ON_RN_IEN.md`](docs/PATHWAY_ON_RN_IEN.md).
 - CNO applicant statistics (active applicants and SPEP outcomes) for the insights view, with as-of dates.
-- Map: Natural Earth admin-1 (public domain). Practise chapter photo: Pexels. See [`docs/CREDITS.md`](docs/CREDITS.md).
+- Map: Natural Earth admin-1 (public domain). See [`docs/CREDITS.md`](docs/CREDITS.md).
 
 ## Honesty notes
 
