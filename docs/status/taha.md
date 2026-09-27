@@ -19,6 +19,7 @@ Round 8: in-app pitch deck at `/pitch`, short "Hear your plan", known-good relea
 - docs/DEMO_RUNBOOK.md: checklist, tested warm-up commands, click paths, failure plays.
 - `/pitch`: nine-slide deck in the product's design language, keys, speaker notes with a timer, print to PDF, "See it live" and "Back to pitch" (PR #46). Every number comes from the data files, the engine or `src/components/pitch/sources.ts`.
 - Hear your plan plays a short version by default (licence, window, first step), with "Full plan · Parcours complet" under the pill.
+- Known-good release: tag `v1.0-demo` on `8063c17` after a clean live smoke; runbook covers the /pitch flow and the rollback to that deployment.
 
 ## Next
 - Step 5: editable profile chip row above the roadmap canvas.
@@ -34,4 +35,4 @@ Round 8: in-app pitch deck at `/pitch`, short "Hear your plan", known-good relea
 - None. Waiting on the native Hindi recording (#15) and Ebrahim's #35 / #37.
 
 ## Last updated
-Sat Sep 26, 2026, 8:21 PM
+Sat Sep 26, 2026, 8:34 PM

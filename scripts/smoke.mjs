@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
-const PAGES = ["/", "/start", "/roadmap", "/documents", "/insights"];
+const PAGES = ["/", "/start", "/roadmap", "/documents", "/insights", "/pitch"];
 const transcript = JSON.parse(
   readFileSync(fileURLToPath(new URL("../src/data/fixtures/transcript-priya.json", import.meta.url)), "utf8"),
 );
