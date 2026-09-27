@@ -17,15 +17,17 @@ Canada needs nurses, and thousands of internationally educated nurses already li
 ![Landing](docs/screenshots/1-landing.jpg)
 
 1. **Landing (`/`)**: the promise, how it works, and three sourced numbers.
-2. **Speak (`/start`)**: tell your story out loud in any language; see the transcript, an English translation, and editable profile facts.
+2. **Speak (`/start`)**: a guided interview asks six questions, one at a time, read aloud in your language (nine languages, pre-generated); or talk freely with a checklist of what to mention. See the transcript and editable profile facts.
 3. **Roadmap (`/roadmap`)**: every CNO step for *your* profile, one at a time versus the Portage plan (steps in parallel), with the earliest licence date, official sources on every step, and deadline warnings (for the sample persona, her evidence of practice expires if she does one step at a time; on the Portage plan she keeps it, but only if each step goes to plan).
 4. **Documents (`/documents`)**: upload a document; Portage reads what is printed and checks it against CNO's rules (who must send it, validity windows, translation, names).
 5. **Insights (`/insights`)**: for governments and regulators, where applicants are and where they stall, with real CNO numbers and a clearly labelled illustrative funnel.
+6. **Sign in and profile (`/signin`, `/profile`)**: an optional, passwordless demo account that lives only in this browser. The profile holds everything Portage knows, with where each fact came from (voice interview, a document, or your own edit); sources that disagree are shown side by side for you to settle. It stores structured facts only, never audio, transcripts or document files, and every page works without it.
 
 | | |
 |---|---|
 | ![Speak](docs/screenshots/2-intake.jpg) | ![Roadmap](docs/screenshots/3-roadmap.jpg) |
 | ![Documents](docs/screenshots/4-documents.jpg) | ![Insights](docs/screenshots/5-insights.jpg) |
+| ![Sign in](docs/screenshots/6-signin.jpg) | ![Profile](docs/screenshots/7-profile.jpg) |
 
 ## AI versus the deterministic engine
 

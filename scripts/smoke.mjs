@@ -1,11 +1,12 @@
 // Smoke test: `pnpm smoke <baseUrl>` (default http://localhost:3000).
-// GETs every page (expects 200) and POSTs the profile route in demo mode (expects ok: true).
+// GETs every page (expects 200), POSTs the profile route in demo mode (expects ok: true), and fetches one
+// guide audio clip (expects audio).
 // Sends only Ebrahim's Priya fixture transcript; prints no response bodies or secrets.
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
-const PAGES = ["/", "/start", "/roadmap", "/documents", "/insights", "/pitch"];
+const PAGES = ["/", "/start", "/roadmap", "/documents", "/insights", "/pitch", "/signin", "/profile"];
 const transcript = JSON.parse(
   readFileSync(fileURLToPath(new URL("../src/data/fixtures/transcript-priya.json", import.meta.url)), "utf8"),
 );
@@ -43,6 +44,19 @@ for (const path of PAGES) {
     );
   } catch (err) {
     report(false, "POST /api/profile?demo=1", err.message);
+  }
+}
+
+// One pre-generated guide question (the guided interview plays these without the network).
+{
+  const started = Date.now();
+  try {
+    const res = await fetch(`${base}/guide/hi/q1.mp3`, { redirect: "manual" });
+    const type = res.headers.get("content-type") ?? "";
+    const bytes = (await res.arrayBuffer()).byteLength;
+    report(res.status === 200 && type.includes("audio") && bytes > 1000, "GET  /guide/hi/q1.mp3", `${res.status} ${type} ${bytes} B in ${Date.now() - started} ms`);
+  } catch (err) {
+    report(false, "GET  /guide/hi/q1.mp3", err.message);
   }
 }
 
