@@ -12,6 +12,7 @@
     "gen:topo": "node scripts/gen-topo.mjs",
     "gen:geo": "node scripts/gen-geo.mjs",
     "gen:chapters": "node scripts/gen-chapter-shots.mjs",
+    "gen:readme": "node scripts/gen-readme-shots.mjs",
     "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {

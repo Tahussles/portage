@@ -53,7 +53,8 @@ export const SLIDES: SlideCopy[] = [
     label: "Live",
     notes: [
       "Let me show you. Click Open the live demo: same tab, real AI.",
-      "Path: sample voice, Build my roadmap, toggle to the Portage plan, Hear your plan, Documents police check, Insights, then Back to pitch.",
+      "Path: Continue as Priya (demo), her profile is already filled; settle the name conflict; Roadmap, toggle to the Portage plan, Hear your plan; Documents; Insights; then Back to pitch.",
+      "5 min: on Speak, show the guided interview: one question at a time, read aloud in Hindi.",
       "If anything is slow, use the demo-mode link instead: same flow with fixtures.",
     ],
   },

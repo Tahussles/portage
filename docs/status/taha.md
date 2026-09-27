@@ -41,4 +41,4 @@ Round 11: sign-in, account profile, guided voice interview. Next: Step 5 chip ro
 - None. Waiting on the native Hindi recording (#15) and Ebrahim's #35 / #37.
 
 ## Last updated
-Sun Sep 27, 2026, 12:08 AM
+Sun Sep 27, 2026, 12:16 AM

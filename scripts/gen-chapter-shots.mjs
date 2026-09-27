@@ -15,8 +15,8 @@ const SIZE = { width: 640, height: 480 };
 const MAX_BYTES = 80 * 1024;
 
 const LABELS = {
-  en: { sample: /Use sample voice/, portage: /Portage plan/, police: /Police check/ },
-  fr: { sample: /Utiliser l’exemple/, portage: /Plan Portage/, police: /Vérification de casier/ },
+  en: { portage: /Portage plan/, police: /Police check/ },
+  fr: { portage: /Plan Portage/, police: /Vérification de casier/ },
 };
 
 /** Union of the page-coordinate boxes of every element matching `selector` (optionally filtered by text). */
@@ -63,13 +63,13 @@ const SHOTS = [
   {
     id: "speak",
     path: "/start?demo=1",
-    async clip(page, t) {
-      await page.getByRole("button", { name: t.sample }).click();
-      await page.locator('button[aria-label^="Edit"], button[aria-label^="Modifier"]').first().waitFor();
-      await page.waitForTimeout(600);
-      const orb = await union(page, 'button[aria-label="Record again"], button[aria-label="Enregistrer à nouveau"]');
-      const chips = await union(page, 'button[aria-label^="Edit"], button[aria-label^="Modifier"]');
-      return toClip(merge(orb, chips), 28);
+    async clip(page) {
+      // The guided interview: question 1, its play button, Priya's example answer, and the orb.
+      await page.locator("details summary").first().click();
+      await page.waitForTimeout(400);
+      const dots = await union(page, '[aria-label^="Question 1"]');
+      const orb = await union(page, 'button[aria-label="Start recording"], button[aria-label="Commencer l’enregistrement"]');
+      return toClip(merge(dots, { ...orb, bottom: orb.bottom + 36 }), 28); // the status line under the orb
     },
   },
   {
