@@ -139,7 +139,10 @@
         "parallel": "warn"
       },
       "facts": {
-        "windowCloses": "2027-07"
+        "windowCloses": "2027-07",
+        "backup": "spep",
+        "backupEligibleUntil": "2032-07",
+        "backupSourceUrl": "https://www.cno.org/become-a-nurse/registration-requirements/evidence-of-practice/supervised-practice-experience-partnership"
       }
     },
     {

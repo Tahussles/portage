@@ -55,7 +55,19 @@ function dateRule(def: WarningRuleDefData, ctx: WarningContext): DateRule | null
       if (months === null || last === null) return null;
       if (!def.relatedNodes.some((id) => isOpen(ctx.statuses[id]))) return null;
       const closes = addMonths(last, months);
-      return { breaches: (s, k) => closes < finishDate(s, k), facts: { windowCloses: toMonth(closes) } };
+      const facts: Record<string, string> = { windowCloses: toMonth(closes) };
+      // Backup route (SPEP): open while evidence of practice expired no more than N years before
+      // applying. Applicants join SPEP once everything else is met, so compare with the plan's finish.
+      const backupYears = numberParam(def, "backupYearsAfterExpiry");
+      const backup = def.params?.backup;
+      const backupSourceUrl = def.params?.backupSourceUrl;
+      if (backupYears !== null && typeof backup === "string" && typeof backupSourceUrl === "string") {
+        const eligibleUntil = addMonths(closes, backupYears * 12);
+        if (eligibleUntil > finishDate(ctx.schedule, "parallel")) {
+          Object.assign(facts, { backup, backupEligibleUntil: toMonth(eligibleUntil), backupSourceUrl });
+        }
+      }
+      return { breaches: (s, k) => closes < finishDate(s, k), facts };
     }
 
     case "criminal_record_check_validity": {

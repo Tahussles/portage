@@ -1,6 +1,6 @@
 {
   "id": "on-rn-ien",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "lastReviewed": "2026-09-26",
   "regulator": {
     "name": "College of Nurses of Ontario (CNO)",
@@ -901,7 +901,10 @@
       "severity": "critical",
       "trigger": "evidence_of_practice_window",
       "params": {
-        "windowMonths": 36
+        "windowMonths": 36,
+        "backup": "spep",
+        "backupYearsAfterExpiry": 5,
+        "backupSourceUrl": "https://www.cno.org/become-a-nurse/registration-requirements/evidence-of-practice/supervised-practice-experience-partnership"
       },
       "title": {
         "en": "Your evidence of practice may expire before you finish",
