@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import type { Pathway, Plan, ScheduleKey } from "@/lib/engine/types";
 import { useT } from "@/lib/i18n";
-import { buildSummary } from "@/lib/speak/summary";
+import { buildSummary, type SummaryLength } from "@/lib/speak/summary";
 
 type HearPlanProps = {
   plan: Plan;
@@ -17,19 +17,24 @@ type HearPlanProps = {
 
 type Spoken = { url: string; text: string };
 
-/** Clips already fetched this session, per (language, summary): toggling back replays without a request. */
+/** Clips already fetched this session, per (language, summary text): toggling back replays without a request. */
 const clips = new Map<string, Spoken>();
 
 /**
  * "Hear your plan": a deterministic summary of the plan on screen, read aloud in the person's own
- * language. Any failure hides the button quietly; the plan on screen is always the source of truth.
+ * language. The pill plays the short version (licence, window, first step); "Full plan" reads all of it.
+ * Any failure hides the button quietly; the plan on screen is always the source of truth.
  */
 export function HearPlan({ plan, pathway, schedule, language }: HearPlanProps) {
   const t = useT();
-  const summary = useMemo(() => buildSummary(plan, pathway, schedule), [plan, pathway, schedule]);
-  const key = `${language}\n${summary}`;
+  const summaries = useMemo(
+    () => ({ short: buildSummary(plan, pathway, schedule, "short"), full: buildSummary(plan, pathway, schedule, "full") }),
+    [plan, pathway, schedule],
+  );
+  const keyFor = (length: SummaryLength) => `${language}\n${summaries[length]}`;
   const [state, setState] = useState<"idle" | "loading" | "playing" | "unavailable">("idle");
-  const [spoken, setSpoken] = useState<Spoken | null>(() => clips.get(key) ?? null);
+  const [active, setActive] = useState<SummaryLength>("short");
+  const [spoken, setSpoken] = useState<Spoken | null>(() => clips.get(keyFor("short")) ?? null);
   const audio = useRef<HTMLAudioElement | null>(null);
 
   // Stop playback when the schedule or language changes (the parent remounts us) or the page closes.
@@ -37,6 +42,7 @@ export function HearPlan({ plan, pathway, schedule, language }: HearPlanProps) {
 
   const play = (clip: Spoken) => {
     audio.current?.pause();
+    setSpoken(clip);
     const el = new Audio(clip.url);
     audio.current = el;
     el.onended = () => setState("idle");
@@ -45,12 +51,15 @@ export function HearPlan({ plan, pathway, schedule, language }: HearPlanProps) {
     void el.play().catch(() => setState("idle"));
   };
 
-  const onClick = async () => {
+  const onClick = async (length: SummaryLength) => {
     if (state === "playing") {
       audio.current?.pause();
       setState("idle");
-      return;
+      if (length === active) return;
     }
+    setActive(length);
+    const key = keyFor(length);
+    const summary = summaries[length];
     const cached = clips.get(key);
     if (cached) return play(cached);
 
@@ -67,7 +76,6 @@ export function HearPlan({ plan, pathway, schedule, language }: HearPlanProps) {
         text: decodeURIComponent(res.headers.get("x-speak-text") ?? encodeURIComponent(summary)),
       };
       clips.set(key, clip);
-      setSpoken(clip);
       play(clip);
     } catch {
       setState("unavailable");
@@ -80,7 +88,7 @@ export function HearPlan({ plan, pathway, schedule, language }: HearPlanProps) {
     <div className="flex flex-col gap-2 md:items-end">
       <button
         type="button"
-        onClick={() => void onClick()}
+        onClick={() => void onClick(state === "playing" ? active : "short")}
         aria-pressed={state === "playing"}
         disabled={state === "loading"}
         className="inline-flex items-center gap-2 self-start rounded-full border border-slate-line bg-granite px-4 py-2 text-xs font-medium text-paper transition-colors hover:border-mist disabled:cursor-progress md:self-end"
@@ -102,6 +110,15 @@ export function HearPlan({ plan, pathway, schedule, language }: HearPlanProps) {
             />
           ))}
         </span>
+      </button>
+      <button
+        type="button"
+        onClick={() => void onClick("full")}
+        disabled={state === "loading"}
+        aria-pressed={state === "playing" && active === "full"}
+        className="self-start text-xs text-mist underline-offset-4 hover:text-paper hover:underline disabled:cursor-progress md:self-end"
+      >
+        {t("speak.full")}
       </button>
       {spoken && (
         <details className="max-w-md text-xs text-mist md:text-right">

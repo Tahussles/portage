@@ -52,4 +52,24 @@ describe("spoken plan summary", () => {
     expect(text).not.toContain("—");
     expect(text).toContain("licence");
   });
+
+  it("keeps the short version to the licence, the window and the first step", () => {
+    expect(buildSummary(plan, pathway, "parallel", "short")).toBe(
+      "Your earliest licence is April 2027, if each step goes to plan. " +
+        "It is tight: your practice window closes in July 2027. " +
+        "Start now: ask your nursing school to send your documents to the assessment provider.",
+    );
+    expect(buildSummary(plan, pathway, "sequential", "short")).toBe(
+      "One step at a time, your earliest licence is December 2027. " +
+        "But your practice window closes in July 2027, before then. " +
+        "Start now: create your CNO online account.",
+    );
+  });
+
+  it("makes the short version much shorter than the full one", () => {
+    const short = buildSummary(plan, pathway, "parallel", "short");
+    const full = buildSummary(plan, pathway, "parallel");
+    expect(short.length).toBeLessThan(full.length / 2);
+    expect(short.split(/\s+/).length).toBeLessThanOrEqual(36); // about 15 s in English at the voice's pace
+  });
 });

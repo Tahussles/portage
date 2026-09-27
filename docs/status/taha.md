@@ -1,7 +1,7 @@
 # Taha: track status (UI, motion, design)
 
 ## Current phase
-Round 7 done: live site demo-proofed (intake progress, Hear your plan, demo runbook). Next: Step 5 chip row on the roadmap, pitch rehearsal.
+Round 8: in-app pitch deck at `/pitch`, short "Hear your plan", known-good release tag `v1.0-demo`. Next: Step 5 chip row on the roadmap, pitch rehearsal.
 
 ## Completed
 - Step 1: scaffold, tokens, fonts, i18n, navbar, hero, stub pages (PR #1).
@@ -17,6 +17,8 @@ Round 7 done: live site demo-proofed (intake progress, Hear your plan, demo runb
 - Intake progress tied to the real request phases (PR #40).
 - Hear your plan: deterministic summary, faithful translation, ElevenLabs speech (PR #41).
 - docs/DEMO_RUNBOOK.md: checklist, tested warm-up commands, click paths, failure plays.
+- `/pitch`: nine-slide deck in the product's design language, keys, speaker notes with a timer, print to PDF, "See it live" and "Back to pitch" (PR #46). Every number comes from the data files, the engine or `src/components/pitch/sources.ts`.
+- Hear your plan plays a short version by default (licence, window, first step), with "Full plan · Parcours complet" under the pill.
 
 ## Next
 - Step 5: editable profile chip row above the roadmap canvas.
@@ -32,4 +34,4 @@ Round 7 done: live site demo-proofed (intake progress, Hear your plan, demo runb
 - None. Waiting on the native Hindi recording (#15) and Ebrahim's #35 / #37.
 
 ## Last updated
-Sat Sep 26, 2026, 8:00 PM
+Sat Sep 26, 2026, 8:21 PM
