@@ -73,7 +73,7 @@ Reduced motion: every tween short-circuits to its end state (`gsap.matchMedia()`
 
 ### 6.1 Landing `/`
 1. **Navbar** (transparent over hero, `glass` on scroll): logo mark (original single-line maple leaf, red) + "Portage" wordmark in Space Grotesk; screen links (Speak, Roadmap, Documents, Insights); `EN | FR` toggle; pill CTA "Start" (FR "Commencer").
-2. **Hero** (h-screen, `ink`, grayscale video 40% opacity, gradient to `ink`):
+2. **Hero** (h-screen, `ink`, gradient to `ink` at the bottom): **the Portage line**. Still topographic contours (`public/topo-hero.svg`, stone at about 7%, never animated) and the roadmap's red route across the land: it enters low from the left, runs under the CTAs and climbs beside the headline to the right third (on phones, a shorter line under the CTAs). It draws once after the headline (2.4 s, power2.inOut, 1.5 px); 6 step markers (4 on phones) turn from stone to red as it reaches them; the last gets a faint halo; micro-labels "Where you trained" and "Where you'll practise" at the ends (768 px and up). Afterwards the only movement is one small red dot along the route every 14 s, paused when the tab is hidden. Reduced motion: drawn line, no dot. Geometry in `src/components/landing/route.ts` keeps the route clear of the text.
    - Micro-label: `FOR INTERNATIONALLY TRAINED PROFESSIONALS` (FR `POUR LES PROFESSIONNELS FORMÉS À L'ÉTRANGER`)
    - EN: "You trained for this abroad." / "Now practise it here."
    - FR: "Vous avez été formé à l'étranger." / "Exercez maintenant ici."
@@ -121,7 +121,7 @@ Reduced motion: every tween short-circuits to its end state (`gsap.matchMedia()`
 - Footer line: "Built for the FLMM credential recognition platform recommendations, Fall 2026."
 
 ## 7. Assets
-- **Footage (Pexels, free to use):** search "nurse hospital corridor", "nurse night shift", "hospital hallway walking", "snow city street Canada", "Toronto streetcar", "stethoscope close up", "hands scrubbing surgery". 1080p, 8 to 12 s, grayscale via CSS `filter: grayscale(1)` (not baked in, so we can reuse). Compress with `ffmpeg -i in.mp4 -vf scale=1920:-2 -an -c:v libx264 -crf 28 -preset slow -movflags +faststart out.mp4`.
+- **Footage (Pexels, free to use):** no longer used in the hero (decision 17). If footage is ever needed elsewhere, search "nurse hospital corridor", "nurse night shift", "hospital hallway walking", "snow city street Canada", "Toronto streetcar", "stethoscope close up", "hands scrubbing surgery". 1080p, 8 to 12 s, grayscale via CSS `filter: grayscale(1)` (not baked in, so we can reuse). Compress with `ffmpeg -i in.mp4 -vf scale=1920:-2 -an -c:v libx264 -crf 28 -preset slow -movflags +faststart out.mp4`.
 - **Posters:** first frame JPG at quality 70.
 - **Logo:** original single-stroke maple leaf, drawn fresh (do not trace the flag leaf), red stroke on transparent.
 - **OG image:** hero headline on `ink` with logo, 1200×630.

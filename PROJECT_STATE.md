@@ -50,6 +50,7 @@ Live per-track status (updated in every PR): [docs/status/taha.md](docs/status/t
 14. Priya's Portage plan is 'tight' for evidence of practice (typical Apr 2027, conservative Aug 2027, window Jul 2027). We keep it: the honest story is stronger than a forced 'resolved'.
 15. Pitch runs live with real AI; ?demo=1 is the instant backup; warm up every route 2 minutes before.
 16. One language at a time (reverses DESIGN.md principle 3): the EN/FR toggle decides and nothing on screen shows both. Every string still exists in en.json and fr.json; a French browser starts in French (`?lang=` wins); `<html lang>`, title and description follow the locale; the /pitch deck and the Open Graph image stay English. Tests in `src/lib/i18n/one-language.test.ts`.
+17. The landing hero shows "the Portage line" (our topography and the roadmap's red route) instead of stock hallway footage: calm, on-message, and a preview of the product. After the intro only one small dot moves.
 
 ## Open questions
 - Pitch time limit on Sunday (ask organizers).
