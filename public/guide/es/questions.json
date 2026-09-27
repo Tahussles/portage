@@ -1,0 +1,31 @@
+{
+  "lang": "es",
+  "machineTranslated": true,
+  "model": "eleven_flash_v2_5",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "¿Dónde estudiaste enfermería, fue una licenciatura o un diplomado, y en qué año terminaste?"
+    },
+    {
+      "id": "q2",
+      "text": "¿Cuántos años ha trabajado como enfermera, y era un trabajo remunerado?"
+    },
+    {
+      "id": "q3",
+      "text": "¿Cuándo trabajó por última vez como enfermero o enfermera? Por favor, diga el mes y el año."
+    },
+    {
+      "id": "q4",
+      "text": "¿Dónde vives ahora, y tienes permiso para trabajar en Canadá? Sí, no, o no estás seguro son todas respuestas válidas."
+    },
+    {
+      "id": "q5",
+      "text": "¿Ha realizado usted un examen de inglés o de francés? ¿Cuál, y cuándo?"
+    },
+    {
+      "id": "q6",
+      "text": "¿Qué ha hecho usted hasta ahora para su registro de enfermería en Canadá, y hay alguno de sus documentos en un idioma que no sea inglés o francés?"
+    }
+  ]
+}

@@ -8,12 +8,16 @@ import { useRouter } from "next/navigation";
 import { useHref } from "@/components/ui/links";
 import { NextLink } from "@/components/ui/NextLink";
 import { useCallback, useRef, useState } from "react";
+import { FreeChecklist } from "@/components/guide/FreeChecklist";
+import { GuidedInterview } from "@/components/guide/GuidedInterview";
+import { GuideSheet } from "@/components/guide/GuideSheet";
+import { cn } from "@/lib/cn";
 import pathwayData from "@/data/pathways/on-rn-ien.json";
 import { buildPlan } from "@/lib/engine/plan";
 import type { Pathway, Profile } from "@/lib/engine/types";
 import { useT } from "@/lib/i18n";
-import { changedFacts, editField, mergeVoice } from "@/lib/account/merge";
-import { useAccountStore, useCurrentAccount } from "@/lib/account/store";
+import { saveEdits, saveVoice } from "@/lib/account/actions";
+import { useCurrentAccount } from "@/lib/account/store";
 import { useAppStore } from "@/lib/store";
 import {
   SAMPLE_EXTRACTION,
@@ -34,19 +38,6 @@ gsap.registerPlugin(useGSAP);
 
 const SAMPLE_CLIP = "/demo/priya-hi.webm";
 
-/** Signed in: what the interview found joins the account (voice fills gaps; edits and documents win). */
-function saveVoice(profile: Profile) {
-  const store = useAccountStore.getState();
-  if (store.currentId) store.update((a) => mergeVoice(a, profile, new Date().toISOString()));
-}
-
-/** Signed in: a fact corrected on the chips counts as the person's own edit. */
-function saveEdits(before: Profile, after: Profile) {
-  const store = useAccountStore.getState();
-  if (!store.currentId) return;
-  const at = new Date().toISOString();
-  store.update((a) => changedFacts(before, after).reduce((acc, [path, value]) => editField(acc, path, value, at), a));
-}
 const pathway = pathwayData as unknown as Pathway;
 
 type Heard = {
@@ -73,6 +64,7 @@ export function IntakeView() {
   const setProfile = useAppStore((s) => s.setProfile);
   const account = useCurrentAccount();
 
+  const [mode, setMode] = useState<"guided" | "free">("guided");
   const [phase, setPhase] = useState<OrbState>("idle");
   const [hint, setHint] = useState("auto");
   const [heard, setHeard] = useState<Heard | null>(null);
@@ -167,7 +159,7 @@ export function IntakeView() {
 
   return (
     <main className="min-h-svh bg-ink pt-(--nav-h)">
-      <div className="mx-auto flex max-w-3xl flex-col items-center px-5 pt-8 pb-16 text-center md:pt-12">
+      <div className="mx-auto flex max-w-5xl flex-col items-center px-5 pt-8 pb-16 text-center md:pt-12">
         <div className="flex w-full flex-wrap items-center justify-between gap-3">
           <AppLink href="/" className="inline-flex items-center gap-2 text-sm text-mist transition-colors hover:text-paper">
             <ArrowLeft aria-hidden="true" className="size-4" />
@@ -180,89 +172,118 @@ export function IntakeView() {
         <h1 className="mt-3 max-w-2xl font-display text-3xl leading-tight font-medium tracking-tight md:text-5xl">
           {t("start.title")}
         </h1>
-        <p className="mt-4 max-w-xl text-sm leading-relaxed text-mist md:text-base">{t("intake.helps")}</p>
+        {mode === "free" && <p className="mt-4 max-w-xl text-sm leading-relaxed text-mist md:text-base">{t("intake.helps")}</p>}
 
-        <div className="mt-12">
-          <MicOrb state={orbState} onClick={onOrb} ringRef={ringRef} />
+        <div className="mt-4">
+          <GuideSheet />
         </div>
-        <p aria-live="polite" className="mt-6 min-h-5 text-sm text-mist">
-          {status}
-        </p>
-        {progress && <IntakeProgress progress={progress} />}
-        {phase === "thinking" && <SkeletonChips />}
 
-        {recorder.error && (
-          <p role="alert" className="mt-3 max-w-md text-sm text-paper">
-            {t(ERROR_KEY[recorder.error])}
-          </p>
-        )}
-
-        {heard && (
-          <section ref={resultRef} aria-label={t("intake.transcript")} className="mt-10 w-full">
-            {heard.source === "sample" && (
-              <p className="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs text-mist">
-                <span className="rounded-full border border-slate-line px-3 py-1 text-paper">{t("intake.sample")}</span>
-                <span>{heard.fellBack ? t("intake.fallbackNote") : t("intake.sampleNote")}</span>
-              </p>
-            )}
-            <p
-              data-transcript
-              lang={heard.languageCode}
-              dir="auto"
-              aria-live="polite"
-              className="font-display text-xl leading-relaxed text-paper md:text-2xl"
+        <div role="group" aria-label={t("guide.mode.label")} className="mt-8 flex rounded-full border border-slate-line p-1 text-sm">
+          {(["guided", "free"] as const).map((m) => (
+            <button
+              key={m}
+              type="button"
+              aria-pressed={mode === m}
+              onClick={() => setMode(m)}
+              className={cn("rounded-full px-4 py-2 transition-colors", mode === m ? "bg-paper text-ink" : "text-mist hover:text-paper")}
             >
-              {heard.text}
+              {t(m === "guided" ? "guide.mode.guided" : "guide.mode.free")}
+            </button>
+          ))}
+        </div>
+
+        {mode === "guided" ? (
+          <div className="w-full max-w-3xl">
+            <GuidedInterview hint={hint} />
+          </div>
+        ) : (
+          <div className="mt-10 grid w-full gap-8 text-center md:grid-cols-[minmax(0,1fr)_280px] md:items-start">
+            <div className="flex min-w-0 flex-col items-center">
+            <div className="mt-2">
+              <MicOrb state={orbState} onClick={onOrb} ringRef={ringRef} />
+            </div>
+            <p aria-live="polite" className="mt-6 min-h-5 text-sm text-mist">
+              {status}
             </p>
-            {heard.languageCode !== "en" && heard.translation && (
-              <p data-translation lang="en" className="mt-5 text-base leading-relaxed text-mist">
-                <span className="sr-only">{t("intake.translation")}: </span>
-                {heard.translation}
+            {progress && <IntakeProgress progress={progress} />}
+            {phase === "thinking" && <SkeletonChips />}
+
+            {recorder.error && (
+              <p role="alert" className="mt-3 max-w-md text-sm text-paper">
+                {t(ERROR_KEY[recorder.error])}
               </p>
             )}
-          </section>
-        )}
 
-        {profile && (
-          <section aria-label={t("intake.profile")} className="mt-10 w-full">
-            <p className="micro-label mb-2 text-mist">{t("intake.profile")}</p>
-            <p className="mb-4 text-xs text-mist">{t("intake.profileNote")}</p>
-            <ProfileChips
-              profile={profile}
-              onChange={(p: Profile) => {
-                saveEdits(profile, p);
-                setProfile(p);
-              }}
-            />
-            {account && (
-              <AppLink href="/profile" className="mt-4 inline-flex items-center gap-1.5 text-sm text-paper underline-offset-4 hover:underline">
-                {t("profile.review")}
-                <ArrowRight aria-hidden="true" className="size-4" />
-              </AppLink>
+            {heard && (
+              <section ref={resultRef} aria-label={t("intake.transcript")} className="mt-10 w-full">
+                {heard.source === "sample" && (
+                  <p className="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs text-mist">
+                    <span className="rounded-full border border-slate-line px-3 py-1 text-paper">{t("intake.sample")}</span>
+                    <span>{heard.fellBack ? t("intake.fallbackNote") : t("intake.sampleNote")}</span>
+                  </p>
+                )}
+                <p
+                  data-transcript
+                  lang={heard.languageCode}
+                  dir="auto"
+                  aria-live="polite"
+                  className="font-display text-xl leading-relaxed text-paper md:text-2xl"
+                >
+                  {heard.text}
+                </p>
+                {heard.languageCode !== "en" && heard.translation && (
+                  <p data-translation lang="en" className="mt-5 text-base leading-relaxed text-mist">
+                    <span className="sr-only">{t("intake.translation")}: </span>
+                    {heard.translation}
+                  </p>
+                )}
+              </section>
             )}
-          </section>
-        )}
 
-        <div className="mt-12 flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center">
-          <button
-            type="button"
-            disabled={!profile}
-            onClick={() => router.push(toHref("/roadmap"))}
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-granite disabled:text-mist"
-          >
-            {t("intake.build")}
-            <ArrowRight aria-hidden="true" className="size-4" />
-          </button>
-          <button
-            type="button"
-            onClick={() => void playSample()}
-            disabled={recorder.listening || phase === "thinking"}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-line px-5 py-3 text-sm text-paper transition-colors hover:border-mist disabled:opacity-50"
-          >
-            <Play aria-hidden="true" className="size-4" />
-            {t("intake.sampleVoice")}
-          </button>
-        </div>
+            {profile && (
+              <section aria-label={t("intake.profile")} className="mt-10 w-full">
+                <p className="micro-label mb-2 text-mist">{t("intake.profile")}</p>
+                <p className="mb-4 text-xs text-mist">{t("intake.profileNote")}</p>
+                <ProfileChips
+                  profile={profile}
+                  onChange={(p: Profile) => {
+                    saveEdits(profile, p);
+                    setProfile(p);
+                  }}
+                />
+                {account && (
+                  <AppLink href="/profile" className="mt-4 inline-flex items-center gap-1.5 text-sm text-paper underline-offset-4 hover:underline">
+                    {t("profile.review")}
+                    <ArrowRight aria-hidden="true" className="size-4" />
+                  </AppLink>
+                )}
+              </section>
+            )}
+
+            <div className="mt-12 flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <button
+                type="button"
+                disabled={!profile}
+                onClick={() => router.push(toHref("/roadmap"))}
+                className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-granite disabled:text-mist"
+              >
+                {t("intake.build")}
+                <ArrowRight aria-hidden="true" className="size-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => void playSample()}
+                disabled={recorder.listening || phase === "thinking"}
+                className="inline-flex items-center gap-2 rounded-full border border-slate-line px-5 py-3 text-sm text-paper transition-colors hover:border-mist disabled:opacity-50"
+              >
+                <Play aria-hidden="true" className="size-4" />
+                {t("intake.sampleVoice")}
+              </button>
+            </div>
+            </div>
+            <FreeChecklist />
+          </div>
+        )}
 
         <p className="mt-10 max-w-md text-xs leading-relaxed text-mist">{t("intake.consent")}</p>
         <NextLink from="start" className="mt-8" />

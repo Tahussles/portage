@@ -1,0 +1,31 @@
+{
+  "lang": "fr",
+  "machineTranslated": false,
+  "model": "eleven_flash_v2_5",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Où avez-vous étudié les soins infirmiers, était-ce un baccalauréat ou un diplôme, et en quelle année avez-vous terminé ?"
+    },
+    {
+      "id": "q2",
+      "text": "Pendant combien d’années avez-vous travaillé comme infirmière ou infirmier, et était-ce un travail rémunéré ?"
+    },
+    {
+      "id": "q3",
+      "text": "Quand avez-vous travaillé comme infirmière ou infirmier pour la dernière fois ? Dites le mois et l’année."
+    },
+    {
+      "id": "q4",
+      "text": "Où vivez-vous maintenant, et avez-vous le droit de travailler au Canada ? Oui, non ou je ne sais pas sont toutes de bonnes réponses."
+    },
+    {
+      "id": "q5",
+      "text": "Avez-vous passé un test d’anglais ou de français ? Lequel, et quand ?"
+    },
+    {
+      "id": "q6",
+      "text": "Qu’avez-vous déjà fait pour votre inscription en soins infirmiers au Canada, et certains de vos documents sont-ils dans une langue autre que l’anglais ou le français ?"
+    }
+  ]
+}

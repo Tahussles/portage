@@ -4,15 +4,11 @@ import { anthropicModel, getAnthropicClient } from "@/lib/ai/anthropic";
 // Server only. Translation (only when needed) plus ElevenLabs text-to-speech for "Hear your plan".
 // Docs: https://elevenlabs.io/docs/api-reference/text-to-speech/convert (checked 2026-09-26).
 
-/** Multilingual and fast (Hindi included); eleven_multilingual_v2 took about 7 s for this summary in English alone. */
-export const TTS_MODEL = "eleven_flash_v2_5";
-/** "Alice - Clear, Engaging Educator", a premade voice chosen from the voices API. Override with ELEVENLABS_VOICE_ID. */
-export const DEFAULT_VOICE_ID = "Xb7hH8MSUJpSbSDYk0k2";
+import { DEFAULT_VOICE_ID, TRANSLATE_SYSTEM, TTS_MODEL, translatePrompt } from "./voice";
+
+export { DEFAULT_VOICE_ID, TRANSLATE_SYSTEM, TTS_MODEL };
 /** Each upstream step (translation, then speech) gets its own 12 s budget. */
 export const SPEAK_TIMEOUT_MS = 12_000;
-
-export const TRANSLATE_SYSTEM =
-  "Translate faithfully. Do not add, remove, or change any fact, date, number, or name. Output only the translation.";
 
 /** Languages the summary is already written in (English) or that we show natively (French is translated too). */
 export function needsTranslation(languageCode: string) {
@@ -38,7 +34,7 @@ export async function translate(
       model: anthropicModel(),
       max_tokens: 1200,
       system: TRANSLATE_SYSTEM,
-      messages: [{ role: "user", content: `Translate into ${languageName(languageCode)} (${languageCode}). It will be read aloud, so do not add English words in brackets.\n\n${text}` }],
+      messages: [{ role: "user", content: translatePrompt(languageName(languageCode), languageCode, text) }],
     },
     { signal },
   );
