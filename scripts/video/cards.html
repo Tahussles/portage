@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- Title cards for the demo video, in the product's design language: full-screen ink, the calm topographic
+     land, a giant Space Grotesk word, a muted second line, a GSAP rise-in. record.mjs fills the placeholders
+     (fonts, topography, GSAP) and the card text. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      /*FONTS*/
+      :root {
+        --ink: #0c0a09;
+        --paper: #fafaf9;
+        --mist: #a8a29e;
+        --stone: #78716c;
+        --accent: #d52b1e;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .land {
+        position: absolute;
+        inset: 0;
+        background: url("/*TOPO*/") center / cover no-repeat;
+      }
+      .fade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 45%, var(--ink));
+      }
+      .card {
+        position: absolute;
+        left: 120px;
+        right: 120px;
+        bottom: 150px;
+      }
+      .rule {
+        width: 64px;
+        height: 2px;
+        background: var(--accent);
+        margin-bottom: 26px;
+      }
+      .label {
+        font: 500 13px/1.4 "Inter", system-ui, sans-serif;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--mist);
+        margin-bottom: 18px;
+      }
+      .word {
+        font: 500 168px/0.98 "Space Grotesk", system-ui, sans-serif;
+        letter-spacing: -0.035em;
+        margin: 0;
+      }
+      .line {
+        font: 500 54px/1.15 "Space Grotesk", system-ui, sans-serif;
+        letter-spacing: -0.02em;
+        color: var(--stone);
+        margin-top: 18px;
+        max-width: 1200px;
+      }
+      .foot {
+        font: 400 20px/1.5 "Inter", system-ui, sans-serif;
+        color: var(--mist);
+        margin-top: 42px;
+        text-transform: none;
+        letter-spacing: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="land"></div>
+    <div class="fade"></div>
+    <div class="card">
+      <div class="rule" data-rise></div>
+      <div class="label" data-rise id="label"></div>
+      <h1 class="word" data-rise id="word"></h1>
+      <div class="line" data-rise id="line"></div>
+      <div class="foot" data-rise id="foot"></div>
+    </div>
+    <script>
+      /*GSAP*/
+    </script>
+    <script>
+      const card = /*CARD*/;
+      document.getElementById("word").textContent = card.word;
+      document.getElementById("line").textContent = card.line;
+      // A long label (the outro's credits) sits under the card; a short one above the word.
+      const long = card.label && card.label.length > 60;
+      document.getElementById("label").textContent = long ? "" : card.label || "";
+      document.getElementById("foot").textContent = long ? card.label : "";
+      document.fonts.ready.then(() => {
+        gsap.fromTo("[data-rise]", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.1, ease: "power3.out", stagger: 0.09 });
+      });
+    </script>
+  </body>
+</html>
