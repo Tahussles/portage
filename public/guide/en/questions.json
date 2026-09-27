@@ -1,0 +1,31 @@
+{
+  "lang": "en",
+  "machineTranslated": false,
+  "model": "eleven_flash_v2_5",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Where did you study nursing, was it a bachelor’s degree or a diploma, and what year did you finish?"
+    },
+    {
+      "id": "q2",
+      "text": "How many years have you worked as a nurse, and was it paid work?"
+    },
+    {
+      "id": "q3",
+      "text": "When did you last work as a nurse? Please say the month and the year."
+    },
+    {
+      "id": "q4",
+      "text": "Where do you live now, and are you allowed to work in Canada? Yes, no, or not sure are all fine answers."
+    },
+    {
+      "id": "q5",
+      "text": "Have you taken an English or French test? Which one, and when?"
+    },
+    {
+      "id": "q6",
+      "text": "What have you already done for your nursing registration in Canada, and are any of your documents in a language other than English or French?"
+    }
+  ]
+}
