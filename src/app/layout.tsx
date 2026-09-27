@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
+import { AccountSync } from "@/components/account/AccountSync";
+import { PageWipe } from "@/components/account/PageWipe";
 import { LocaleSync } from "@/components/ui/LocaleSync";
 import { Navbar } from "@/components/ui/Navbar";
 import { LOCALE_BOOT_SCRIPT } from "@/lib/i18n/boot";
@@ -46,8 +48,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <style>{"[data-rise]{opacity:1!important}"}</style>
         </noscript>
         <LocaleSync />
+        <AccountSync />
         <Navbar />
         {children}
+        <PageWipe />
       </body>
     </html>
   );

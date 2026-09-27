@@ -1,7 +1,7 @@
 # Taha: track status (UI, motion, design)
 
 ## Current phase
-Round 10: the Portage line hero, then real product shots in the chapters. Next: Step 5 chip row on the roadmap, pitch rehearsal.
+Round 11: sign-in, account profile, guided voice interview. Next: Step 5 chip row on the roadmap, pitch rehearsal.
 
 ## Completed
 - Step 1: scaffold, tokens, fonts, i18n, navbar, hero, stub pages (PR #1).
@@ -20,6 +20,7 @@ Round 10: the Portage line hero, then real product shots in the chapters. Next: 
 - `/pitch`: nine-slide deck in the product's design language, keys, speaker notes with a timer, print to PDF, "See it live" and "Back to pitch" (PR #46). Every number comes from the data files, the engine or `src/components/pitch/sources.ts`.
 - Hear your plan plays a short version by default (licence, window, first step), with "Full plan · Parcours complet" under the pill.
 - Known-good releases: `v1.0-demo` on `8063c17`, `v1.1-demo` on `3fe94e1` (one language at a time), `v1.2-demo` on `5bab52a` (Portage line hero), each after a clean live smoke; the runbook rolls back to v1.2-demo.
+- Sign-in with a built-in demo account (decision 18): `/signin`, account in this browser only (`portage.account.v1`), avatar menu, Portage line page wipe; merge rules with provenance in `src/lib/account/merge.ts`.
 - Landing chapters show real product shots in the selected language (`pnpm gen:chapters`), replacing the stock stills.
 - Landing hero: "the Portage line" (decision 17) replaces the stock hallway video: still contours from `scripts/gen-topo.mjs` and the roadmap's red route drawn once after the headline; afterwards one dot every 14 s.
 - One language at a time (decision 16): the EN/FR toggle decides, a French browser starts in French with no flash of English, `<html lang>`, title and description follow the locale; `one-language.test.ts` guards against pairs.
@@ -38,4 +39,4 @@ Round 10: the Portage line hero, then real product shots in the chapters. Next: 
 - None. Waiting on the native Hindi recording (#15) and Ebrahim's #35 / #37.
 
 ## Last updated
-Sat Sep 26, 2026, 11:29 PM
+Sat Sep 26, 2026, 11:46 PM

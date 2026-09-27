@@ -125,13 +125,13 @@ export function PitchSlide({ id, priya }: PitchSlideProps) {
           </h2>
           <Link
             data-pitch-rise
-            href="/?from=pitch"
+            href="/signin?from=pitch"
             className="inline-flex items-center gap-3 rounded-full bg-paper px-8 py-4 text-lg font-medium text-ink transition-colors hover:bg-white"
           >
             {T.demoButton}
             <ArrowRight aria-hidden="true" className="size-5" />
           </Link>
-          <Link data-pitch-rise href="/?from=pitch&demo=1" className="text-sm text-mist underline-offset-4 hover:text-paper hover:underline">
+          <Link data-pitch-rise href="/signin?from=pitch&demo=1" className="text-sm text-mist underline-offset-4 hover:text-paper hover:underline">
             {T.demoBackup}
           </Link>
         </div>

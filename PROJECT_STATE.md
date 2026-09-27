@@ -51,6 +51,7 @@ Live per-track status (updated in every PR): [docs/status/taha.md](docs/status/t
 15. Pitch runs live with real AI; ?demo=1 is the instant backup; warm up every route 2 minutes before.
 16. One language at a time (reverses DESIGN.md principle 3): the EN/FR toggle decides and nothing on screen shows both. Every string still exists in en.json and fr.json; a French browser starts in French (`?lang=` wins); `<html lang>`, title and description follow the locale; the /pitch deck and the Open Graph image stay English. Tests in `src/lib/i18n/one-language.test.ts`.
 17. The landing hero shows "the Portage line" (our topography and the roadmap's red route) instead of stock hallway footage: calm, on-message, and a preview of the product. After the intro only one small dot moves.
+18. Accounts without a server (decision 17 is the hero, so this is 18): passwordless demo sign-in; the account lives only in this browser (localStorage `portage.account.v1`, versioned, one-click delete) and stores structured facts only (profile fields, provenance, edits, document findings with extracted fields), never audio, transcripts or document files. No password field, no third-party sign-in. Every page works signed out. Merge rules in `src/lib/account/merge.ts`: edits win; documents beat voice for names and dates and open a conflict when they disagree; voice fills empty fields; provenance on every write.
 
 ## Open questions
 - Pitch time limit on Sunday (ask organizers).

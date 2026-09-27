@@ -59,7 +59,7 @@ public/
 4. **Engine purity.** `src/lib/engine/**` is deterministic and fully unit-testable. `today` is always a parameter.
 5. **Every AI call is zod-validated and has a fixture fallback** (see `src/lib/demo.ts`). A failed or slow call must never break the UI.
 6. **No credential handling.** Portage never asks for, stores, or uses a regulator login. Never build anything that submits to a regulator.
-7. **No personal data persistence.** No database, no analytics that capture profile content, no localStorage of transcripts or documents.
+7. **No personal data on any server; structured facts only in the browser.** No database, no server-side storage, no analytics that capture profile content. The optional account lives only in this browser (localStorage `portage.account.v1`, versioned, one-click delete) and stores structured facts only: profile fields, where each came from, edits, and document findings with their extracted fields. Never store audio, transcripts, or document files.
 8. **Bilingual, one language at a time.** Every user-visible string goes through `useT()` with keys in both `en.json` and `fr.json`; the screen shows only the selected language, never an "English · Français" pair (`one-language.test.ts` checks this). If you do not know the French, add the key with the English text and a `// TODO fr` note in `PROJECT_STATE.md`, never hardcode.
 9. **Canadian spelling** in English UI: licence (noun), license (verb), practise (verb), practice (noun), centre, colour, programme is NOT used (use program).
 10. **Design language.** Follow `docs/DESIGN.md`. Red (`--accent`) is rare: primary CTA, critical path, logo mark, warnings. Nothing else.
@@ -90,6 +90,14 @@ Taha and Ebrahim build in parallel, each with their own coding agent. The repo i
 - Taha: `PROJECT_STATE.md`, `PLAN.md`, `AGENTS.md`, `docs/DESIGN.md`, `docs/ARCHITECTURE.md`, `src/components/`, page files (`src/app/**/page.tsx`, `layout.tsx`), `src/app/globals.css`, `src/lib/i18n/`, `src/lib/store.ts` (UI state), `scripts/gen-topo.*`, `*.provisional.json` fixtures, `docs/status/taha.md`.
 - Taha also owns the text-to-speech feature's new files: `src/app/api/speak/route.ts`, `src/lib/speak/**`, `src/components/speak/**`.
 - Taha also owns the in-app pitch deck: `src/app/pitch/**`, `src/components/pitch/**`.
+- Taha also owns accounts and the guided interview: `src/lib/account/**`, `src/components/account/**`, `src/components/guide/**`, `src/app/signin/**`, `src/app/profile/**`, `scripts/gen-guide-audio.*`, `public/guide/**`. These wrap `src/lib/engine/types.ts` and never change it.
+
+## Accounts (decision 18)
+- No database and no server-side storage: the account lives only in this browser (`portage.account.v1`), versioned, with a one-click delete.
+- Structured facts only (rule 7). Never audio, transcripts, or document files.
+- Passwordless and honest: no password field, no third-party sign-in buttons or logos. The sign-in card says "Demo sign-in: your account lives only in this browser."
+- Every product page works signed out ("Try without an account"); the account is a convenience, not a gate.
+- Merge rules (`src/lib/account/merge.ts`): user edits always win; a document never overwrites an edited field; documents beat voice for names and dates, and a disagreement opens a conflict instead of overwriting silently; voice fills empty fields; every write records provenance.
 - Ebrahim: `src/lib/engine/`, `src/lib/ai/`, `src/lib/voice/`, `src/lib/demo.ts`, `src/lib/client/api.ts`, `src/app/api/` (except `api/speak`), `src/data/` (except `*.provisional.json`), `public/demo/**`, `docs/PATHWAY_VERIFIED.md`, `docs/pitch/**`, `docs/devpost.md`, `docs/status/ebrahim.md`.
 
 **Rules**

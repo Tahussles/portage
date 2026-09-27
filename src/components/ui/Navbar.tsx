@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
+import { AccountMenu } from "@/components/account/AccountMenu";
 import { AppLink } from "./AppLink";
 import { SCREENS, isCurrent } from "./links";
 import { LocaleToggle } from "./LocaleToggle";
@@ -76,6 +77,7 @@ export function Navbar() {
               </a>
             )}
             <LocaleToggle />
+            <AccountMenu />
             <AppLink
               href="/start"
               className="rounded-full bg-accent px-3 py-2 text-xs font-medium whitespace-nowrap text-paper transition-colors hover:bg-accent-hover sm:px-4 sm:text-sm"
