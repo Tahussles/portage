@@ -1,18 +1,20 @@
 import { useCallback } from "react";
 import { useAppStore } from "@/lib/store";
 
-/** Adds `demo=1` to an internal href when demo mode is on, keeping any query and hash. */
-export function withDemo(href: string, demo: boolean): string {
-  if (!demo || !href.startsWith("/")) return href;
+/** Adds `demo=1` (and `from=pitch`) to an internal href when those modes are on, keeping any query and hash. */
+export function withDemo(href: string, demo: boolean, fromPitch = false): string {
+  if ((!demo && !fromPitch) || !href.startsWith("/") || href.startsWith("/pitch")) return href;
   const url = new URL(href, "http://portage.local");
-  url.searchParams.set("demo", "1");
+  if (demo) url.searchParams.set("demo", "1");
+  if (fromPitch) url.searchParams.set("from", "pitch");
   return `${url.pathname}${url.search}${url.hash}`;
 }
 
 /** Hook form: every internal link and router.push goes through this. */
 export function useHref() {
   const demo = useAppStore((s) => s.demo);
-  return useCallback((href: string) => withDemo(href, demo), [demo]);
+  const fromPitch = useAppStore((s) => s.fromPitch);
+  return useCallback((href: string) => withDemo(href, demo, fromPitch), [demo, fromPitch]);
 }
 
 export type Screen = "start" | "roadmap" | "documents" | "insights";

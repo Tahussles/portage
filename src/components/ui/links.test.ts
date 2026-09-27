@@ -12,6 +12,12 @@ describe("demo links", () => {
     expect(withDemo("/roadmap?demo=1", true)).toBe("/roadmap?demo=1");
   });
 
+  it("carries from=pitch too, but never onto the pitch itself", () => {
+    expect(withDemo("/roadmap", false, true)).toBe("/roadmap?from=pitch");
+    expect(withDemo("/roadmap", true, true)).toBe("/roadmap?demo=1&from=pitch");
+    expect(withDemo("/pitch?s=6", true, true)).toBe("/pitch?s=6");
+  });
+
   it("leaves external links alone", () => {
     expect(withDemo("https://www.cno.org", true)).toBe("https://www.cno.org");
   });

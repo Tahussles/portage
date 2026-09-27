@@ -254,5 +254,6 @@
   "speak.hear": "Hear your plan · Écouter votre parcours",
   "speak.stop": "Stop · Arrêter",
   "speak.loading": "Preparing audio · Préparation de l’audio",
-  "speak.transcript": "Transcript · Transcription"
+  "speak.transcript": "Transcript · Transcription",
+  "nav.backToPitch": "Back to pitch"
 }
