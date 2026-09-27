@@ -1,7 +1,7 @@
 # Ebrahim: track status (pathway data, engine, AI routes)
 
 ## Current phase
-Part 2, Phase H. #25 fix in review on `fix/doc-check-profile-name`. Next: #23 SPEP backup facts, #27 insights.json, third sample document.
+Part 2, Phase H. #27 insights.json in review on `feat/insights-data`. PR #35 (#23) waits on Taha's test line (issue #36). Next: third sample document (transcript partly in Hindi).
 
 ## Completed
 - Step 2: pathway facts verified (`docs/PATHWAY_VERIFIED.md`, PR #2), schema + `on-rn-ien.json` + tests (PR #3).
