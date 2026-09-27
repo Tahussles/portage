@@ -7,6 +7,7 @@ import { buildPlan } from "@/lib/engine/plan";
 import { HearPlan } from "@/components/speak/HearPlan";
 import { NextLink } from "@/components/ui/NextLink";
 import { useT } from "@/lib/i18n";
+import { useActiveProfile } from "@/lib/account/hooks";
 import { useAppStore } from "@/lib/store";
 import type { Pathway } from "@/lib/engine/types";
 import { LayoutToggle } from "./LayoutToggle";
@@ -30,17 +31,27 @@ let todayCache: string | null = null;
 const getToday = () => (todayCache ??= new Date().toLocaleDateString("en-CA"));
 const getReferenceDate = () => REFERENCE_DATE;
 const subscribeNever = () => () => {};
+// `?view=parallel&step=eca` (the profile's "Next step") opens the Portage plan with that step's panel.
+const readParam = (name: string) => () => new URLSearchParams(window.location.search).get(name);
+const noParam = () => null;
+const readView = readParam("view");
+const readStep = readParam("step");
 
 export function RoadmapView() {
   const t = useT();
-  const profile = useAppStore((s) => s.profile);
+  const profile = useActiveProfile();
   const locale = useAppStore((s) => s.locale);
   const today = useSyncExternalStore(subscribeNever, getToday, getReferenceDate);
   const plan = useMemo(() => buildPlan(profile ?? SAMPLE_PROFILE, pathway, today), [profile, today]);
   const isSample = profile === null;
 
-  const [mode, setMode] = useState<LayoutMode>("sequential");
-  const [panel, setPanel] = useState<{ open: boolean; id: string | null }>({ open: false, id: null });
+  const urlView = useSyncExternalStore(subscribeNever, readView, noParam);
+  const urlStep = useSyncExternalStore(subscribeNever, readStep, noParam);
+  const [chosenMode, setMode] = useState<LayoutMode | null>(null);
+  const mode: LayoutMode = chosenMode ?? (urlView === "parallel" ? "parallel" : "sequential");
+  const [opened, setPanel] = useState<{ open: boolean; id: string | null } | null>(null);
+  const linked = urlStep && pathway.nodes.some((n) => n.id === urlStep) ? urlStep : null;
+  const panel = opened ?? { open: linked !== null, id: linked };
   const trigger = useRef<HTMLElement | null>(null);
 
   const openStep = useCallback((id: string, from: HTMLElement) => {
@@ -49,9 +60,9 @@ export function RoadmapView() {
   }, []);
 
   const closePanel = useCallback(() => {
-    setPanel((p) => ({ ...p, open: false }));
+    setPanel((p) => ({ ...(p ?? { id: linked }), open: false }));
     trigger.current?.focus({ preventScroll: true });
-  }, []);
+  }, [linked]);
 
   const schedule = plan[mode];
   const warnings = useMemo(() => viewWarnings(plan, mode), [plan, mode]);

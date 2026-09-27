@@ -52,7 +52,8 @@ export function seedPriya(now: Date = new Date(), preferredLanguage: Locale = "e
   const at = now.toISOString();
   const today = now.toLocaleDateString("en-CA");
   let account = blank(DEMO_ACCOUNT_ID, "Priya", preferredLanguage, at);
-  account = { ...account, provenance: { preferredLanguage: { source: "seed", at } } };
+  // She said her name in the interview, so the display name counts as from her voice.
+  account = { ...account, provenance: { preferredLanguage: { source: "seed", at }, displayName: { source: "voice", label: "voice", at } } };
   account = mergeVoice(account, profileFixture().profile, at);
   account = applyUpdates(account, [
     { path: "displayName", value: "Priya", source: "voice", label: "voice", at },
