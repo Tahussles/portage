@@ -6,8 +6,9 @@ export type Box = { left: number; top: number; right: number; bottom: number };
 
 export type RouteLayout = {
   /** "side": low along the bottom, then up the right side of the headline (wide screens).
-   *  "below": a short line under the CTAs (phones and narrow tablets). */
-  mode: "side" | "below";
+   *  "below": a short line under the CTAs (phones and narrow tablets).
+   *  "sweep": edge to edge across the screen (the sign-in and sign-out page wipe). */
+  mode: "side" | "below" | "sweep";
   width: number;
   height: number;
   /** SVG path data (cubic Béziers through the waypoints). */
@@ -128,6 +129,26 @@ export function planRoute(width: number, height: number, text: Box, navBottom: n
       { x: width * 0.84, y: mid - amp * 0.2 },
     ],
     BELOW_MARKERS,
+  );
+}
+
+/**
+ * A full-width variant for page transitions: the line crosses the whole screen from the left edge to the
+ * right edge through the middle band, with 4 markers.
+ */
+export function planSweep(width: number, height: number): RouteLayout {
+  return build(
+    "sweep",
+    width,
+    height,
+    [
+      { x: -24, y: height * 0.62 },
+      { x: width * 0.24, y: height * 0.5 },
+      { x: width * 0.5, y: height * 0.58 },
+      { x: width * 0.76, y: height * 0.44 },
+      { x: width + 24, y: height * 0.52 },
+    ],
+    [0.2, 0.4, 0.6, 0.8],
   );
 }
 

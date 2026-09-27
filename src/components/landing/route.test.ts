@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { planRoute, reachProgress, type Box, type RouteLayout } from "./route";
+import { planRoute, planSweep, reachProgress, type Box, type RouteLayout } from "./route";
 
 const inside = (p: { x: number; y: number }, b: Box, margin: number) =>
   p.x > b.left - margin && p.x < b.right + margin && p.y > b.top - margin && p.y < b.bottom + margin;
@@ -51,6 +51,20 @@ describe("the Portage line", () => {
   it("falls back to the line under the CTAs when the headline leaves no room beside it", () => {
     const route = planRoute(1024, 768, { left: 32, top: 300, right: 900, bottom: 660 }, 64);
     expect(route.mode).toBe("below");
+  });
+
+  it("sweeps edge to edge for the page wipe, inside the screen's height", () => {
+    for (const [w, h] of [[1440, 900], [375, 812]]) {
+      const sweep = planSweep(w, h);
+      expect(sweep.mode).toBe("sweep");
+      expect(sweep.samples[0].x).toBeLessThan(0);
+      expect(sweep.samples[sweep.samples.length - 1].x).toBeGreaterThan(w);
+      for (const p of sweep.samples) {
+        expect(p.y).toBeGreaterThan(h * 0.3);
+        expect(p.y).toBeLessThan(h * 0.7);
+      }
+      expect(sweep.markers.map((m) => m.x)).toEqual([...sweep.markers.map((m) => m.x)].sort((a, b) => a - b));
+    }
   });
 
   it("times each marker to the moment a power2.inOut line reaches it", () => {
