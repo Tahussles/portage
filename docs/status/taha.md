@@ -19,7 +19,7 @@ Round 11: sign-in, account profile, guided voice interview. Next: Step 5 chip ro
 - docs/DEMO_RUNBOOK.md: checklist, tested warm-up commands, click paths, failure plays.
 - `/pitch`: nine-slide deck in the product's design language, keys, speaker notes with a timer, print to PDF, "See it live" and "Back to pitch" (PR #46). Every number comes from the data files, the engine or `src/components/pitch/sources.ts`.
 - Hear your plan plays a short version by default (licence, window, first step), with "Full plan · Parcours complet" under the pill.
-- Known-good releases: `v1.0-demo` on `8063c17`, `v1.1-demo` on `3fe94e1` (one language at a time), `v1.2-demo` on `5bab52a` (Portage line hero), each after a clean live smoke; the runbook rolls back to v1.2-demo.
+- Known-good releases: `v1.0-demo` on `8063c17`, `v1.1-demo` on `3fe94e1` (one language at a time), `v1.2-demo` on `5bab52a` (Portage line hero), `v1.3-demo` on `bd6b551` (accounts and guided interview), each after a clean live smoke; the runbook rolls back to v1.3-demo, then v1.2-demo.
 - Guided voice interview on /start (six spoken questions in 9 languages, pre-generated in public/guide by `scripts/gen-guide-audio.mjs`), "Talk freely" with a checklist, and a "What should I say?" guide.
 - `/profile`: every fact editable inline with its provenance, conflicts to settle, checked documents, privacy (download, delete); /start, /documents and /roadmap read and write the account through the merge rules when signed in.
 - Sign-in with a built-in demo account (decision 18): `/signin`, account in this browser only (`portage.account.v1`), avatar menu, Portage line page wipe; merge rules with provenance in `src/lib/account/merge.ts`.
@@ -41,4 +41,4 @@ Round 11: sign-in, account profile, guided voice interview. Next: Step 5 chip ro
 - None. Waiting on the native Hindi recording (#15) and Ebrahim's #35 / #37.
 
 ## Last updated
-Sun Sep 27, 2026, 12:16 AM
+Sun Sep 27, 2026, 12:19 AM
