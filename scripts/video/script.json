@@ -1,0 +1,487 @@
+{
+  "$comment": "The Portage demo video. Each segment is a title card or a scene. Narration is a list of lines and pauses (seconds); a scene lasts its narration plus 0.6 s. Actions run on camera; `at` is seconds from the scene start or `pN[+s]` (the start of narration line N, counting lines only). `setup` runs off camera before the scene starts. Numbers in the narration are the ones on screen at that moment.",
+  "site": "https://portage-navy.vercel.app",
+  "segments": [
+    {
+      "id": "intro",
+      "card": {
+        "word": "Portage",
+        "line": "Carry your career across.",
+        "label": "For internationally trained professionals"
+      },
+      "seconds": 3.5
+    },
+    {
+      "id": "cold-open",
+      "title": "Why Portage",
+      "url": "/pitch?s=1",
+      "narration": [
+        "Canada's biggest untapped resource isn't in the ground.",
+        "Meet Priya. She was an ICU nurse for eight years. In Waterloo, she works retail. Priya is a composite of many real stories, and Canada needs nurses like her. She has the skills. What she does not have is a clear path to her licence."
+      ],
+      "actions": [
+        {
+          "at": "p2",
+          "do": "key",
+          "key": "ArrowRight"
+        }
+      ]
+    },
+    {
+      "id": "problem",
+      "narration": [
+        "To practise in Ontario, she has to meet nine separate requirements, across several organizations.",
+        "The college's own guideline is about twelve months, and seven thousand, nine hundred and fifty-seven internationally educated applicants are waiting in Ontario right now.",
+        "People lose months to steps done in the wrong order, and to documents that expire."
+      ],
+      "actions": [
+        {
+          "at": 0.2,
+          "do": "key",
+          "key": "ArrowRight"
+        }
+      ]
+    },
+    {
+      "id": "card-speak",
+      "card": {
+        "word": "Speak.",
+        "line": "Tell us your story in your own language.",
+        "label": "01"
+      },
+      "seconds": 2.5
+    },
+    {
+      "id": "sign-in",
+      "title": "Sign in and profile",
+      "url": "/signin",
+      "narration": [
+        "Portage turns that maze into one personal plan, with the official source for every step, and the deadlines that can quietly reset months of progress.",
+        "Priya signs in with the demo account. It lives only in this browser.",
+        "Her profile holds everything Portage knows: what she said in her voice interview, and what her documents show. Every fact says where it came from, and she can edit any of it.",
+        "Her employment letter says Priya Anand Deshpande, but she said Priya Deshpande. Portage never overwrites her silently. She picks her passport name, and the document check will use it."
+      ],
+      "actions": [
+        {
+          "at": "p2+0.5",
+          "do": "click",
+          "target": {
+            "role": "button",
+            "name": "Continue as Priya"
+          },
+          "zoom": true,
+          "hold": 2.6
+        },
+        {
+          "do": "waitFor",
+          "target": {
+            "css": "section[aria-labelledby=\"conflicts-title\"]"
+          }
+        },
+        {
+          "at": "p3+0.2",
+          "do": "zoom",
+          "target": {
+            "css": "main section"
+          },
+          "hold": 5
+        },
+        {
+          "at": "p4",
+          "do": "zoom",
+          "target": {
+            "css": "section[aria-labelledby=\"conflicts-title\"]"
+          },
+          "hold": 4.2,
+          "then": {
+            "do": "click",
+            "target": {
+              "role": "button",
+              "name": "Use this",
+              "nth": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "guided",
+      "title": "Guided voice interview",
+      "url": "/start",
+      "narration": [
+        "Most people don't know what to say. So Portage asks one question at a time, in their own language, with an example, and anything can be skipped.",
+        "Here is question three, read aloud in Hindi.",
+        {
+          "pause": 6.2
+        },
+        "Her six answers become one transcript. The AI only reads it and pulls out the facts. It never invents a requirement.",
+        "Then she checks every fact, and it all lands on her profile."
+      ],
+      "actions": [
+        {
+          "at": "p1+2.5",
+          "do": "click",
+          "target": {
+            "role": "button",
+            "name": "Skip"
+          }
+        },
+        {
+          "at": "p1+4",
+          "do": "click",
+          "target": {
+            "role": "button",
+            "name": "Skip"
+          }
+        },
+        {
+          "at": "p2+0.4",
+          "do": "click",
+          "target": {
+            "role": "button",
+            "name": "Hear the question"
+          },
+          "zoom": true,
+          "hold": 5.4,
+          "audio": {
+            "file": "public/guide/hi/q3.mp3"
+          },
+          "zoomOn": {
+            "css": "[data-question]"
+          }
+        },
+        {
+          "at": "p3+0.3",
+          "do": "click",
+          "target": {
+            "role": "button",
+            "name": "Use sample voice (Priya)"
+          }
+        },
+        {
+          "do": "waitFor",
+          "target": {
+            "text": "Here is what we understood"
+          },
+          "ai": true
+        },
+        {
+          "do": "scrollTo",
+          "target": {
+            "text": "Here is what we understood"
+          },
+          "offset": 220
+        },
+        {
+          "at": "p4",
+          "do": "zoom",
+          "target": {
+            "css": "section[aria-label=\"Here is what we understood\"]"
+          },
+          "hold": 2.6
+        }
+      ]
+    },
+    {
+      "id": "card-map",
+      "card": {
+        "word": "Map.",
+        "line": "Every requirement, in the right order, with the official source.",
+        "label": "02"
+      },
+      "seconds": 2.5
+    },
+    {
+      "id": "roadmap",
+      "title": "The roadmap",
+      "url": "/roadmap",
+      "setup": [
+        {
+          "do": "click",
+          "target": {
+            "css": "[data-avatar]"
+          }
+        },
+        {
+          "do": "click",
+          "target": {
+            "role": "menuitem",
+            "name": "Reset demo"
+          }
+        },
+        {
+          "do": "goto",
+          "url": "/profile"
+        },
+        {
+          "do": "click",
+          "target": {
+            "role": "button",
+            "name": "Use this",
+            "nth": 1
+          }
+        },
+        {
+          "do": "goto",
+          "url": "/roadmap"
+        },
+        {
+          "do": "sleep",
+          "seconds": 2.5
+        }
+      ],
+      "narration": [
+        "The roadmap shows every CNO requirement, in order, each with its official source.",
+        "One step at a time, Priya's earliest licence is December 2027. Her evidence of practice window closes in July 2027, before she finishes, so she would have to start over.",
+        "The same steps, done in parallel, are the Portage plan. Her earliest licence moves to April 2027.",
+        "It is tight, so Portage shows exactly what protects her window, starting now. Every duration is labelled official or estimate, and the date only holds if each step goes to plan.",
+        "Each step shows who does it, how long it takes, and a link to the regulator's own page.",
+        "And she can hear her plan in Hindi.",
+        {
+          "pause": 10.5
+        }
+      ],
+      "actions": [
+        {
+          "at": "p2",
+          "do": "zoom",
+          "target": {
+            "text": "Earliest licence",
+            "up": 1
+          },
+          "hold": 3
+        },
+        {
+          "at": "p2+5.2",
+          "do": "zoom",
+          "target": {
+            "text": "Your evidence of practice may expire",
+            "up": 2
+          },
+          "hold": 4.2
+        },
+        {
+          "at": "p3",
+          "do": "click",
+          "target": {
+            "role": "button",
+            "name": "Portage plan"
+          },
+          "zoom": true,
+          "hold": 1.2
+        },
+        {
+          "at": "p3+4",
+          "do": "zoom",
+          "target": {
+            "text": "Earliest licence",
+            "up": 1
+          },
+          "hold": 2.2
+        },
+        {
+          "at": "p4",
+          "do": "zoom",
+          "target": {
+            "text": "What protects your window",
+            "up": 1
+          },
+          "hold": 5
+        },
+        {
+          "at": "p5",
+          "do": "click",
+          "target": {
+            "css": ".react-flow__node:has-text(\"Ask your nursing school\")"
+          },
+          "zoom": true,
+          "hold": 1.4
+        },
+        {
+          "do": "zoom",
+          "target": {
+            "css": "[role=\"dialog\"]"
+          },
+          "hold": 2.4
+        },
+        {
+          "do": "key",
+          "key": "Escape"
+        },
+        {
+          "at": "p6+0.2",
+          "do": "click",
+          "target": {
+            "role": "button",
+            "name": "Hear your plan"
+          },
+          "zoom": true,
+          "hold": 0.4
+        },
+        {
+          "do": "waitFor",
+          "target": {
+            "role": "button",
+            "name": "Stop"
+          },
+          "ai": true,
+          "mark": "speak-start"
+        },
+        {
+          "do": "sleep",
+          "seconds": 8
+        },
+        {
+          "do": "click",
+          "target": {
+            "role": "button",
+            "name": "Stop"
+          },
+          "mark": "speak-end"
+        }
+      ]
+    },
+    {
+      "id": "card-prepare",
+      "card": {
+        "word": "Prepare.",
+        "line": "Catch document problems before they cost you months.",
+        "label": "03"
+      },
+      "seconds": 2.5
+    },
+    {
+      "id": "documents",
+      "title": "Document check",
+      "url": "/documents",
+      "narration": [
+        "Before she mails anything, Portage checks it. Here is her police check.",
+        "CNO only accepts police checks through its approved provider. And this one is too early: it would expire before she registers.",
+        "These findings come from CNO's rules, not from the AI. Some documents must come directly from an employer or a school, and Portage catches that too. Every result is saved to her profile."
+      ],
+      "actions": [
+        {
+          "at": "p1+3",
+          "do": "click",
+          "target": {
+            "role": "button",
+            "name": "Police check"
+          },
+          "zoom": true,
+          "hold": 1
+        },
+        {
+          "do": "waitFor",
+          "target": {
+            "text": "What we found"
+          },
+          "ai": true
+        },
+        {
+          "do": "scrollTo",
+          "target": {
+            "text": "What we found"
+          },
+          "offset": 120
+        },
+        {
+          "at": "p2",
+          "do": "zoom",
+          "target": {
+            "text": "What we found",
+            "up": 1
+          },
+          "hold": 7.5
+        }
+      ]
+    },
+    {
+      "id": "card-system",
+      "card": {
+        "word": "See the system.",
+        "line": "Where Canada's talent gets stuck.",
+        "label": "04"
+      },
+      "seconds": 2.5
+    },
+    {
+      "id": "insights",
+      "title": "Insights for government",
+      "url": "/insights",
+      "narration": [
+        "For governments and regulators, Portage shows where Canada's talent gets stuck.",
+        "Seven thousand, nine hundred and fifty-seven international applicants are waiting in Ontario. Six thousand, seven hundred and thirty-eight nurses have registered after supervised practice.",
+        "Ontario is live, and every new province is a new data file plus expert review. The stage funnel is illustrative, and it says so.",
+        "This is the view the ministers' platform needs: where applicants stall, requirement by requirement."
+      ],
+      "actions": [
+        {
+          "at": "p2",
+          "do": "zoom",
+          "target": {
+            "text": "7,957",
+            "up": 2
+          },
+          "hold": 9
+        },
+        {
+          "at": "p3",
+          "do": "scrollTo",
+          "target": {
+            "text": "Provinces"
+          },
+          "offset": 140
+        },
+        {
+          "at": "p3+4.6",
+          "do": "zoom",
+          "target": {
+            "text": "Illustrative data",
+            "up": 2
+          },
+          "hold": 3
+        }
+      ]
+    },
+    {
+      "id": "pitch-close",
+      "title": "Why now",
+      "url": "/pitch?s=4",
+      "narration": [
+        "Why now? In July 2026, Canada's labour ministers agreed to build a digital platform for credential recognition. We built the prototype this weekend.",
+        "Portage is free for newcomers, always. Regulators, employers and settlement agencies pay.",
+        "Checklists are generic, and general AI guesses. Portage gives each person a cited, deadline-aware plan, and gives government a live view of where people get stuck.",
+        "Next: five interviews with internationally educated nurses, one pilot conversation with a settlement agency, then engineers, a skilled trade, and a second province."
+      ],
+      "actions": [
+        {
+          "at": "p2",
+          "do": "key",
+          "key": "7"
+        },
+        {
+          "at": "p3",
+          "do": "key",
+          "key": "8"
+        },
+        {
+          "at": "p4",
+          "do": "key",
+          "key": "9"
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "title": "Try it",
+      "card": {
+        "word": "Portage.",
+        "line": "portage-navy.vercel.app",
+        "label": "Built at the Ascendance Foundry hackathon by Taha Hussain and Ebrahim Zuberi."
+      },
+      "narration": [
+        "Portage is live now, in English and French. Carry your career across."
+      ]
+    }
+  ]
+}

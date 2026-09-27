@@ -13,6 +13,7 @@
     "gen:geo": "node scripts/gen-geo.mjs",
     "gen:chapters": "node scripts/gen-chapter-shots.mjs",
     "gen:readme": "node scripts/gen-readme-shots.mjs",
+    "video": "node --env-file-if-exists=.env.local scripts/video/index.mjs",
     "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
