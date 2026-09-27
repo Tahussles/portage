@@ -2,7 +2,7 @@
 
 - Deck: **https://portage-navy.vercel.app/pitch** (the live demo starts from slide 5, in the same tab)
 - Demo: starts at **https://portage-navy.vercel.app/signin** (Continue as Priya); instant backup: **https://portage-navy.vercel.app/signin?from=pitch&demo=1**
-- Known-good release: tag **`v1.2-demo`** (commit `5bab52a`, "Merge pull request #52": the Portage line hero and product shots in the chapters). Older fallbacks: `v1.1-demo` (`3fe94e1`, one language at a time) and `v1.0-demo` (`8063c17`). See [If a late deploy breaks the site](#if-a-late-deploy-breaks-the-site).
+- Known-good release: tag **`v1.3-demo`** (commit `bd6b551`, "Merge pull request #57": accounts, the profile and the guided interview). First fallback: `v1.2-demo` (`5bab52a`, the Portage line hero, before accounts); then `v1.1-demo` (`3fe94e1`) and `v1.0-demo` (`8063c17`). See [If a late deploy breaks the site](#if-a-late-deploy-breaks-the-site).
 
 The pitch runs live with real AI (decision 15). `?demo=1` serves fixtures with no network calls to the AI providers. Priya is a composite persona; say so if asked. Her demo account lives only in this browser (decision 18): no server, no password.
 
@@ -117,7 +117,7 @@ Demo, timed from **Open the live demo**, adding these to the path above:
 
 Every push to `main` deploys to production. If a late deploy breaks the site (a smoke FAIL, errors, a blank page), roll back to the known-good build:
 
-1. Vercel dashboard > **Deployments** > the **v1.2-demo** deployment: commit `5bab52a`, "Merge pull request #52 from Tahussles/feat/chapter-shots" ([direct link](https://vercel.com/tahoi-goooooooooooos-projects/portage/8c8YsE2bAXjLF93XGRGYHLVupyhj)). If that build is the broken one, step back to **v1.1-demo** (commit `3fe94e1`, [direct link](https://vercel.com/tahoi-goooooooooooos-projects/portage/DDcuPvrZZdoaWEiXDyQXTF1ZhkoG)) or **v1.0-demo** (commit `8063c17`, [direct link](https://vercel.com/tahoi-goooooooooooos-projects/portage/JFzGpXdzGiw1Ab5EGMyB2akY947f)).
+1. Vercel dashboard > **Deployments** > the **v1.3-demo** deployment: commit `bd6b551`, "Merge pull request #57 from Tahussles/docs/demo-flow-accounts" ([direct link](https://vercel.com/tahoi-goooooooooooos-projects/portage/HvqErjRyDznTXgnwA9WsYBbGXWec)). If that build is the broken one, step back to **v1.2-demo** (commit `5bab52a`, [direct link](https://vercel.com/tahoi-goooooooooooos-projects/portage/8c8YsE2bAXjLF93XGRGYHLVupyhj); it has no sign-in, so run the demo from the landing: Start, Use sample voice, Build my roadmap), then **v1.1-demo** (commit `3fe94e1`, [direct link](https://vercel.com/tahoi-goooooooooooos-projects/portage/DDcuPvrZZdoaWEiXDyQXTF1ZhkoG)) or **v1.0-demo** (commit `8063c17`, [direct link](https://vercel.com/tahoi-goooooooooooos-projects/portage/JFzGpXdzGiw1Ab5EGMyB2akY947f)).
 2. Its **⋮** menu > **Instant Rollback**. On the Hobby plan Instant Rollback only reaches the immediately previous production deployment; if the tagged build is further back, use **Promote to Production** from the same menu instead. Either way the build is reused, not rebuilt, and the switch is immediate.
 3. Re-run `pnpm smoke https://portage-navy.vercel.app` and reload tabs 1 and 2.
 
