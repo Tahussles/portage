@@ -26,12 +26,14 @@ for p in / /start /roadmap /documents /insights; do curl -s -o /dev/null -w "$p 
 jq -c '{transcript: .text, languageCode, locale: "en"}' src/data/fixtures/transcript-priya.json | curl -s -X POST -H "content-type: application/json" -d @- -o /dev/null -w "profile %{http_code} %{time_total}s\n" "$L/api/profile"
 curl -s -F "file=@public/demo/docs/sample-police-check.pdf;type=application/pdf" -F "profile=<src/data/fixtures/profile-priya.json" -o /dev/null -w "doc-check %{http_code} %{time_total}s\n" "$L/api/doc-check"
 say -o /tmp/warm.wav --data-format=LEI16@16000 "My name is Priya and I am a nurse." && curl -s -F "audio=@/tmp/warm.wav;type=audio/wav" -o /dev/null -w "transcribe %{http_code} %{time_total}s\n" "$L/api/transcribe"
-curl -s -X POST -H "content-type: application/json" -d '{"text":"Warm up.","languageCode":"hi"}' -o /dev/null -w "speak %{http_code} %{time_total}s\n" "$L/api/speak"
+curl -s -X POST -H "content-type: application/json" -d '{"text":"Your earliest licence is April 2027, if each step goes to plan. It is tight: your practice window closes in July 2027. Start now: ask your nursing school to send your documents to the assessment provider.","languageCode":"hi"}' -o /dev/null -w "speak-short-hi %{http_code} %{time_total}s\n" "$L/api/speak"
 ```
+
+The last line warms Priya's short Hindi clip (Portage plan) on the server. The text must match the roadmap's **Transcript** exactly (it does for any day before the plan's months shift); if it no longer matches, the browser step below still warms it.
 
 Expected (measured Sep 26, 2026, 7:55 PM): pages about 0.2 s, profile about 7.7 s, doc-check about 3 s, transcribe about 0.5 s, speak about 1.6 s.
 
-Then, in tab 1, open `/roadmap`, press **Hear your plan** once in each view (One at a time, Portage plan) and stop it. That caches both audio clips on the server (a replay then takes about 0.2 s instead of about 8 s). Finally load tab 3 (`?reset=1`) so the demo starts clean.
+Then, in tab 1, open `/roadmap`, press **Hear your plan** once in each view (One at a time, Portage plan) and stop it. The pill plays the short clip; that caches both short clips on the server (a replay then takes about 0.2 s instead of about 4 s). Finally load tab 3 (`?reset=1`) so the demo starts clean.
 
 ## The click path
 

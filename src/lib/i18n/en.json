@@ -255,5 +255,6 @@
   "speak.stop": "Stop · Arrêter",
   "speak.loading": "Preparing audio · Préparation de l’audio",
   "speak.transcript": "Transcript · Transcription",
+  "speak.full": "Full plan · Parcours complet",
   "nav.backToPitch": "Back to pitch"
 }

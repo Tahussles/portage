@@ -38,7 +38,7 @@ export async function translate(
       model: anthropicModel(),
       max_tokens: 1200,
       system: TRANSLATE_SYSTEM,
-      messages: [{ role: "user", content: `Translate into ${languageName(languageCode)} (${languageCode}):\n\n${text}` }],
+      messages: [{ role: "user", content: `Translate into ${languageName(languageCode)} (${languageCode}). It will be read aloud, so do not add English words in brackets.\n\n${text}` }],
     },
     { signal },
   );

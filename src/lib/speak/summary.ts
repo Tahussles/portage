@@ -32,28 +32,71 @@ function nextSteps(plan: Plan, pathway: Pathway, limit = 3) {
     });
 }
 
-export function buildSummary(plan: Plan, pathway: Pathway, schedule: ScheduleKey): string {
-  const parts: string[] = ["Here is your plan to register as a nurse in Ontario."];
-  const finish = monthYear(plan[schedule].finishDate);
+export type SummaryLength = "short" | "full";
 
+type FirstStep = { title: { en: string }; startWeek: number; startsNow: boolean };
+
+/** About 35 English words (under 15 s in English): the licence, the window, and the first step's own title. */
+function shortSummary(
+  schedule: ScheduleKey,
+  finish: string,
+  window: { closes: string; tight: boolean } | null,
+  first: FirstStep | undefined,
+) {
+  const parts = [
+    schedule === "parallel"
+      ? `Your earliest licence is ${finish}, if each step goes to plan.`
+      : `One step at a time, your earliest licence is ${finish}.`,
+  ];
+  if (window) {
+    parts.push(
+      window.tight
+        ? `It is tight: your practice window closes in ${window.closes}.`
+        : `But your practice window closes in ${window.closes}, before then.`,
+    );
+  }
+  if (first) {
+    parts.push(
+      first.startsNow ? `Start now: ${asClause(first.title.en)}.` : `First, in week ${first.startWeek}: ${asClause(first.title.en)}.`,
+    );
+  }
+  return parts.join(" ");
+}
+
+/**
+ * `short` (the stage default): earliest licence, whether the window is tight, and the first step only.
+ * `full`: adds the intro, three steps, the backup and the closing reminder.
+ */
+export function buildSummary(
+  plan: Plan,
+  pathway: Pathway,
+  schedule: ScheduleKey,
+  length: SummaryLength = "full",
+): string {
+  const finish = monthYear(plan[schedule].finishDate);
+  const eop = viewWarnings(plan, schedule).find((v) => v.warning.id === EVIDENCE_OF_PRACTICE);
+  const windowCloses = eop?.state.windowCloses && eop.state.kind === "active" ? monthYear(eop.state.windowCloses) : null;
+  // Portage plan: the critical-path steps that protect the window. One at a time: simply the next steps in order.
+  const steps = schedule === "parallel" ? protectingSteps(plan, pathway, schedule) : nextSteps(plan, pathway);
+
+  if (length === "short") {
+    const window = eop && windowCloses ? { closes: windowCloses, tight: isTight(eop) } : null;
+    return shortSummary(schedule, finish, window, steps[0]);
+  }
+
+  const parts: string[] = ["Here is your plan to register as a nurse in Ontario."];
   parts.push(
     schedule === "parallel"
       ? `With the Portage plan, your earliest licence is ${finish}, if each step goes to plan.`
       : `Doing one step at a time, your earliest licence is ${finish}.`,
   );
-
-  const eop = viewWarnings(plan, schedule).find((v) => v.warning.id === EVIDENCE_OF_PRACTICE);
-  const windowCloses = eop?.state.windowCloses;
-  if (eop && eop.state.kind === "active" && windowCloses) {
+  if (eop && windowCloses) {
     parts.push(
       isTight(eop)
-        ? `It is tight: your evidence of practice window closes in ${monthYear(windowCloses)}.`
-        : `Your evidence of practice window closes in ${monthYear(windowCloses)}, before this plan finishes.`,
+        ? `It is tight: your evidence of practice window closes in ${windowCloses}.`
+        : `Your evidence of practice window closes in ${windowCloses}, before this plan finishes.`,
     );
   }
-
-  // Portage plan: the critical-path steps that protect the window. One at a time: simply the next steps in order.
-  const steps = schedule === "parallel" ? protectingSteps(plan, pathway, schedule) : nextSteps(plan, pathway);
   if (steps.length > 0) {
     const lines = steps.map((s) =>
       s.startsNow ? `Start now: ${asClause(s.title.en)}.` : `In week ${s.startWeek}: ${asClause(s.title.en)}.`,
