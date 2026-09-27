@@ -19,7 +19,7 @@ Round 9: one language at a time (the toggle decides). Next: Step 5 chip row on t
 - docs/DEMO_RUNBOOK.md: checklist, tested warm-up commands, click paths, failure plays.
 - `/pitch`: nine-slide deck in the product's design language, keys, speaker notes with a timer, print to PDF, "See it live" and "Back to pitch" (PR #46). Every number comes from the data files, the engine or `src/components/pitch/sources.ts`.
 - Hear your plan plays a short version by default (licence, window, first step), with "Full plan · Parcours complet" under the pill.
-- Known-good release: tag `v1.0-demo` on `8063c17` after a clean live smoke; runbook covers the /pitch flow and the rollback to that deployment.
+- Known-good releases: `v1.0-demo` on `8063c17`, then `v1.1-demo` on `3fe94e1` (one language at a time), each after a clean live smoke; the runbook rolls back to v1.1-demo.
 - One language at a time (decision 16): the EN/FR toggle decides, a French browser starts in French with no flash of English, `<html lang>`, title and description follow the locale; `one-language.test.ts` guards against pairs.
 
 ## Next
@@ -36,4 +36,4 @@ Round 9: one language at a time (the toggle decides). Next: Step 5 chip row on t
 - None. Waiting on the native Hindi recording (#15) and Ebrahim's #35 / #37.
 
 ## Last updated
-Sat Sep 26, 2026, 8:54 PM
+Sat Sep 26, 2026, 8:56 PM

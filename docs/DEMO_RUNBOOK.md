@@ -2,7 +2,7 @@
 
 - Deck: **https://portage-navy.vercel.app/pitch** (the live demo starts from slide 5, in the same tab)
 - Demo: **https://portage-navy.vercel.app**; instant backup: **https://portage-navy.vercel.app/?from=pitch&demo=1**
-- Known-good release: tag **`v1.0-demo`** (commit `8063c17`, "Merge pull request #47"). See [If a late deploy breaks the site](#if-a-late-deploy-breaks-the-site).
+- Known-good release: tag **`v1.1-demo`** (commit `3fe94e1`, "Merge pull request #49", one language at a time). The older `v1.0-demo` (`8063c17`) is the fallback. See [If a late deploy breaks the site](#if-a-late-deploy-breaks-the-site).
 
 The pitch runs live with real AI (decision 15). `?demo=1` serves fixtures with no network calls to the AI providers. Priya is a composite persona; say so if asked.
 
@@ -115,8 +115,8 @@ Demo, timed from **Open the live demo**, adding these to the path above:
 
 Every push to `main` deploys to production. If a late deploy breaks the site (a smoke FAIL, errors, a blank page), roll back to the known-good build:
 
-1. Vercel dashboard > **Deployments** > the **v1.0-demo** deployment: commit `8063c17`, "Merge pull request #47 from Tahussles/feat/speak-short" ([direct link](https://vercel.com/tahoi-goooooooooooos-projects/portage/JFzGpXdzGiw1Ab5EGMyB2akY947f)).
-2. Its **⋮** menu > **Instant Rollback**. On the Hobby plan Instant Rollback only reaches the immediately previous production deployment; if v1.0-demo is further back, use **Promote to Production** from the same menu instead. Either way the build is reused, not rebuilt, and the switch is immediate.
+1. Vercel dashboard > **Deployments** > the **v1.1-demo** deployment: commit `3fe94e1`, "Merge pull request #49 from Tahussles/fix/one-language" ([direct link](https://vercel.com/tahoi-goooooooooooos-projects/portage/DDcuPvrZZdoaWEiXDyQXTF1ZhkoG)). If that build is the broken one, use **v1.0-demo** instead: commit `8063c17`, "Merge pull request #47" ([direct link](https://vercel.com/tahoi-goooooooooooos-projects/portage/JFzGpXdzGiw1Ab5EGMyB2akY947f)).
+2. Its **⋮** menu > **Instant Rollback**. On the Hobby plan Instant Rollback only reaches the immediately previous production deployment; if the tagged build is further back, use **Promote to Production** from the same menu instead. Either way the build is reused, not rebuilt, and the switch is immediate.
 3. Re-run `pnpm smoke https://portage-navy.vercel.app` and reload tabs 1 and 2.
 
 After an Instant Rollback, Vercel stops assigning new `main` deploys to production until someone clicks **Undo Rollback** on the project overview, so a later push will not undo the rollback by accident.
