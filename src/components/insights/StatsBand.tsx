@@ -3,7 +3,7 @@
 import pathwayData from "@/data/pathways/on-rn-ien.json";
 import { useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
-import { INSIGHTS, formatAsOf, formatCount } from "./insights";
+import { INSIGHTS, formatAsOf, formatCount, sourceName } from "./insights";
 
 /** Two or three big sourced numbers, each with a small source line (DESIGN 6.1 item 5). */
 export function StatsBand() {
@@ -26,7 +26,7 @@ export function StatsBand() {
           )}
           <dd className="order-4 mt-3 text-xs text-mist">
             <a href={stat.source.url} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
-              {t("insights.source", { label: stat.source.label, date: formatAsOf(stat.asOf, locale) })}
+              {t("insights.source", { label: sourceName(stat.source.label, t), date: formatAsOf(stat.asOf, locale) })}
             </a>
           </dd>
         </div>
@@ -39,7 +39,7 @@ export function StatsBand() {
           </dd>
           <dd className="order-4 mt-3 text-xs text-mist">
             <a href={pathwayData.regulator.url} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
-              {t("insights.sourcePlain", { label: pathwayData.regulator.name })}
+              {t("insights.sourcePlain", { label: sourceName(pathwayData.regulator.name, t) })}
             </a>
           </dd>
         </div>

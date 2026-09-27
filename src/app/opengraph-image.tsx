@@ -33,7 +33,7 @@ export default function OpengraphImage() {
           <span style={{ color: "#78716c" }}>Now practise it here.</span>
         </div>
         <div style={{ display: "flex", fontSize: 20, color: "#a8a29e", letterSpacing: 3 }}>
-          CARRY YOUR CAREER ACROSS · EMPORTEZ VOTRE CARRIÈRE AVEC VOUS
+          CARRY YOUR CAREER ACROSS
         </div>
       </div>
     ),

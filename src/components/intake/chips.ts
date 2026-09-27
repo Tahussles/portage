@@ -3,7 +3,7 @@ import { htmlLang, type MessageKey, type MessageVars } from "@/lib/i18n";
 
 type Translate = (key: MessageKey, vars?: MessageVars) => string;
 
-/** Below this the chip gets a dashed outline and "Check · Vérifier". */
+/** Below this the chip gets a dashed outline and "Check". */
 export const LOW_CONFIDENCE = 0.7;
 
 export const CHIP_FIELDS = [

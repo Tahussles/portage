@@ -4,6 +4,7 @@ import { cn } from "@/lib/cn";
 import { locales, useT } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
 import type { Locale } from "@/lib/engine/types";
+import { browserLocale, navigatorLanguage } from "@/lib/i18n/boot";
 
 export function LocaleToggle() {
   const t = useT();
@@ -13,7 +14,8 @@ export function LocaleToggle() {
   const choose = (next: Locale) => {
     setLocale(next);
     const url = new URL(window.location.href);
-    if (next === "en") url.searchParams.delete("lang");
+    // Keep the choice on reload: `?lang=` only when it differs from what this browser starts in.
+    if (next === browserLocale(navigatorLanguage())) url.searchParams.delete("lang");
     else url.searchParams.set("lang", next);
     window.history.replaceState(window.history.state, "", url);
   };

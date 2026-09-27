@@ -52,7 +52,7 @@ export const SLIDES: SlideCopy[] = [
     id: "demo",
     label: "Live",
     notes: [
-      "Let me show you. Click See it live: same tab, real AI.",
+      "Let me show you. Click Open the live demo: same tab, real AI.",
       "Path: sample voice, Build my roadmap, toggle to the Portage plan, Hear your plan, Documents police check, Insights, then Back to pitch.",
       "If anything is slow, use the demo-mode link instead: same flow with fixtures.",
     ],
@@ -109,7 +109,7 @@ export const DECK_TEXT = {
   whyNowFlmm: "Federal, provincial and territorial labour ministers agreed to build a digital platform that simplifies credential recognition. Recommendations due {due}.",
   whyNowFcr: "credential recognition agreements, for about {professionals} internationally trained professionals this year.",
   demoTitle: "See it live.",
-  demoButton: "See it live · Voir en direct",
+  demoButton: "Open the live demo",
   demoBackup: "Instant backup (demo mode)",
   happenedTitle: "Same steps. Different order. Months back.",
   happenedOneAtATime: "One at a time",

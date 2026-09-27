@@ -44,7 +44,7 @@ The speech cache lives in each server instance, and Vercel can answer from a fre
 - **→ / Space** next, **←** back, **1-9** jump to a slide, **F** fullscreen, **N** speaker notes with a timer. Clicking a slide also advances.
 - The notes panel is on the same screen, so the room sees it on a mirrored projector. Use **N** in rehearsal; on stage keep it closed unless the display is extended.
 - The URL keeps the slide (`/pitch?s=6`), so a reload stays put.
-- Slide 5 has **See it live · Voir en direct** (the demo, same tab, real AI) and **Instant backup (demo mode)** (same flow with fixtures).
+- Slide 5 has **Open the live demo** (same tab, real AI) and **Instant backup (demo mode)** (same flow with fixtures).
 - Every page of the demo shows **Back to pitch** in the navbar (top right, next to EN/FR); it opens slide 6, "What just happened".
 
 ## The click path
@@ -59,22 +59,22 @@ Lines in quotes are what to say. The speaker notes (**N**) hold the slide lines.
 | 0:10 | Slide 2, Priya | "Meet Priya. Eight years as an ICU nurse. In Waterloo, she works retail." |
 | 0:20 | Slide 3, the problem | "Nine separate requirements, about 12 months by CNO's own guideline, and 7,957 internationally educated applicants waiting in Ontario." |
 | 0:35 | Slide 4, why now | "In July 2026 the labour ministers agreed to build a digital platform for credential recognition. We built the prototype this weekend." |
-| 0:45 | Slide 5: **See it live · Voir en direct** | "Let me show you." Then the demo below (about 90 seconds). |
+| 0:45 | Slide 5: **Open the live demo** | "Let me show you." Then the demo below (about 90 seconds). |
 | 2:15 | Navbar: **Back to pitch** (slide 6) | "One at a time, December 2027, after her window closes. With the Portage plan, April 2027: tight, and Portage shows what protects it." |
 | 2:30 | Slide 7, business model | "Free for newcomers, always. Regulators, employers and settlement agencies pay." |
 | 2:40 | Slide 8, why Portage | "A personal, cited, deadline-aware plan, and a live view for government of where people get stuck." |
 | 2:50 | Slide 9, next 30 days | "We're Taha and Ebrahim. Portage. Carry your career across." |
 
-Demo, timed from **See it live**:
+Demo, timed from **Open the live demo**:
 
 | Time | Click | Say |
 |---|---|---|
 | 0:00 | Landing is on screen | "Priya was an ICU nurse for eight years. In Waterloo, she works retail." |
-| 0:05 | **Start · Commencer**, then **Use sample voice (Priya)** | "She tells Portage her story in Hindi, in her own words." |
+| 0:05 | **Start**, then **Use sample voice (Priya)** | "She tells Portage her story in Hindi, in her own words." |
 | 0:15 | Point at the chips | "Portage pulls out the facts, and she can correct any of them." |
 | 0:20 | **Build my roadmap** | "Every CNO requirement, in order, with the official source." |
 | 0:30 | Counter shows DEC 2027; point at the red warning | "One step at a time, she finishes in December 2027, and her evidence of practice expires in July. She would have to start over." |
-| 0:40 | **Portage plan · Plan Portage** (cards glide, counter drops to APR 2027) | "Same steps, done in parallel: April 2027. It's tight, so Portage tells her what protects her window: start her school documents now." |
+| 0:40 | **Portage plan** (cards glide, counter drops to APR 2027) | "Same steps, done in parallel: April 2027. It's tight, so Portage tells her what protects her window: start her school documents now." |
 | 0:55 | **Hear your plan** plays the short clip: licence date, tight, first step (about 23 s in Hindi). Let the first sentence play, then press **Stop** | "And she hears her plan in Hindi: when, how tight, and what to do first." |
 | 1:05 | Nav **Documents**, then **Police check** sample | "Before she mails anything, Portage checks it. Her police check is too early: it would expire before she registers." |
 | 1:20 | Nav **Insights** | "And for governments: where Canada's talent gets stuck. These are CNO's real numbers." |
@@ -84,7 +84,7 @@ Demo, timed from **See it live**:
 
 The same deck, with the "5 min:" lines in the speaker notes, and about 3 minutes of demo. Slides 1 to 4 take about a minute, the demo about 3:05, slides 6 to 9 about a minute.
 
-Demo, timed from **See it live**, adding these to the path above:
+Demo, timed from **Open the live demo**, adding these to the path above:
 
 | Time | Click | Say |
 |---|---|---|
@@ -94,7 +94,7 @@ Demo, timed from **See it live**, adding these to the path above:
 | 1:10 | Roadmap: click the **Pass the NCLEX-RN** card | "Every step shows who does it, the official processing time, the fee, and CNO's source link." Press Esc. |
 | 1:30 | Toggle to **Portage plan**; point at "What protects your window" | "Tight, not hopeless: these three steps, starting now." |
 | 1:50 | **Hear your plan** (the short clip plays in full, about 23 s), then open **Transcript** | "Read aloud in Hindi: her licence date, how tight it is, and her first step. The facts come from our data; the model only translates. **Full plan** reads every step." |
-| 2:15 | **FR** toggle, then back to **EN** | "Fully bilingual." |
+| 2:15 | **FR** toggle, then back to **EN** | "Every screen in French too, one language at a time. A French browser starts in French." |
 | 2:25 | Documents: **Employment letter** sample | "Some documents must come directly from the employer. Portage catches that before it costs her months." |
 | 2:45 | Insights: hover Ontario and another province | "Ontario first. Every province is a new data file plus expert review." |
 | 3:05 | Navbar: **Back to pitch** (slide 6) | |

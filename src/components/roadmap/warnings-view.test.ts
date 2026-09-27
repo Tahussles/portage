@@ -118,12 +118,13 @@ describe("warning copy", () => {
   it("explains the resolved state with the months to spare, in both languages", () => {
     const view = viewWarnings(withWarnings(sequentialOnly), "parallel")[0];
     expect(warningCopy(view, en, "en")).toMatchObject({
-      label: "Resolved in the Portage plan · Résolu dans le plan Portage",
+      label: "Resolved in the Portage plan",
       body: "Finishes Apr 2027, 3 months before your window closes in Jul 2027.",
     });
-    expect(warningCopy(view, fr, "fr").body).toBe(
-      "Se termine en avr. 2027, 3 mois avant la fin de votre période en juill. 2027.",
-    );
+    expect(warningCopy(view, fr, "fr")).toMatchObject({
+      label: "Résolu dans le plan Portage",
+      body: "Se termine en avr. 2027, 3 mois avant la fin de votre période en juill. 2027.",
+    });
   });
 });
 

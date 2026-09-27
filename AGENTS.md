@@ -60,7 +60,7 @@ public/
 5. **Every AI call is zod-validated and has a fixture fallback** (see `src/lib/demo.ts`). A failed or slow call must never break the UI.
 6. **No credential handling.** Portage never asks for, stores, or uses a regulator login. Never build anything that submits to a regulator.
 7. **No personal data persistence.** No database, no analytics that capture profile content, no localStorage of transcripts or documents.
-8. **Bilingual.** Every user-visible string goes through `useT()` with keys in both `en.json` and `fr.json`. If you do not know the French, add the key with the English text and a `// TODO fr` note in `PROJECT_STATE.md`, never hardcode.
+8. **Bilingual, one language at a time.** Every user-visible string goes through `useT()` with keys in both `en.json` and `fr.json`; the screen shows only the selected language, never an "English · Français" pair (`one-language.test.ts` checks this). If you do not know the French, add the key with the English text and a `// TODO fr` note in `PROJECT_STATE.md`, never hardcode.
 9. **Canadian spelling** in English UI: licence (noun), license (verb), practise (verb), practice (noun), centre, colour, programme is NOT used (use program).
 10. **Design language.** Follow `docs/DESIGN.md`. Red (`--accent`) is rare: primary CTA, critical path, logo mark, warnings. Nothing else.
 11. **Motion accessibility.** Every GSAP animation checks `prefers-reduced-motion` and degrades to instant state changes.
