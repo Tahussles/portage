@@ -79,7 +79,7 @@ Reduced motion: every tween short-circuits to its end state (`gsap.matchMedia()`
    - FR: "Vous avez été formé à l'étranger." / "Exercez maintenant ici."
    - CTA white pill: "Map my path" (FR "Tracer mon parcours"); ghost link: "See a sample plan" (FR "Voir un exemple de parcours").
 3. **Ticker** (two rows, opposite directions, `mist` on `ink`): "ICU nurse · Manila → Sudbury", "Registered nurse · Lagos → Halifax", "Nurse · Kerala → Waterloo", "Midwife · Nairobi → Winnipeg", "Nurse · Kyiv → Calgary", "Nurse · Lahore → Mississauga", "Nurse · Bogotá → Montréal". (Nursing only in v1 so the ticker does not promise professions we do not cover. Add engineers and trades when those pathways exist.)
-4. **Chapters** (`white`, numbered 01 to 04, one scroll-scrubbed word each in the selected language, with a small visual on the right):
+4. **Chapters** (`white`, numbered 01 to 04, one scroll-scrubbed word each in the selected language, with a real product shot on the right: rounded, 1 px stone border, subtle shadow, full colour, lazy loaded, alt text from i18n. Shots are captured from a production build in both languages by `pnpm gen:chapters` (`scripts/gen-chapter-shots.mjs`, 640 x 480 WebP plus JPG, each under 80 KB); rerun it whenever the UI changes):
    - **Speak** (FR **Parlez**): "Tell us your story in your own language."
    - **Map** (**Tracez**): "Every requirement, in the right order, with the official source."
    - **Prepare** (**Préparez**): "Catch document problems before they cost you months."

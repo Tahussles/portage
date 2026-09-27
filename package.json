@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "gen:topo": "node scripts/gen-topo.mjs",
     "gen:geo": "node scripts/gen-geo.mjs",
+    "gen:chapters": "node scripts/gen-chapter-shots.mjs",
     "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "d3-contour": "^4.0.2",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",
+    "playwright-core": "^1.63.0",
     "simplex-noise": "^4.0.3",
     "tailwindcss": "^4",
     "typescript": "^5",
