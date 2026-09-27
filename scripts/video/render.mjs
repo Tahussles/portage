@@ -116,8 +116,8 @@ async function renderSegment(seg, i, frames, events, target) {
   const out = `${dir("segments")}${String(i).padStart(2, "0")}-${seg.id}.mp4`;
   await ffmpeg([
     "-f", "concat", "-safe", "0", "-i", list,
-    "-vf", `fps=${FPS},zoompan=z='${zp.z}':x='${zp.x}':y='${zp.y}':d=1:s=${OUT_SIZE.width}x${OUT_SIZE.height}:fps=${FPS},format=yuv420p,setsar=1`,
-    "-t", f3(length), "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "15", out,
+    "-vf", `fps=${FPS},zoompan=z='${zp.z}':x='${zp.x}':y='${zp.y}':d=1:s=${OUT_SIZE.width}x${OUT_SIZE.height}:fps=${FPS},scale=in_range=full:out_range=limited,format=yuv420p,setsar=1`,
+    "-t", f3(length), "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "15", "-color_range", "tv", out,
   ]);
 
   const audio = [];
@@ -325,7 +325,8 @@ export async function render() {
     "-filter_complex", vChains.join(";"),
     "-map", "[vout]", "-map", `${audIdx}:a`,
     "-t", f3(total),
-    "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
+    "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p", "-color_range", "tv",
+    "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-movflags", "+faststart",
     "-c:a", "aac", "-b:a", "192k", film,
   ]);
 
