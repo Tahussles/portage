@@ -35,4 +35,4 @@ Round 8: in-app pitch deck at `/pitch`, short "Hear your plan", known-good relea
 - None. Waiting on the native Hindi recording (#15) and Ebrahim's #35 / #37.
 
 ## Last updated
-Sat Sep 26, 2026, 8:34 PM
+Sat Sep 26, 2026, 8:26 PM
