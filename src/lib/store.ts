@@ -10,7 +10,10 @@ type AppState = {
   /** `?demo=1` was on the URL: internal links keep it so the whole walk-through uses fixtures. */
   demo: boolean;
   setDemo: (demo: boolean) => void;
-  /** `?reset=1`: forget the profile and demo mode (locale stays). */
+  /** Arrived from the in-app pitch (`?from=pitch`): internal links keep it and the nav offers "Back to pitch". */
+  fromPitch: boolean;
+  setFromPitch: (fromPitch: boolean) => void;
+  /** `?reset=1`: forget the profile, demo mode and pitch mode (locale stays). */
   reset: () => void;
 };
 
@@ -21,5 +24,7 @@ export const useAppStore = create<AppState>()((set) => ({
   setProfile: (profile) => set({ profile }),
   demo: false,
   setDemo: (demo) => set({ demo }),
-  reset: () => set({ profile: null, demo: false }),
+  fromPitch: false,
+  setFromPitch: (fromPitch) => set({ fromPitch }),
+  reset: () => set({ profile: null, demo: false, fromPitch: false }),
 }));

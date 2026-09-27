@@ -1,20 +1,23 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { htmlLang, isLocale } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
 
 /**
  * Reads URL switches once on load: `?lang=fr`, `?demo=1` (kept on internal links), and
- * `?reset=1` (clears the profile and demo mode, then returns to the landing). Keeps
+ * `?from=pitch` (kept on internal links; the nav shows "Back to pitch"), and `?reset=1` (clears the
+ * profile and those modes, then returns to the landing). Keeps
  * `<html lang>` in step with the locale.
  */
 export function LocaleSync() {
   const router = useRouter();
+  const pathname = usePathname();
   const locale = useAppStore((s) => s.locale);
   const setLocale = useAppStore((s) => s.setLocale);
   const setDemo = useAppStore((s) => s.setDemo);
+  const setFromPitch = useAppStore((s) => s.setFromPitch);
   const reset = useAppStore((s) => s.reset);
 
   useEffect(() => {
@@ -27,7 +30,9 @@ export function LocaleSync() {
       return;
     }
     if (params.get("demo") === "1") setDemo(true);
-  }, [setLocale, setDemo, reset, router]);
+    if (params.get("from") === "pitch") setFromPitch(true);
+    // Re-read on every navigation: client-side links (e.g. from the pitch deck) can add these switches.
+  }, [pathname, setLocale, setDemo, setFromPitch, reset, router]);
 
   useEffect(() => {
     document.documentElement.lang = htmlLang[locale];

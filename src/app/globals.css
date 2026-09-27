@@ -148,3 +148,54 @@ path.roadmap-edge-critical {
   padding: 4px 6px;
   color: var(--color-mist);
 }
+
+/* In-app pitch deck: one slide on screen; every slide on its own landscape page when printed. */
+.pitch-slide {
+  display: none;
+}
+
+.pitch-slide[data-active] {
+  display: flex;
+}
+
+@media print {
+  @page {
+    size: 1280px 720px;
+    margin: 0;
+  }
+
+  html,
+  body {
+    background: var(--color-ink) !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  header,
+  .pitch-chrome {
+    display: none !important;
+  }
+
+  .pitch-slide {
+    display: flex !important;
+    width: 1280px;
+    height: 720px;
+    min-height: 0 !important;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .pitch-deck {
+    min-height: 0 !important;
+  }
+
+  .pitch-slide:last-of-type {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .pitch-slide [data-pitch-rise] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
